@@ -1,0 +1,11 @@
+export { apiClient } from './apiClient';
+export { authApi } from './auth.api';
+export { courseApi } from './course.api';
+export type { Course, Syllabus } from './course.api';
+export { teacherApi } from './teacher.api';
+export type { Teacher } from './teacher.api';
+export { registrationApi } from './registration.api';
+export type { Registration, RegistrationForm } from './registration.api';
+export { uploadApi } from './upload.api';
+export { postApi } from './post.api';
+export type { Post } from './post.api';

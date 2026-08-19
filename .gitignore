@@ -1,0 +1,59 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# dotenv environment variables file
+.env
+.env.test
+.env.production
+.env.local
+
+# Build output
+dist/
+build/
+out/
+.next/
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDEs and editors
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Caches
+.eslintcache
+.stylelintcache
+
+# Note: The .agents directory from AG Kit is intentionally EXCLUDED from this file.
+# If you want to prevent .agents from being committed but keep AI editor autocompletion,
+# please add ".agents/" to the `.git/info/exclude` file instead.
+.agents
+docs
+
