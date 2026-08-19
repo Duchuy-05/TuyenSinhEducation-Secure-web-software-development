@@ -2,7 +2,7 @@
 
 > Nền tảng web full-stack cho trung tâm giáo dục: quảng bá khóa học, tuyển sinh học viên, và quản lý lớp học trực tuyến/offline theo 3 vai trò riêng biệt (Học viên – Giảng viên – Quản trị viên).
 
-🔗 Repo: https://github.com/Duchuy-05/Secure-web-software-development
+🔗 Repo: https://github.com/Duchuy-05/TuyenSinhEducation-Secure-web-software-development.git
 
 ---
 
