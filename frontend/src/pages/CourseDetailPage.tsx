@@ -16,7 +16,7 @@ import {
 import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
 import { courseApi } from '../services/course.api';
-import type { Course, Syllabus } from '../services/course.api';
+import type { Course, Syllabus, Chapter } from '../services/course.api';
 import { registrationApi } from '../services/registration.api';
 import type { RegistrationForm } from '../services/registration.api';
 import FloatingContact from '../components/FloatingContact';
@@ -55,7 +55,7 @@ const CourseDetailPage: React.FC = () => {
     const [paymentError, setPaymentError] = useState<string>('');
 
     const [formData, setFormData] = useState<RegistrationForm>({
-        courseId: Number(id),
+        courseId: id ? Number(id) || 0 : 0,
         contactName: '',
         contactEmail: '',
         contactPhone: '',
@@ -63,14 +63,94 @@ const CourseDetailPage: React.FC = () => {
     });
 
     useEffect(() => {
-        setFormData((current) => ({
-            ...current,
-            courseId: Number(id),
-        }));
+        if (id) {
+            setFormData((current) => ({
+                ...current,
+                courseId: Number(id) || 0,
+            }));
+        }
     }, [id]);
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+
+        const fetchDetail = async () => {
+            if (!id) return;
+            try {
+                setIsLoading(true);
+                const data = await courseApi.getCourseById(id);
+                setCourse(data);
+            } catch (error) {
+                console.error('Lỗi tải chi tiết khóa học:', error);
+                setCourse(null);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchDetail();
+    }, [id]);
+
+    const sortedSyllabus = useMemo<(Syllabus | Chapter)[]>(() => {
+        return [...(course?.syllabus || [])].sort((a, b) => {
+            const orderA = a.orderIndex ?? 0;
+            const orderB = b.orderIndex ?? 0;
+            return orderA - orderB;
+        });
+    }, [course?.syllabus]);
+
+    const finalPrice = useMemo(() => Number(course?.discountPrice ?? course?.price ?? 0), [course]);
+
+    const overviewItems = useMemo(() => {
+        if (!course) return [];
+
+        return [
+            {
+                id: 'target',
+                label: 'Đối tượng',
+                value: course.target || 'Cập nhật theo năng lực học viên',
+                icon: <Target size={22} />,
+            },
+            {
+                id: 'quantity',
+                label: 'Số lượng',
+                value:
+                    course.sessionCount && Number(course.sessionCount) > 0
+                        ? `${course.sessionCount} buổi`
+                        : sortedSyllabus.length > 0
+                            ? `${sortedSyllabus.length} chương`
+                            : 'Theo lộ trình',
+                icon: <BookOpenCheck size={22} />,
+            },
+            {
+                id: 'frequency',
+                label: 'Tần suất',
+                value: course.frequency || 'Theo lịch khai giảng',
+                icon: <CalendarDays size={22} />,
+            },
+            {
+                id: 'format',
+                label: 'Hình thức',
+                value: course.format || 'Online/Offline',
+                icon: <Laptop size={22} />,
+            },
+            {
+                id: 'duration',
+                label: 'Thời lượng',
+                value: course.lessonDuration || course.duration || 'Đang cập nhật',
+                icon: <Clock size={22} />,
+            },
+            {
+                id: 'classSize',
+                label: 'Sĩ số',
+                value: course.classSize || 'Lớp nhỏ, dễ tương tác',
+                icon: <Users size={22} />,
+            },
+        ];
+    }, [course, sortedSyllabus.length]);
+
     const handleSubmit = async () => {
-        if (!formData.contactName || !formData.contactPhone || !formData.contactEmail) {
+        if (!formData.contactName.trim() || !formData.contactPhone.trim() || !formData.contactEmail.trim()) {
             alert('Vui lòng điền đầy đủ thông tin!');
             return;
         }
@@ -79,6 +159,13 @@ const CourseDetailPage: React.FC = () => {
             setIsRegistering(true);
             await registrationApi.registerForCourse(formData);
             alert('Đăng ký thành công!');
+            setFormData((prev) => ({
+                ...prev,
+                contactName: '',
+                contactEmail: '',
+                contactPhone: '',
+                note: '',
+            }));
         } catch (error) {
             alert('Đăng ký thất bại, vui lòng thử lại!');
         } finally {
@@ -101,81 +188,14 @@ const CourseDetailPage: React.FC = () => {
             setPaymentError('');
             const order = await paymentApi.createCoursePaymentLink(course.id);
             setPaymentOrder(order);
-        } catch (error: any) {
-            const message = error?.response?.data?.message || 'Không thể tạo thanh toán. Vui lòng thử lại.';
+        } catch (error: unknown) {
+            const err = error as { response?: { data?: { message?: string } } };
+            const message = err?.response?.data?.message || 'Không thể tạo thanh toán. Vui lòng thử lại.';
             setPaymentError(message);
         } finally {
             setIsCreatingPayment(false);
         }
     };
-
-    useEffect(() => {
-        window.scrollTo(0, 0);
-
-        const fetchDetail = async () => {
-            if (!id) return;
-            try {
-                setIsLoading(true);
-                const data = await courseApi.getCourseById(id);
-                setCourse(data);
-            } catch (error) {
-                console.error('Lỗi tải chi tiết khóa học:', error);
-                setCourse(null);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        fetchDetail();
-    }, [id]);
-
-    const sortedSyllabus = useMemo<Syllabus[]>(() => {
-        return [...(course?.syllabus || [])].sort((a, b) => a.orderIndex - b.orderIndex);
-    }, [course?.syllabus]);
-
-    const finalPrice = useMemo(() => Number(course?.discountPrice ?? course?.price ?? 0), [course]);
-
-    const overviewItems = useMemo(() => {
-        if (!course) return [];
-
-        return [
-            {
-                label: 'Đối tượng',
-                value: course.target || 'Cập nhật theo năng lực học viên',
-                icon: <Target size={22} />,
-            },
-            {
-                label: 'Số lượng',
-                value:
-                    course.sessionCount && Number(course.sessionCount) > 0
-                        ? `${course.sessionCount} buổi`
-                        : sortedSyllabus.length > 0
-                            ? `${sortedSyllabus.length} chương`
-                            : 'Theo lộ trình',
-                icon: <BookOpenCheck size={22} />,
-            },
-            {
-                label: 'Tần suất',
-                value: course.frequency || 'Theo lịch khai giảng',
-                icon: <Clock size={22} />,
-            },
-            {
-                label: 'Hình thức',
-                value: course.format || 'Online/Offline',
-                icon: <Laptop size={22} />,
-            },
-            {
-                label: 'Thời lượng',
-                value: course.lessonDuration || course.duration || 'Đang cập nhật',
-                icon: <Clock size={22} />,
-            },
-            {
-                label: 'Sĩ số',
-                value: course.classSize || 'Lớp nhỏ, dễ tương tác',
-                icon: <Users size={22} />,
-            },
-        ];
-    }, [course, sortedSyllabus.length]);
 
     if (isLoading) {
         return (
@@ -315,7 +335,7 @@ const CourseDetailPage: React.FC = () => {
                                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
                                     {overviewItems.map((item) => (
                                         <div
-                                            key={item.label}
+                                            key={item.id}
                                             style={{
                                                 display: 'flex',
                                                 gap: '14px',
@@ -333,7 +353,7 @@ const CourseDetailPage: React.FC = () => {
                                                 <p style={{ color: '#6B7280', fontSize: '0.82rem', fontWeight: 800, textTransform: 'uppercase', marginBottom: '5px' }}>
                                                     {item.label}
                                                 </p>
-                                                <p style={{ color: '#1F2937', fontWeight: 300, lineHeight: 1.35 }}>
+                                                <p style={{ color: '#1F2937', fontWeight: 500, lineHeight: 1.35 }}>
                                                     {item.value}
                                                 </p>
                                             </div>
@@ -349,8 +369,8 @@ const CourseDetailPage: React.FC = () => {
                                     </p>
                                     <h2 style={{ fontSize: '1.8rem', marginBottom: '22px' }}>Trước khi có lộ trình rõ ràng</h2>
                                     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                                        {fallbackDifficulties.map((item) => (
-                                            <div key={item} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
+                                        {fallbackDifficulties.map((item, idx) => (
+                                            <div key={idx} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
                                                 <span style={{ width: '26px', height: '26px', borderRadius: '999px', background: 'rgba(239,68,68,0.14)', color: '#FCA5A5', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                                                     <X size={15} />
                                                 </span>
@@ -366,8 +386,8 @@ const CourseDetailPage: React.FC = () => {
                                     </p>
                                     <h2 style={{ fontSize: '1.8rem', color: '#1F2937', marginBottom: '22px' }}>Học theo hệ thống, tiến bộ theo từng buổi</h2>
                                     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                                        {fallbackSolutions.map((item) => (
-                                            <div key={item} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
+                                        {fallbackSolutions.map((item, idx) => (
+                                            <div key={idx} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
                                                 <span style={{ width: '26px', height: '26px', borderRadius: '999px', background: '#ECFDF3', color: '#16A34A', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                                                     <CheckCircle2 size={16} />
                                                 </span>
@@ -391,36 +411,101 @@ const CourseDetailPage: React.FC = () => {
 
                                 {sortedSyllabus.length > 0 ? (
                                     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                                        {sortedSyllabus.map((item, index) => (
-                                            <div
-                                                key={item.id}
-                                                style={{
-                                                    display: 'grid',
-                                                    gridTemplateColumns: '64px minmax(0, 1fr) 28px',
-                                                    gap: '16px',
-                                                    alignItems: 'center',
-                                                    padding: '18px',
-                                                    borderRadius: '18px',
-                                                    border: '1px solid #E5E7EB',
-                                                    background: index % 2 === 0 ? '#FFFFFF' : '#FAFAFA',
-                                                }}
-                                            >
-                                                <div style={{ color: '#E5664B', fontWeight: 900, fontSize: '1.35rem' }}>
-                                                    {String(index + 1).padStart(2, '0')}
+                                        {sortedSyllabus.map((item: any, index: number) => {
+                                            // 🟢 Helper parse danh sách bài học từ lessons hoặc description
+                                            const getLessonsList = (): any[] => {
+                                                const rawData = item.lessons || item.description;
+                                                if (Array.isArray(rawData)) return rawData;
+                                                if (typeof rawData === 'string') {
+                                                    try {
+                                                        const parsed = JSON.parse(rawData);
+                                                        return Array.isArray(parsed) ? parsed : [];
+                                                    } catch {
+                                                        // Nếu description thực sự là văn bản mô tả thông thường
+                                                        return [];
+                                                    }
+                                                }
+                                                return [];
+                                            };
+
+                                            const lessons = getLessonsList();
+                                            // Kiểm tra xem description có phải là văn bản thường không (không chứa cấu trúc JSON)
+                                            const isNormalTextDescription =
+                                                typeof item.description === 'string' &&
+                                                !item.description.trim().startsWith('[');
+
+                                            return (
+                                                <div
+                                                    key={item.id ?? index}
+                                                    style={{
+                                                        display: 'grid',
+                                                        gridTemplateColumns: '64px minmax(0, 1fr) 28px',
+                                                        gap: '16px',
+                                                        alignItems: 'start',
+                                                        padding: '18px',
+                                                        borderRadius: '18px',
+                                                        border: '1px solid #E5E7EB',
+                                                        background: index % 2 === 0 ? '#FFFFFF' : '#FAFAFA',
+                                                    }}
+                                                >
+                                                    <div style={{ color: '#E5664B', fontWeight: 900, fontSize: '1.35rem', paddingTop: '2px' }}>
+                                                        {String(index + 1).padStart(2, '0')}
+                                                    </div>
+
+                                                    <div>
+                                                        <h3 style={{ color: '#1F2937', fontSize: '1.05rem', fontWeight: 700, lineHeight: 1.45, marginBottom: '8px' }}>
+                                                            {item.title}
+                                                        </h3>
+
+                                                        {/* 🟢 Trường hợp 1: Nếu description là văn bản mô tả thông thường */}
+                                                        {isNormalTextDescription && (
+                                                            <p style={{ color: '#6B7280', lineHeight: 1.6, marginBottom: '8px', fontSize: '0.95rem' }}>
+                                                                {item.description}
+                                                            </p>
+                                                        )}
+
+                                                        {/* 🟢 Trường hợp 2: Render danh sách bài học đã parse */}
+                                                        {lessons.length > 0 ? (
+                                                            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginTop: '6px' }}>
+                                                                {lessons.map((lesson: any, lessonIdx: number) => (
+                                                                    <div
+                                                                        key={lesson.id || lessonIdx}
+                                                                        style={{
+                                                                            display: 'flex',
+                                                                            alignItems: 'center',
+                                                                            justifyContent: 'space-between',
+                                                                            fontSize: '0.9rem',
+                                                                            color: '#4B5563',
+                                                                            padding: '4px 0',
+                                                                            borderBottom: lessonIdx !== lessons.length - 1 ? '1px dashed #F3F4F6' : 'none'
+                                                                        }}
+                                                                    >
+                                                                        <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                                                            <span style={{ color: '#9CA3AF' }}>•</span> {lesson.title}
+                                                                        </span>
+                                                                        {lesson.isPreview && (
+                                                                            <span style={{ fontSize: '0.75rem', background: '#EFF6FF', color: '#2563EB', padding: '2px 8px', borderRadius: '12px', fontWeight: 600 }}>
+                                                                                Học thử
+                                                                            </span>
+                                                                        )}
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        ) : (
+                                                            !isNormalTextDescription && (
+                                                                <p style={{ color: '#9CA3AF', fontSize: '0.875rem', fontStyle: 'italic', margin: 0 }}>
+                                                                    Chưa có bài học nào trong chương này.
+                                                                </p>
+                                                            )
+                                                        )}
+                                                    </div>
+
+                                                    <div style={{ paddingTop: '4px' }}>
+                                                        <ArrowRight size={20} color="#E5664B" />
+                                                    </div>
                                                 </div>
-                                                <div>
-                                                    <h3 style={{ color: '#1F2937', fontSize: '1.05rem', lineHeight: 1.45, marginBottom: item.description ? '6px' : 0 }}>
-                                                        {item.title}
-                                                    </h3>
-                                                    {item.description && (
-                                                        <p style={{ color: '#6B7280', lineHeight: 1.6 }}>
-                                                            {item.description}
-                                                        </p>
-                                                    )}
-                                                </div>
-                                                <ArrowRight size={20} color="#E5664B" />
-                                            </div>
-                                        ))}
+                                            );
+                                        })}
                                     </div>
                                 ) : (
                                     <div style={{ padding: '22px', borderRadius: '18px', background: '#F9FAFB', color: '#6B7280', display: 'flex', gap: '12px', alignItems: 'center' }}>
@@ -429,24 +514,6 @@ const CourseDetailPage: React.FC = () => {
                                     </div>
                                 )}
                             </section>
-                            {/* 
-                            {course.teacher && (
-                                <section style={{ background: 'white', padding: '30px', borderRadius: '24px', border: '1px solid #E5E7EB', boxShadow: 'var(--shadow-sm)' }}>
-                                    <h2 style={{ color: '#1F2937', marginBottom: '20px' }}>Giảng viên hướng dẫn</h2>
-                                    <div style={{ display: 'flex', gap: '20px', alignItems: 'center', background: '#F9FAFB', padding: '20px', borderRadius: '18px' }}>
-                                        <img src={course.teacher.avatarUrl} alt={course.teacher.fullName} style={{ width: '80px', height: '80px', borderRadius: '50%', objectFit: 'cover', background: '#E5E7EB' }} />
-                                        <div>
-                                            <h4 style={{ fontSize: '1.2rem', color: '#1F2937' }}>{course.teacher.fullName}</h4>
-                                            {course.teacher.specialization && (
-                                                <p style={{ color: '#E5664B', fontWeight: 700, marginTop: '4px' }}>{course.teacher.specialization}</p>
-                                            )}
-                                            {course.teacher.bio && (
-                                                <p style={{ marginTop: '10px', color: '#4B5563', lineHeight: 1.65 }}>{course.teacher.bio}</p>
-                                            )}
-                                        </div>
-                                    </div>
-                                </section>
-                            )} */}
                         </div>
 
                         <div className="course-sidebar" id="course-registration">
@@ -466,8 +533,8 @@ const CourseDetailPage: React.FC = () => {
                                     </h3>
                                 )}
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '30px', color: 'var(--text-light)' }}>
-                                    <span><Clock size={13} height={11} color='#e15f41' /> Thời lượng: <strong>{course.duration}</strong></span>
-                                    <span><Laptop size={13} height={11} color='#e15f41' /> Hình thức: <strong>{course.format}</strong></span>
+                                    <span><Clock size={13} color='#e15f41' /> Thời lượng: <strong>{course.duration}</strong></span>
+                                    <span><Laptop size={13} color='#e15f41' /> Hình thức: <strong>{course.format}</strong></span>
                                 </div>
 
                                 <button

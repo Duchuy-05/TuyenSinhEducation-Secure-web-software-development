@@ -1,8 +1,8 @@
-import { count } from "node:console";
 import { AppDataSource } from "../models/DataSource";
 import { Course, CourseStatus } from "../models/entities/Course";
-import { v4 as uuidv4 } from 'uuid'; // Thư viện tạo chuỗi ID ngẫu nhiên
+import { CourseSyllabus } from "../models/entities/CourseSyllabus";
 import { Teacher } from "../models/entities/Teacher";
+import { v4 as uuidv4 } from 'uuid';
 
 export class CourseServiceGV {
     private static courseRepository = AppDataSource.getRepository(Course);
@@ -11,102 +11,137 @@ export class CourseServiceGV {
     // =========================================================
     // HỌC VIÊN
     // =========================================================
-    // Lấy chi tiết khóa học cho học viên
-    
     static async getCourseById(courseGroupId: string) {
-        return this.courseRepository
+        const course = await this.courseRepository
             .createQueryBuilder('course')
             .leftJoinAndSelect('course.teacher', 'teacher')
             .leftJoinAndSelect('course.registrations', 'registrations')
             .leftJoinAndSelect('course.syllabus', 'syllabus')
-            .where('course.course_group_id = :courseGroupId', { courseGroupId })
+            .where('course.courseGroupId = :courseGroupId', { courseGroupId })
             .andWhere('course.status = :status', { status: CourseStatus.PUBLISHED })
-            .orderBy('syllabus.orderIndex', 'ASC')
+            .addOrderBy('syllabus.orderIndex', 'ASC')
             .getOne();
+
+        if (!course) return null;
+
+        if (Array.isArray(course.syllabus) && course.syllabus.length > 0) {
+            course.syllabus = course.syllabus.map((item: any) => {
+                let parsedLessons = [];
+                if (typeof item.description === 'string' && item.description.trim().startsWith('[')) {
+                    try {
+                        parsedLessons = JSON.parse(item.description);
+                    } catch (e) {
+                        console.error('Lỗi parse bài học từ syllabus description:', e);
+                    }
+                }
+
+                return {
+                    ...item,
+                    lessons: parsedLessons,
+                    items: parsedLessons
+                };
+            });
+        }
+
+        return course;
     }
 
     // =========================================================
     // GIẢNG VIÊN
     // =========================================================
 
-    // lấy danh sách khóa học
+    // 1. Lấy danh sách khóa học của giảng viên (Lấy bản ghi mới nhất của từng Group)
     static async getLecturerCourses(teacherId: number) {
         const allCourses = await this.courseRepository.find({
-            where: { teacherId },
-            order: { createdAt: 'DESC' }
+            where: [
+                { teacher: { id: teacherId } },
+                { teacherId: teacherId as any }
+            ],
+            order: { updatedAt: 'DESC', createdAt: 'DESC' }
         });
-        const STATUS_PRIORITY: Partial<Record<CourseStatus, number>> = {
-            [CourseStatus.DRAFT]: 2,
-            [CourseStatus.ARCHIVED]: 1,
-        };
- 
+
         const latestByGroup = new Map<string, Course>();
- 
+
+        // Chỉ lấy duy nhất bản ghi mới nhất theo thời gian được cập nhật/tạo của từng Group
         for (const course of allCourses) {
-            if (course.status === CourseStatus.PUBLISHED) continue;
- 
-            const existing = latestByGroup.get(course.courseGroupId);
-            const weight = STATUS_PRIORITY[course.status] ?? 0;
-            const existingWeight = existing ? (STATUS_PRIORITY[existing.status] ?? 0) : -1;
- 
-            if (!existing || weight > existingWeight) {
+            if (!latestByGroup.has(course.courseGroupId)) {
                 latestByGroup.set(course.courseGroupId, course);
             }
         }
- 
+
         return Array.from(latestByGroup.values());
     }
+
+    // 2. Lấy hoặc khởi tạo Profile Giảng viên
     static async getOrCreateTeacherProfile(userId: number, fullName?: string): Promise<Teacher> {
         let teacherProfile = await this.teacherRepository.findOne({
             where: { user: { id: userId } }
         });
 
         if (!teacherProfile) {
-            console.log(`[Auto-Fix Service] Đang tự động tạo hồ sơ Giảng viên cho User ID: ${userId}`);
-            
-            const newTeacherData: Partial<Teacher> = {
-                fullName: fullName || 'Giảng viên mới',
-                bio: 'Thông tin đang cập nhật...'
-            };
+            try {
+                console.log(`[Auto-Fix Service] Đang tự động tạo hồ sơ Giảng viên cho User ID: ${userId}`);
 
-            const newTeacher = this.teacherRepository.create({
-                ...newTeacherData,
-                user: { id: userId } as any // Nối với User hiện tại
-            });
-            teacherProfile = await this.teacherRepository.save(newTeacher);
+                const newTeacher = this.teacherRepository.create({
+                    fullName: fullName || 'Giảng viên mới',
+                    bio: 'Thông tin đang cập nhật...',
+                    user: { id: userId } as any
+                });
+                teacherProfile = await this.teacherRepository.save(newTeacher);
+            } catch (error) {
+                teacherProfile = await this.teacherRepository.findOne({
+                    where: { user: { id: userId } }
+                });
+                if (!teacherProfile) throw error;
+            }
         }
 
         return teacherProfile;
     }
 
-    // tạo bản nháp mới
+    // 3. Tạo bản nháp mới
     static async createDraft(title: string, teacherId: number) {
         const newDraft = this.courseRepository.create({
-            courseGroupId: uuidv4(), // Cấp 1 thẻ ID chung cho cả gia đình khóa học này
+            courseGroupId: uuidv4(),
             title: title,
             teacherId: teacherId,
             status: CourseStatus.DRAFT,
-            courseData: [], // Khởi tạo mảng rỗng cho lộ trình
-            blocks: {},     // Khởi tạo object rỗng cho nội dung bài học
-            price: 0        // Mặc định là miễn phí
+            courseData: [],
+            blocks: {},
+            price: 0
         });
         return await this.courseRepository.save(newDraft);
     }
 
-    // 3. Lấy dữ liệu Bản nháp để đổ vào giao diện Builder (Kéo thả)
+    // 4. Lấy bản nháp (Nếu chưa có DRAFT thì lấy PUBLISHED mới nhất)
     static async getDraft(courseGroupId: string, teacherId: number) {
-        const draft = await this.courseRepository.findOne({
-            where: { courseGroupId, status: CourseStatus.DRAFT, teacherId }
+        let draft = await this.courseRepository.findOne({
+            where: [
+                { courseGroupId, status: CourseStatus.DRAFT, teacher: { id: teacherId } },
+                { courseGroupId, status: CourseStatus.DRAFT, teacherId: teacherId as any }
+            ]
         });
 
-        if (!draft) throw new Error('Không tìm thấy bản nháp hoặc bạn không có quyền!');
+        if (!draft) {
+            draft = await this.courseRepository.findOne({
+                where: [
+                    { courseGroupId, status: CourseStatus.PUBLISHED, teacher: { id: teacherId } },
+                    { courseGroupId, status: CourseStatus.PUBLISHED, teacherId: teacherId as any }
+                ],
+                order: { createdAt: 'DESC' }
+            });
+        }
+
+        if (!draft) {
+            throw { status: 404, message: 'Không tìm thấy khóa học hoặc bạn không có quyền!' };
+        }
         return draft;
     }
 
-    // Lưu Bản nháp
+    // 5. Lưu/Cập nhật bản nháp
     static async updateDraft(courseGroupId: string, teacherId: number, courseDataInput: any) {
         const draft = await this.getDraft(courseGroupId, teacherId);
-        // cap nhat 
+
         draft.title = courseDataInput.title ?? draft.title;
         draft.shortDesc = courseDataInput.shortDesc ?? draft.shortDesc;
         draft.target = courseDataInput.target ?? draft.target;
@@ -116,29 +151,70 @@ export class CourseServiceGV {
         draft.frequency = courseDataInput.frequency ?? draft.frequency;
         draft.lessonDuration = courseDataInput.lessonDuration ?? draft.lessonDuration;
         draft.price = courseDataInput.price ?? draft.price;
-        // Cập nhật cấu trúc Kéo thả Builder
         draft.courseData = courseDataInput.courseData ?? draft.courseData;
         draft.blocks = courseDataInput.blocks ?? draft.blocks;
-        
+
         return this.courseRepository.save(draft);
     }
 
-// xuất bản khóa học
+    // 6. Gỡ khóa học (Chuyển tất cả bản ghi cùng courseGroupId về DRAFT)
+    static async unpublishCourse(courseGroupId: string, teacherId: number) {
+        const courses = await this.courseRepository.find({
+            where: [
+                { courseGroupId, teacher: { id: teacherId } },
+                { courseGroupId, teacherId: teacherId as any }
+            ]
+        });
+
+        if (!courses || courses.length === 0) {
+            throw { status: 404, message: 'Không tìm thấy khóa học hoặc bạn không có quyền thao tác!' };
+        }
+
+        await this.courseRepository
+            .createQueryBuilder()
+            .update(Course)
+            .set({ status: CourseStatus.DRAFT })
+            .where('courseGroupId = :courseGroupId', { courseGroupId })
+            .execute();
+
+        return { courseGroupId, status: CourseStatus.DRAFT };
+    }
+
+    // 7. Xuất bản khóa học từ Bản nháp
     static async publishCourse(courseGroupId: string, teacherId: number) {
         const draft = await this.getDraft(courseGroupId, teacherId);
 
-        await this.courseRepository.update(
-            { courseGroupId, status: CourseStatus.PUBLISHED, teacherId },
-            { status: CourseStatus.ARCHIVED }
-        );
-        // bóc tách loại bỏ 'id', 'createdAt', 'updatedAt' cũ ra khỏi object draft
-        const { id, createdAt, updatedAt, ...draftData } = draft;
-        // tạo một đối tượng mới tinh chứa toàn bộ data còn lại và ghi đè status
-        const publishedCourse = this.courseRepository.create({
-            ...draftData,
-            status: CourseStatus.PUBLISHED
-        });
+        return await AppDataSource.transaction(async (transactionalEntityManager) => {
+            const courseRepo = transactionalEntityManager.getRepository(Course);
+            const syllabusRepo = transactionalEntityManager.getRepository(CourseSyllabus);
 
-        return this.courseRepository.save(publishedCourse);
+            // 1. Chuyển phiên bản PUBLISHED cũ sang ARCHIVED
+            await courseRepo.update(
+                { courseGroupId, status: CourseStatus.PUBLISHED },
+                { status: CourseStatus.ARCHIVED }
+            );
+
+            // 2. Cập nhật bản ghi hiện tại sang PUBLISHED
+            draft.status = CourseStatus.PUBLISHED;
+            const savedPublishedCourse = await courseRepo.save(draft);
+
+            // 3. Đồng bộ danh sách Chương/Bài (courseData) sang bảng CourseSyllabus
+            if (Array.isArray(draft.courseData) && draft.courseData.length > 0) {
+                await syllabusRepo.delete({ courseId: savedPublishedCourse.id as any });
+
+                const newSyllabi = draft.courseData.map((unit: any, index: number) => {
+                    return syllabusRepo.create({
+                        courseId: savedPublishedCourse.id as any,
+                        orderIndex: index + 1,
+                        title: unit.title || `Chương ${index + 1}`,
+                        description: JSON.stringify(unit.items || unit.lessons || [])
+                    });
+                });
+
+                await syllabusRepo.save(newSyllabi);
+            }
+
+            return savedPublishedCourse;
+        });
     }
 }
