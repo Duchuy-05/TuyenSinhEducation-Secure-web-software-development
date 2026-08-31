@@ -2,13 +2,14 @@ import { Router } from 'express';
 import { CourseController } from '../controllers/CourseController';
 import { uploadCourseImage } from '../middlewares/upload.middleware';
 import { verifyToken, isAdmin } from '../middlewares/auth.middleware';
+
 const courseRouter: Router = Router();
 
 // =======================================================================
-// NHÓM 1 CÁC API ĐẶC THÙ ĐẶT LÊN TRÊN
+// NHÓM 1: CÁC API ĐẶC THÙ ĐẶT LÊN TRÊN
 // =======================================================================
 
-// 1. API lấy danh sách khóa học của riêng giảng viên đó
+// 1. API lấy danh sách khóa học của riêng giảng viên
 courseRouter.get('/courses/lecturer', verifyToken, CourseController.getLecturerCourses);
 
 // 2. Nhóm API Quản lý Khóa học đa phương tiện
@@ -17,9 +18,12 @@ courseRouter.get('/courses/draft/:courseGroupId', verifyToken, CourseController.
 courseRouter.put('/courses/draft/:courseGroupId', verifyToken, CourseController.updateDraft);
 courseRouter.post('/courses/:courseGroupId/publish', verifyToken, CourseController.publishCourse);
 
+// API Hủy xuất bản (Unpublish)
+courseRouter.patch('/courses/draft/:courseGroupId/unpublish', verifyToken, CourseController.unpublishCourse);
+
 
 // =======================================================================
-// NHÓM 2: CÁC API CÓ THAM SỐ ĐỘNG (:id) - BẮT BUỘC PHẢI ĐẶT XUỐNG DƯỚI
+// NHÓM 2: CÁC API CÓ THAM SỐ ĐỘNG (:id) - BẮT BUỘC ĐẶT XUỐNG DƯỚI
 // =======================================================================
 
 courseRouter.get('/courses', CourseController.getAllCourses);

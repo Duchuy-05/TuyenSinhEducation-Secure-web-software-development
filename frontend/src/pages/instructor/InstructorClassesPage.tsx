@@ -1,231 +1,317 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { 
     School, Users, Activity, GraduationCap, 
-    Search, ChevronDown, Plus, Calendar, Clock, 
-    MoreVertical, CheckCircle, FileText, CheckSquare
+    Search, Plus, Calendar, Clock, 
+    MoreVertical, CheckCircle2,
+    Filter, RefreshCw
 } from 'lucide-react';
 import { mockInstructorData } from '../../data/mockInstructorData';
 
-const InstructorClassesPage: React.FC = () => {
+export const InstructorClassesPage: React.FC = () => {
     const { statistics, classes, upcomingSessions, recentActivities, user } = mockInstructorData;
+    
+    // States cho Filter & Search
     const [searchTerm, setSearchTerm] = useState('');
+    const [statusFilter, setStatusFilter] = useState<string>('ALL');
+    const [sortBy, setSortBy] = useState<'newest' | 'oldest' | 'students'>('newest');
 
+    // Thống kê tổng quan
     const statCards = [
-        { title: 'Tổng lớp học', value: statistics.totalClasses, icon: <School size={24} />, bg: 'bg-blue-50', color: 'text-blue-600' },
-        { title: 'Tổng học viên', value: statistics.totalStudents.toLocaleString('vi-VN'), icon: <Users size={24} />, bg: 'bg-indigo-50', color: 'text-indigo-600' },
-        { title: 'Đang hoạt động', value: statistics.activeClasses, icon: <Activity size={24} />, bg: 'bg-emerald-50', color: 'text-emerald-600' },
-        { title: 'Hoàn thành', value: statistics.completedClasses, icon: <GraduationCap size={24} />, bg: 'bg-purple-50', color: 'text-purple-600' },
+        { title: 'Tổng lớp học', value: statistics.totalClasses, icon: <School size={22} />, bg: 'bg-blue-50', color: 'text-blue-600' },
+        { title: 'Tổng học viên', value: statistics.totalStudents.toLocaleString('vi-VN'), icon: <Users size={22} />, bg: 'bg-indigo-50', color: 'text-indigo-600' },
+        { title: 'Đang hoạt động', value: statistics.activeClasses, icon: <Activity size={22} />, bg: 'bg-emerald-50', color: 'text-emerald-600' },
+        { title: 'Hoàn thành', value: statistics.completedClasses, icon: <GraduationCap size={22} />, bg: 'bg-purple-50', color: 'text-purple-600' },
     ];
 
-    const getStatusBadge = (status: string) => {
+    // Helper xử lý màu Badges an toàn
+    const getStatusStyle = (status: string) => {
         switch (status) {
-            case 'Đang học': return 'bg-blue-100 text-blue-700';
-            case 'Sắp khai giảng': return 'bg-yellow-100 text-yellow-700';
-            case 'Đã kết thúc': return 'bg-gray-100 text-gray-700';
-            default: return 'bg-gray-100 text-gray-700';
+            case 'Đang học': 
+                return { bg: 'bg-blue-500/90', text: 'text-white' };
+            case 'Sắp khai giảng': 
+                return { bg: 'bg-amber-500/90', text: 'text-white' };
+            case 'Đã kết thúc': 
+                return { bg: 'bg-slate-600/90', text: 'text-white' };
+            default: 
+                return { bg: 'bg-gray-600/90', text: 'text-white' };
         }
     };
 
-    const filteredClasses = classes.filter(c => c.className.toLowerCase().includes(searchTerm.toLowerCase()));
+    // Helper tách Schedule an toàn, tránh crash
+    const parseSchedule = (scheduleStr?: string) => {
+        if (!scheduleStr) return { days: 'Chưa có lịch', time: '' };
+        const parts = scheduleStr.split('|').map(s => s.trim());
+        return {
+            days: parts[0] || scheduleStr,
+            time: parts[1] || ''
+        };
+    };
+
+    // Lọc và Sắp xếp danh sách lớp
+    const filteredClasses = useMemo(() => {
+        return classes
+            .filter((cls) => {
+                const matchesSearch = cls.className.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                                      cls.courseName.toLowerCase().includes(searchTerm.toLowerCase());
+                const matchesStatus = statusFilter === 'ALL' || cls.status === statusFilter;
+                return matchesSearch && matchesStatus;
+            })
+            .sort((a, b) => {
+                if (sortBy === 'students') {
+                    return (b.stats?.students || 0) - (a.stats?.students || 0);
+                }
+                if (sortBy === 'oldest') {
+                    return Number(a.id) - Number(b.id);
+                }
+                return Number(b.id) - Number(a.id); // 'newest' default
+            });
+    }, [classes, searchTerm, statusFilter, sortBy]);
+
+    const handleCreateClass = () => {
+        // Tích hợp trigger Modal hoặc Navigate tại đây
+        alert('Mở dialog tạo lớp học mới');
+    };
 
     return (
-        <div className="p-4 lg:p-8 max-w-7xl mx-auto space-y-8">
+        <div className="p-4 lg:p-8 max-w-7xl mx-auto space-y-8 min-h-screen bg-slate-50/50">
             
             {/* Header Section */}
-            <div>
-                <h1 className="text-2xl lg:text-3xl font-bold text-[#1F2937]">Quản lý lớp học</h1>
-                <p className="text-gray-500 mt-2 text-sm lg:text-base">Quản lý các lớp học, học viên và tiến độ giảng dạy.</p>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div>
+                    <h1 className="text-2xl lg:text-3xl font-bold text-slate-900 tracking-tight">Quản lý lớp học</h1>
+                    <p className="text-slate-500 mt-1 text-sm lg:text-base">Theo dõi danh sách lớp, học viên và tiến độ giảng dạy thực tế.</p>
+                </div>
+                <button 
+                    onClick={handleCreateClass}
+                    className="self-start sm:self-auto bg-[#E5664B] hover:bg-[#d6553a] text-white font-medium py-2.5 px-5 rounded-xl text-sm transition-all shadow-sm hover:shadow-md hover:scale-[1.01] active:scale-[0.99] flex items-center gap-2"
+                >
+                    <Plus size={18} /> Tạo lớp học mới
+                </button>
             </div>
 
             {/* Statistics Overview */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {statCards.map((stat, idx) => (
-                    <div key={idx} className="bg-white rounded-2xl p-5 shadow-sm border border-[#E5E7EB] flex flex-col justify-center gap-3 hover:-translate-y-1 transition-transform duration-300">
-                        <div className="flex justify-between items-start">
-                            <div className={`p-3 rounded-xl ${stat.bg} ${stat.color}`}>
+                    <div key={idx} className="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 flex flex-col justify-between hover:border-slate-300 transition-all duration-200">
+                        <div className="flex justify-between items-start mb-3">
+                            <span className="text-sm font-medium text-slate-500">{stat.title}</span>
+                            <div className={`p-2.5 rounded-xl ${stat.bg} ${stat.color}`}>
                                 {stat.icon}
                             </div>
                         </div>
-                        <div>
-                            <h3 className="text-2xl font-bold text-[#1F2937] leading-tight">{stat.value}</h3>
-                            <p className="text-sm text-gray-500 font-medium mt-1">{stat.title}</p>
-                        </div>
+                        <h3 className="text-2xl lg:text-3xl font-bold text-slate-900 leading-none tracking-tight">{stat.value}</h3>
                     </div>
                 ))}
             </div>
 
             {/* Class Management Toolbar */}
-            <div className="bg-white p-4 rounded-xl shadow-sm border border-[#E5E7EB] flex flex-col md:flex-row gap-4 justify-between items-start md:items-center">
+            <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col md:flex-row gap-4 justify-between items-center">
                 
-                {/* Horizontal Filter Bar */}
-                <div className="flex gap-2 w-full md:w-auto overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
-                    <button className="flex-shrink-0 flex items-center gap-2 px-4 py-2 border border-[#E5E7EB] rounded-lg text-sm text-gray-600 hover:bg-gray-50 transition-colors">
-                        Sắp xếp: Mới tạo <ChevronDown size={16} />
-                    </button>
-                    <button className="flex-shrink-0 flex items-center gap-2 px-4 py-2 border border-[#E5E7EB] rounded-lg text-sm text-gray-600 hover:bg-gray-50 transition-colors">
-                        Tất cả khóa học <ChevronDown size={16} />
-                    </button>
-                    <button className="flex-shrink-0 flex items-center gap-2 px-4 py-2 border border-[#E5E7EB] rounded-lg text-sm text-gray-600 hover:bg-gray-50 transition-colors">
-                        Trạng thái: Tất cả <ChevronDown size={16} />
-                    </button>
+                {/* Filters */}
+                <div className="flex items-center gap-2 w-full md:w-auto overflow-x-auto pb-2 md:pb-0 scrollbar-none">
+                    <div className="flex items-center gap-1.5 text-xs text-slate-400 font-medium mr-1 uppercase tracking-wider">
+                        <Filter size={14} /> Bộ lọc:
+                    </div>
+                    
+                    {/* Select Status */}
+                    <select 
+                        value={statusFilter}
+                        onChange={(e) => setStatusFilter(e.target.value)}
+                        className="bg-slate-50 border border-slate-200 text-slate-700 text-sm rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#E5664B]/20 focus:border-[#E5664B] transition-all cursor-pointer"
+                    >
+                        <option value="ALL">Tất cả trạng thái</option>
+                        <option value="Đang học">Đang học</option>
+                        <option value="Sắp khai giảng">Sắp khai giảng</option>
+                        <option value="Đã kết thúc">Đã kết thúc</option>
+                    </select>
+
+                    {/* Select Sort */}
+                    <select 
+                        value={sortBy}
+                        onChange={(e) => setSortBy(e.target.value as any)}
+                        className="bg-slate-50 border border-slate-200 text-slate-700 text-sm rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#E5664B]/20 focus:border-[#E5664B] transition-all cursor-pointer"
+                    >
+                        <option value="newest">Mới nhất</option>
+                        <option value="oldest">Cũ nhất</option>
+                        <option value="students">Nhiều học viên nhất</option>
+                    </select>
                 </div>
 
-                <div className="flex gap-4 w-full md:w-auto">
-                    {/* Search Bar */}
-                    <div className="relative flex-1 md:w-64 group">
-                        <input 
-                            type="text" 
-                            placeholder="Tìm kiếm lớp học..." 
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full pl-10 pr-4 py-2 border border-[#E5E7EB] rounded-lg text-sm focus:outline-none focus:border-[#E5664B] focus:ring-1 focus:ring-[#E5664B] transition-all"
-                        />
-                        <Search size={16} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-[#E5664B]" />
-                    </div>
-
-                    {/* Create Class Button */}
-                    <button className="flex-shrink-0 bg-[#E5664B] hover:bg-[#d6553a] text-white font-medium py-2 px-4 rounded-lg text-sm transition-all hover:scale-[1.02] flex items-center gap-2">
-                        <Plus size={18} /> Tạo lớp học
-                    </button>
+                {/* Search Input */}
+                <div className="relative w-full md:w-72">
+                    <input 
+                        type="text" 
+                        placeholder="Tìm theo tên lớp, khóa học..." 
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-[#E5664B] focus:ring-2 focus:ring-[#E5664B]/20 transition-all"
+                    />
+                    <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                 </div>
             </div>
 
             {/* Class Grid */}
             {filteredClasses.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {filteredClasses.map((cls) => (
-                        <div 
-                            key={cls.id} 
-                            className="bg-white rounded-[16px] shadow-md border border-[#E5E7EB] overflow-hidden hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 group flex flex-col"
-                        >
-                            {/* Banner Image */}
-                            <div className="relative aspect-video overflow-hidden">
-                                <img 
-                                    src={cls.thumbnail} 
-                                    alt={cls.className} 
-                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                />
-                                <span className={`absolute top-3 right-3 px-2.5 py-1 rounded-md text-xs font-semibold backdrop-blur-md bg-white/90 ${getStatusBadge(cls.status).split(' ')[1]}`}>
-                                    {cls.status}
-                                </span>
+                    {filteredClasses.map((cls) => {
+                        const statusStyle = getStatusStyle(cls.status);
+                        const schedule = parseSchedule(cls.schedule);
+
+                        return (
+                            <div 
+                                key={cls.id} 
+                                className="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden hover:shadow-md hover:border-slate-300 transition-all duration-300 flex flex-col group"
+                            >
+                                {/* Thumbnail & Status Badge */}
+                                <div className="relative aspect-video overflow-hidden bg-slate-100">
+                                    <img 
+                                        src={cls.thumbnail} 
+                                        alt={cls.className} 
+                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                        loading="lazy"
+                                    />
+                                    <span className={`absolute top-3 right-3 px-2.5 py-1 rounded-full text-xs font-semibold backdrop-blur-md shadow-sm ${statusStyle.bg} ${statusStyle.text}`}>
+                                        {cls.status}
+                                    </span>
+                                </div>
+
+                                {/* Main Content */}
+                                <div className="p-5 flex flex-col flex-1">
+                                    <h3 className="font-bold text-slate-900 text-lg mb-1 line-clamp-1 group-hover:text-[#E5664B] transition-colors">
+                                        {cls.className}
+                                    </h3>
+                                    <p className="text-xs font-medium text-slate-500 mb-4 line-clamp-1">{cls.courseName}</p>
+                                    
+                                    {/* Instructor Info */}
+                                    <div className="flex items-center gap-2 mb-4">
+                                        <img src={user.avatar} alt={user.name} className="w-6 h-6 rounded-full object-cover ring-1 ring-slate-200" />
+                                        <span className="text-xs font-medium text-slate-700">{user.name}</span>
+                                    </div>
+
+                                    {/* Schedule */}
+                                    <div className="flex items-start gap-2.5 mb-4 text-xs text-slate-600 bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                        <Calendar size={15} className="text-slate-400 shrink-0 mt-0.5" />
+                                        <div>
+                                            <p className="font-semibold text-slate-700">{schedule.days}</p>
+                                            {schedule.time && <p className="text-slate-500 mt-0.5">{schedule.time}</p>}
+                                        </div>
+                                    </div>
+
+                                    {/* Quick Stats */}
+                                    <div className="grid grid-cols-3 gap-2 text-center text-xs text-slate-600 mb-5 py-2 px-1 bg-slate-50/50 rounded-lg border border-slate-100">
+                                        <div>
+                                            <p className="font-bold text-slate-800">{cls.stats?.students ?? 0}</p>
+                                            <p className="text-[10px] text-slate-400 uppercase">Học viên</p>
+                                        </div>
+                                        <div>
+                                            <p className="font-bold text-slate-800">{cls.stats?.lessons ?? 0}</p>
+                                            <p className="text-[10px] text-slate-400 uppercase">Bài học</p>
+                                        </div>
+                                        <div>
+                                            <p className="font-bold text-slate-800">{cls.stats?.tests ?? 0}</p>
+                                            <p className="text-[10px] text-slate-400 uppercase">Bài kiểm tra</p>
+                                        </div>
+                                    </div>
+
+                                    {/* Teaching Progress */}
+                                    <div className="mt-auto mb-5">
+                                        <div className="flex justify-between items-center mb-1.5">
+                                            <span className="text-xs font-medium text-slate-500">Tiến độ khóa học</span>
+                                            <span className="text-xs font-bold text-[#E5664B]">{cls.progress}%</span>
+                                        </div>
+                                        <div className="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+                                            <div 
+                                                className="bg-[#E5664B] h-1.5 rounded-full transition-all duration-700 ease-out"
+                                                style={{ width: `${cls.progress}%` }}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    {/* Card Actions */}
+                                    <div className="flex items-center gap-2 border-t border-slate-100 pt-4 mt-auto">
+                                        <button className="flex-1 bg-[#E5664B] hover:bg-[#d6553a] text-white font-medium py-2 px-3 rounded-lg text-xs transition-all text-center">
+                                            Quản lý lớp
+                                        </button>
+                                        <button className="flex-1 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-medium py-2 px-3 rounded-lg text-xs transition-all text-center">
+                                            Học viên
+                                        </button>
+                                        <button className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors">
+                                            <MoreVertical size={16} />
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-
-                            {/* Content */}
-                            <div className="p-5 flex flex-col flex-1">
-                                <h3 className="font-bold text-[#1F2937] text-lg mb-1 leading-snug group-hover:text-[#E5664B] transition-colors">
-                                    {cls.className}
-                                </h3>
-                                <p className="text-sm text-gray-500 mb-4 line-clamp-1">{cls.courseName}</p>
-                                
-                                <div className="flex items-center gap-2 mb-4">
-                                    <img src={user.avatar} alt={user.name} className="w-6 h-6 rounded-full" />
-                                    <span className="text-sm text-gray-700 font-medium">{user.name}</span>
-                                </div>
-
-                                {/* Schedule */}
-                                <div className="flex items-start gap-2 mb-4 text-sm text-gray-600 bg-gray-50 p-2.5 rounded-lg border border-gray-100">
-                                    <Calendar size={16} className="text-gray-400 mt-0.5" />
-                                    <div>
-                                        <p>{cls.schedule.split(' | ')[0]}</p>
-                                        <p className="text-gray-500">{cls.schedule.split(' | ')[1]}</p>
-                                    </div>
-                                </div>
-
-                                {/* Student Statistics */}
-                                <div className="flex items-center justify-between text-xs text-gray-600 mb-5 font-medium">
-                                    <span className="flex items-center gap-1.5"><Users size={16} className="text-blue-500" /> {cls.stats.students} Học viên</span>
-                                    <span className="flex items-center gap-1.5"><FileText size={16} className="text-emerald-500" /> {cls.stats.lessons} Bài học</span>
-                                    <span className="flex items-center gap-1.5"><CheckSquare size={16} className="text-purple-500" /> {cls.stats.tests} Kiểm tra</span>
-                                </div>
-
-                                {/* Progress */}
-                                <div className="mt-auto mb-6">
-                                    <div className="flex justify-between items-center mb-1.5">
-                                        <span className="text-xs font-medium text-gray-500">Tiến độ giảng dạy</span>
-                                        <span className="text-xs font-bold text-[#E5664B]">{cls.progress}%</span>
-                                    </div>
-                                    <div className="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
-                                        <div 
-                                            className="bg-[#E5664B] h-1.5 rounded-full transition-all duration-1000 ease-out"
-                                            style={{ width: `${cls.progress}%` }}
-                                        ></div>
-                                    </div>
-                                </div>
-
-                                {/* Quick Actions */}
-                                <div className="flex gap-2 border-t border-gray-100 pt-5">
-                                    <button className="flex-1 bg-[#E5664B] hover:bg-[#d6553a] text-white font-medium py-2 px-3 rounded-lg text-sm transition-all hover:scale-[1.02] active:scale-[0.98]">
-                                        Quản lý lớp
-                                    </button>
-                                    <button className="flex-1 bg-white border border-[#E5E7EB] hover:bg-gray-50 text-gray-700 font-medium py-2 px-3 rounded-lg text-sm transition-all hover:scale-[1.02] active:scale-[0.98]">
-                                        Học viên
-                                    </button>
-                                    <button className="bg-white border border-[#E5E7EB] hover:bg-gray-50 text-gray-500 py-2 px-2.5 rounded-lg transition-colors">
-                                        <MoreVertical size={18} />
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             ) : (
                 /* Empty State */
-                <div className="bg-white rounded-2xl shadow-sm border border-[#E5E7EB] p-12 flex flex-col items-center justify-center text-center">
-                    <div className="w-48 h-48 mb-6 bg-orange-50 rounded-full flex items-center justify-center">
-                        <School size={64} className="text-[#E5664B] opacity-50" />
+                <div className="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-12 flex flex-col items-center justify-center text-center">
+                    <div className="w-20 h-20 mb-4 bg-orange-50 rounded-full flex items-center justify-center text-[#E5664B]">
+                        <School size={36} />
                     </div>
-                    <h3 className="text-xl font-bold text-[#1F2937] mb-2">Bạn chưa tạo lớp học nào</h3>
-                    <p className="text-gray-500 mb-6 max-w-md">Hãy bắt đầu tạo lớp học đầu tiên của bạn để chia sẻ kiến thức với các học viên.</p>
-                    <button className="bg-[#E5664B] hover:bg-[#d6553a] text-white font-medium py-2.5 px-6 rounded-lg transition-all hover:scale-[1.02]">
-                        Tạo lớp học đầu tiên
+                    <h3 className="text-lg font-bold text-slate-800 mb-1">Không tìm thấy lớp học nào</h3>
+                    <p className="text-slate-500 text-sm mb-6 max-w-sm">Thử thay đổi từ khóa tìm kiếm hoặc điều chỉnh bộ lọc trạng thái lớp học.</p>
+                    <button 
+                        onClick={() => { setSearchTerm(''); setStatusFilter('ALL'); }}
+                        className="inline-flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium py-2 px-4 rounded-lg text-sm transition-colors"
+                    >
+                        <RefreshCw size={15} /> Đặt lại bộ lọc
                     </button>
                 </div>
             )}
 
             {/* Bottom Widgets Row */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-4">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-2">
                 
-                {/* Upcoming Classes Section */}
-                <div className="bg-white rounded-2xl p-6 shadow-sm border border-[#E5E7EB]">
-                    <h3 className="text-lg font-bold text-[#1F2937] mb-4 flex items-center gap-2">
-                        <Clock size={20} className="text-[#E5664B]" /> Lớp học sắp diễn ra
+                {/* Upcoming Classes Widget */}
+                <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200/80">
+                    <h3 className="text-base font-bold text-slate-800 mb-4 flex items-center gap-2">
+                        <Clock size={18} className="text-[#E5664B]" /> Buổi học sắp diễn ra
                     </h3>
-                    <div className="space-y-4">
-                        {upcomingSessions.map(session => (
-                            <div key={session.id} className="flex justify-between items-center p-3 hover:bg-gray-50 rounded-xl transition-colors border border-transparent hover:border-gray-100">
-                                <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 rounded-lg bg-orange-100 text-[#E5664B] flex items-center justify-center font-bold">
-                                        {session.className.charAt(4)}
+                    <div className="space-y-3">
+                        {upcomingSessions.length > 0 ? (
+                            upcomingSessions.map((session) => (
+                                <div key={session.id} className="flex justify-between items-center p-3.5 hover:bg-slate-50 rounded-xl transition-colors border border-slate-100">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-9 h-9 rounded-lg bg-orange-50 text-[#E5664B] flex items-center justify-center font-bold text-sm">
+                                            {session.className.slice(0, 2).toUpperCase()}
+                                        </div>
+                                        <div>
+                                            <p className="font-semibold text-slate-800 text-sm line-clamp-1">{session.className}</p>
+                                            <p className="text-xs text-slate-400 mt-0.5">Lớp trực tuyến</p>
+                                        </div>
                                     </div>
-                                    <p className="font-semibold text-gray-800">{session.className}</p>
+                                    <span className="text-xs font-semibold text-[#E5664B] bg-orange-50/80 border border-orange-100 px-3 py-1 rounded-full whitespace-nowrap">
+                                        {session.time}
+                                    </span>
                                 </div>
-                                <div className="text-sm font-medium text-[#E5664B] bg-orange-50 px-3 py-1 rounded-full">
-                                    {session.time}
-                                </div>
-                            </div>
-                        ))}
+                            ))
+                        ) : (
+                            <p className="text-xs text-slate-400 py-4 text-center">Không có lịch học nào sắp tới.</p>
+                        )}
                     </div>
                 </div>
 
-                {/* Recent Student Activities */}
-                <div className="bg-white rounded-2xl p-6 shadow-sm border border-[#E5E7EB]">
-                    <h3 className="text-lg font-bold text-[#1F2937] mb-4 flex items-center gap-2">
-                        <Activity size={20} className="text-[#E5664B]" /> Hoạt động gần đây
+                {/* Activity Feed Widget */}
+                <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200/80">
+                    <h3 className="text-base font-bold text-slate-800 mb-4 flex items-center gap-2">
+                        <Activity size={18} className="text-[#E5664B]" /> Hoạt động học viên gần đây
                     </h3>
-                    <div className="space-y-0 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-300 before:to-transparent">
-                        {recentActivities.map((act, index) => (
-                            <div key={act.id} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active py-3">
-                                <div className="flex items-center justify-center w-10 h-10 rounded-full border border-white bg-slate-200 text-slate-500 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
-                                    <CheckCircle size={16} />
+                    <div className="space-y-4">
+                        {recentActivities.map((act) => (
+                            <div key={act.id} className="flex items-start gap-3 text-xs">
+                                <div className="p-1.5 bg-emerald-50 text-emerald-600 rounded-full mt-0.5 shrink-0">
+                                    <CheckCircle2 size={14} />
                                 </div>
-                                <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-white p-4 rounded border border-slate-200 shadow-sm">
+                                <div className="flex-1 bg-slate-50 p-3 rounded-xl border border-slate-100">
                                     <div className="flex items-center justify-between mb-1">
-                                        <div className="font-bold text-slate-900">{act.user}</div>
-                                        <time className="text-xs font-medium text-[#E5664B]">{act.time}</time>
+                                        <span className="font-bold text-slate-800">{act.user}</span>
+                                        <time className="text-[11px] text-slate-400">{act.time}</time>
                                     </div>
-                                    <div className="text-sm text-slate-500">
-                                        Đã <span className="font-medium text-slate-700">{act.action}</span>: {act.target}
-                                    </div>
+                                    <p className="text-slate-600">
+                                        Đã <span className="font-medium text-slate-900">{act.action}</span>: <span className="text-slate-700">{act.target}</span>
+                                    </p>
                                 </div>
                             </div>
                         ))}
