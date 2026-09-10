@@ -3,17 +3,20 @@ import { AuthService } from "../services/AuthService";
 
 const isProduction = process.env.NODE_ENV === "production";
 
+const crossSiteCookieOptions = {
+  secure: isProduction,
+  sameSite: (isProduction ? "none" : "lax") as "none" | "lax",
+};
+
 const accessTokenCookieOptions = {
   httpOnly: true,
-  secure: isProduction,
-  sameSite: "strict" as const,
+  ...crossSiteCookieOptions,
   maxAge: 15 * 60 * 1000,
 };
 
 const refreshTokenCookieOptions = {
   httpOnly: true,
-  secure: isProduction,
-  sameSite: "strict" as const,
+  ...crossSiteCookieOptions,
   maxAge: 7 * 24 * 60 * 60 * 1000,
 };
 
@@ -134,13 +137,11 @@ export class AuthController {
   static async logout(req: Request, res: Response) {
     res.clearCookie("access_token", {
       httpOnly: true,
-      secure: isProduction,
-      sameSite: "strict",
+      ...crossSiteCookieOptions,
     });
     res.clearCookie("refreshToken", {
       httpOnly: true,
-      secure: isProduction,
-      sameSite: "strict",
+      ...crossSiteCookieOptions,
     });
 
     return res.status(200).json({ message: "Đăng xuất thành công!" });

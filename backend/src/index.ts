@@ -17,6 +17,7 @@ import classEnrollmentRouter from './routers/classenrollment.router';
 import announcementRouter from './routers/announcement.router';
 import uploadRouter from './routers/upload.router';
 import paymentRouter from './routers/payment.router';
+import helmet from 'helmet';
 
 validateRequiredEnv();
 
@@ -24,11 +25,11 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: process.env.FRONTEND_URL, // dùng để chỉ định domain FE được phép gọi API BE
     credentials: true // Bật tính năng cho phép trao đổi Cookie giữa FE và BE
 }));
 app.use(cookieParser());
-
+app.use(helmet());
 app.use(morgan('dev'));
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))

@@ -26,7 +26,7 @@
 |---|---|
 | Ngôn ngữ | TypeScript (Node.js) |
 | Framework | Express 5 |
-| ORM / Database | TypeORM + MySQL (mysql2) |
+| ORM / Database | TypeORM + MySQL |
 | Xác thực | JWT (jsonwebtoken), Google Auth Library, bcrypt |
 | Upload ảnh | Multer + Cloudinary |
 | Gửi email | Nodemailer (xác minh OTP, thông báo) |
