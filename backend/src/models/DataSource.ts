@@ -12,12 +12,9 @@ import { Announcement } from "./entities/Announcement";
 import { Order } from "./entities/Payment";
 
 export const AppDataSource = new DataSource({
-    type: "mysql",
-    host: "localhost",
-    port: 3306,
-    username: "root",
-    password: "123456",
-    database: "trangtuyensinh_db",
+    type: "postgres",
+    url: process.env.DATABASE_URL, // Railway tự cấp biến này khi bạn thêm Postgres plugin
+    ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false,
     synchronize: true,
     entities: [User, Registration, Course, Teacher, CourseSyllabus, Post, Class, ClassEnrollment, Schedule, Announcement, Order],
 })
