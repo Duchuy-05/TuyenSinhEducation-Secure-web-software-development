@@ -23,11 +23,16 @@ export class ClassService {
         return this.classRepository.save(newClass);
     }
 
-    static async updateClass (id: number, classData: Partial<Class>) {
+    static async updateClass (id: number, classData: Partial<Class>, requestingTeacherId: number, isAdmin: boolean) {
         const classToUpdate = await this.classRepository.findOne({ where: { id } });
         if (!classToUpdate) {
-            throw new Error(`Class with ID ${id} not found`);
+            throw { status: 404, message: `Không tìm thấy lớp học với ID ${id}` };
         }
+        
+        if (!isAdmin && classToUpdate.teacherId !== requestingTeacherId) {
+            throw { status: 403, message: 'Bạn không có quyền cập nhật lớp học này' };
+        }
+        
         await this.classRepository.update(id, classData);
         return this.classRepository.findOne({ where: { id } });
     }

@@ -28,7 +28,7 @@ export class PaymentController {
                 }),
             );
         } catch (error: any) {
-            return response.status(400).json(errorHandler(400, error.message || 'Không thể tạo thanh toán'));
+            return response.status(400).json(errorHandler(400, (error && typeof error.status === 'number' ? error.message : 'Không thể tạo thanh toán')));
         }
     }
 
@@ -45,7 +45,7 @@ export class PaymentController {
             const order = await PaymentService.getOrderByCode(orderCode, userId, role);
             return response.status(200).json(successHandler(200, 'Lấy trạng thái đơn hàng thành công', order));
         } catch (error: any) {
-            return response.status(404).json(errorHandler(404, error.message || 'Không tìm thấy đơn hàng'));
+            return response.status(404).json(errorHandler(404, (error && typeof error.status === 'number' ? error.message : 'Không tìm thấy đơn hàng')));
         }
     }
 

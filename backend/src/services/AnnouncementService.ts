@@ -43,19 +43,32 @@ export class AnnouncementService {
     return this.announcementRepository.save(announcement);
   }
 
-  static async update(id: number, data: Partial<Announcement>) {
+  static async update(id: number, data: Partial<Announcement>, requestingTeacherId: number, isAdmin: boolean) {
     const announcement = await this.announcementRepository.findOneBy({ id });
     if (!announcement) {
-      throw new Error('Announcement not found');
+      throw { status: 404, message: 'Không tìm thấy thông báo' };
     }
-    Object.assign(announcement, data);
+
+    // Chặn IDOR: chỉ chủ sở hữu (giáo viên đã tạo thông báo) hoặc Admin mới được sửa
+    if (!isAdmin && announcement.teacherId !== requestingTeacherId) {
+      throw { status: 403, message: 'Bạn không có quyền chỉnh sửa thông báo này' };
+    }
+
+    // Chống Mass Assignment: không cho phép client tự đổi classId/teacherId của thông báo
+    const { classId, teacherId, ...safeData } = data;
+    Object.assign(announcement, safeData);
     return this.announcementRepository.save(announcement);
   }
 
-  static async remove(id: number) {
+  static async remove(id: number, requestingTeacherId: number, isAdmin: boolean) {
     const announcement = await this.announcementRepository.findOneBy({ id });
     if (!announcement) {
-      throw new Error('Announcement not found');
+      throw { status: 404, message: 'Không tìm thấy thông báo' };
+    }
+
+    // Chặn IDOR
+    if (!isAdmin && announcement.teacherId !== requestingTeacherId) {
+      throw { status: 403, message: 'Bạn không có quyền xóa thông báo này' };
     }
     return this.announcementRepository.remove(announcement);
   }
