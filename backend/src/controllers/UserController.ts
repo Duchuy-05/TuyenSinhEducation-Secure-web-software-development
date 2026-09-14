@@ -52,7 +52,7 @@ export class UserController {
 
             return response.json(successHandler(200, 'Cập nhật hồ sơ thành công', updatedUser));
         } catch (error: any) {
-            return response.json(errorHandler(500, error.message || 'Lỗi khi cập nhật hồ sơ'));
+            return response.json(errorHandler(500, (error && typeof error.status === 'number' ? error.message : 'Lỗi khi cập nhật hồ sơ')));
         }
     }
 
@@ -73,7 +73,7 @@ export class UserController {
             return response.json(successHandler(200, result.message));
         } catch (error: any) {
             // Lỗi sai mật khẩu hiện tại nên trả 400, không phải 500
-            return response.json(errorHandler(400, error.message || 'Lỗi khi đổi mật khẩu'));
+            return response.json(errorHandler(400, (error && typeof error.status === 'number' ? error.message : 'Lỗi khi đổi mật khẩu')));
         }
     }
 }

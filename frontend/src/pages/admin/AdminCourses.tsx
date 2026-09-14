@@ -122,7 +122,7 @@ const AdminCourses: React.FC = () => {
                 target: formData.target,
                 imageUrl: formData.imageUrl,
                 duration: formData.duration,
-                sessionCount: formData.sessionCount ? Number(formData.sessionCount) : null,
+                sessionCount: formData.sessionCount ? Number(formData.sessionCount) : undefined,
                 frequency: formData.frequency,
                 lessonDuration: formData.lessonDuration,
                 classSize: formData.classSize,
@@ -136,7 +136,7 @@ const AdminCourses: React.FC = () => {
                 setStep(2);
             } else {
                 const response = await courseApi.createCourse(courseInfo);
-                const newCourseId = response.data.data?.id ?? response.data?.id
+                const newCourseId = response.id
 
                 setFormData((prev: any) => ({ ...prev, id: newCourseId }));
                 setStep(2); // Thành công dữ liệu hợp lệ -> Chuyển sang Bước 2 nhập Lộ trình
@@ -216,7 +216,7 @@ const AdminCourses: React.FC = () => {
                                 <td colSpan={6} className="px-6 py-8 text-center text-slate-500">Đang tải...</td>
                             </tr>
                         ) : (
-                            courses.map((course: any) => (
+                            Array.isArray(courses) && courses.map((course: any) => (
                                 <tr key={course.id} className="hover:bg-slate-50 transition-colors">
                                     <td className="px-6 py-4 text-sm text-slate-600">#{course.id}</td>
                                     <td className="px-6 py-4">

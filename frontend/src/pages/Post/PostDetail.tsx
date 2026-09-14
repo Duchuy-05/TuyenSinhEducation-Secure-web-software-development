@@ -3,6 +3,8 @@ import { useParams, Link } from 'react-router-dom';
 import { postApi } from '../../services/post.api';
 import type { Post } from '../../services/post.api';
 
+import DOMPurity from 'dompurify';
+
 const PostDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const [post, setPost] = useState<Post | null>(null);
@@ -102,7 +104,7 @@ const PostDetail = () => {
             [&_td]:border [&_td]:border-[#e0e0e0] [&_td]:px-3.5 [&_td]:py-2.5 [&_td]:text-left
             [&_th]:bg-[#f5f5f5] [&_th]:font-semibold [&_th]:text-[#1a1a2e]
           "
-          dangerouslySetInnerHTML={{ __html: post.content }}
+          dangerouslySetInnerHTML={{ __html: DOMPurity.sanitize(post.content) }}
         />
 
         {/* Back */}

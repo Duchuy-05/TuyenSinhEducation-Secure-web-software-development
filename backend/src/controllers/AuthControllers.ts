@@ -35,7 +35,7 @@ export class AuthController {
       return res.status(201).json({ message: "Đăng ký tài khoản thành công!" });
     } catch (error: any) {
       // bắt lỗi từ Service: lỗi regex, lỗi email tồn tại, ....
-      return res.status(400).json({ message: error.message || "Lỗi Server!" });
+      return res.status(400).json({ message: (error && typeof error.status === 'number' ? error.message : "Lỗi Server!") });
     }
   }
   // ==============================
@@ -47,7 +47,7 @@ export class AuthController {
       const result = await AuthService.verifyOtp(email, otp);
       return res.status(200).json(result);
     } catch (error: any) {
-      return res.status(400).json({ message: error.message });
+      return res.status(400).json({ message: (error && typeof error.status === 'number' ? error.message : "Lỗi Server!") });
     }
   }
 
@@ -75,7 +75,7 @@ export class AuthController {
         },
       });
     } catch (error: any) {
-      return res.status(401).json({ message: error.message || "Lỗi Server!" });
+      return res.status(401).json({ message: (error && typeof error.status === 'number' ? error.message : "Lỗi Server!") });
     }
   }
 
@@ -99,7 +99,7 @@ export class AuthController {
       });
     } catch (error: any) {
       // khi Token sai hoặc hết hạn từ Service
-      return res.status(403).json({ message: error.message || "Lỗi Server!" });
+      return res.status(403).json({ message: (error && typeof error.status === 'number' ? error.message : "Lỗi Server!") });
     }
   }
 
@@ -130,7 +130,7 @@ export class AuthController {
         }
       });
     } catch (error: any) {
-      return res.status(401).json({ message: error.message || "Lỗi Server!" });
+      return res.status(401).json({ message: (error && typeof error.status === 'number' ? error.message : "Lỗi Server!") });
     }
   }
 

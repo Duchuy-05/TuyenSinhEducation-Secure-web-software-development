@@ -179,7 +179,7 @@ const CoursesPage: React.FC = () => {
         /* Grid danh sách khóa học */
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 pb-12">
           {filteredCourses.map((course) => {
-            const courseKey = course.courseGroupId || course.id || course._id;
+            const courseKey = course.courseGroupId || course.id;
             return (
               <CourseCard
                 key={courseKey}

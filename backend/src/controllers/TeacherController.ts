@@ -50,7 +50,7 @@ export class TeacherController {
             return response.json(successHandler(201, 'Tạo giáo viên thành công', result));
         }
         catch (error: any) {
-            return response.json(errorHandler(500, error.message || 'Lỗi khi tạo giáo viên'));
+            return response.json(errorHandler(500, (error && typeof error.status === 'number' ? error.message : 'Lỗi khi tạo giáo viên')));
         }
     }
 
@@ -94,7 +94,6 @@ export class TeacherController {
 
             return res.status(500).json({
                 message: "Lỗi hệ thống khi tải ảnh lên Cloudinary",
-                error: error.message
             });
         }
     }

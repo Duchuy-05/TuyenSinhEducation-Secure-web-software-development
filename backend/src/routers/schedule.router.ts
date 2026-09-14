@@ -7,7 +7,7 @@ const scheduleRouter: Router = Router();
 
 scheduleRouter.get('/schedules/my-upcoming', verifyToken, ScheduleController.getMyUpcoming);
 scheduleRouter.get('/schedules', verifyToken, ScheduleController.getByClassId);
-scheduleRouter.get('/schedules/:id', ScheduleController.getById);
+scheduleRouter.get('/schedules/:id', verifyToken, ScheduleController.getById);
 
 scheduleRouter.post('/schedules', verifyToken, requireRoles(UserRole.ADMIN, UserRole.TEACHER), ScheduleController.create);
 scheduleRouter.post('/schedules/bulk', verifyToken, requireRoles(UserRole.ADMIN, UserRole.TEACHER), ScheduleController.bulkCreate);

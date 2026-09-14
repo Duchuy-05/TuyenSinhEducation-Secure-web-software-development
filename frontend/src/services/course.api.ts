@@ -129,7 +129,7 @@ export const courseApi = {
     const response = await apiClient.get('/courses/pagination', {
       params: { page, limit }
     });
-    return response.data;
+    return unwrapData<{ data: Course[]; total: number; page: number; limit: number; totalPages: number }>(response);
   },
 
   getCourseById: async (id: string | number): Promise<Course> => {

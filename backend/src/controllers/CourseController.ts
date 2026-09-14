@@ -35,7 +35,7 @@ export class CourseController {
             const courses = await CourseService.getAllCoursesPagination(page, limit);
             return response.status(200).json(successHandler(200, 'Lấy danh sách khóa học thành công', courses));
         } catch (error: any) {
-            return response.status(500).json(errorHandler(500, error.message || 'Lỗi khi lấy danh sách khóa học'));
+            return response.status(500).json(errorHandler(500, (error && typeof error.status === 'number' ? error.message : 'Lỗi khi lấy danh sách khóa học')));
         }
     }
 
@@ -44,7 +44,7 @@ export class CourseController {
             const courses = await CourseService.getAllCourses();
             return response.status(200).json(successHandler(200, 'Lấy danh sách khóa học thành công', courses));
         } catch (error: any) {
-            return response.status(500).json(errorHandler(500, error.message || 'Lỗi khi lấy danh sách khóa học'));
+            return response.status(500).json(errorHandler(500, (error && typeof error.status === 'number' ? error.message : 'Lỗi khi lấy danh sách khóa học')));
         }
     }
 
@@ -61,7 +61,7 @@ export class CourseController {
             }
             return response.status(200).json(successHandler(200, 'Lấy thông tin khóa học thành công', course));
         } catch (error: any) {
-            return response.status(500).json(errorHandler(500, error.message || 'Lỗi khi lấy thông tin khóa học'));
+            return response.status(500).json(errorHandler(500, (error && typeof error.status === 'number' ? error.message : 'Lỗi khi lấy thông tin khóa học')));
         }
     }
 
@@ -74,7 +74,7 @@ export class CourseController {
             const newCourse = await CourseService.createCourse(courseData);
             return response.status(201).json(successHandler(201, 'Tạo khóa học thành công', newCourse));
         } catch (error: any) {
-            return response.status(500).json(errorHandler(500, error.message || 'Lỗi khi tạo khóa học'));
+            return response.status(500).json(errorHandler(500, (error && typeof error.status === 'number' ? error.message : 'Lỗi khi tạo khóa học')));
         }
     }
 
@@ -92,7 +92,7 @@ export class CourseController {
             const updatedCourse = await CourseService.updateCourse(courseId, courseData);
             return response.status(200).json(successHandler(200, 'Cập nhật khóa học thành công', updatedCourse));
         } catch (error: any) {
-            return response.status(500).json(errorHandler(500, error.message || 'Lỗi khi cập nhật khóa học'));
+            return response.status(500).json(errorHandler(500, (error && typeof error.status === 'number' ? error.message : 'Lỗi khi cập nhật khóa học')));
         }
     }
 
@@ -106,7 +106,7 @@ export class CourseController {
             await CourseService.deleteCourse(courseId);
             return response.status(200).json(successHandler(200, 'Xóa khóa học thành công'));
         } catch (error: any) {
-            return response.status(500).json(errorHandler(500, error.message || 'Lỗi khi xóa khóa học'));
+            return response.status(500).json(errorHandler(500, (error && typeof error.status === 'number' ? error.message : 'Lỗi khi xóa khóa học')));
         }
     }
 
@@ -131,7 +131,7 @@ export class CourseController {
         } catch (error: any) {
             console.error("Lỗi Controller createDraft: ", error);
             const status = error.status || 500;
-            return response.status(status).json(errorHandler(status, error.message || 'Lỗi hệ thống khi tạo bản nháp'));
+            return response.status(status).json(errorHandler(status, (error && typeof error.status === 'number' ? error.message : 'Lỗi hệ thống khi tạo bản nháp')));
         }
     }
 
@@ -145,7 +145,7 @@ export class CourseController {
             return response.status(200).json(successHandler(200, 'Lấy dữ liệu bản nháp thành công', draft));
         } catch (error: any) {
             const status = error.status || 404;
-            return response.status(status).json(errorHandler(status, error.message || 'Không tìm thấy bản nháp hoặc bạn không có quyền'));
+            return response.status(status).json(errorHandler(status, (error && typeof error.status === 'number' ? error.message : 'Không tìm thấy bản nháp hoặc bạn không có quyền')));
         }
     }
 
@@ -164,7 +164,7 @@ export class CourseController {
             return response.status(200).json(successHandler(200, 'Đã lưu tiến độ bản nháp thành công', updatedDraft));
         } catch (error: any) {
             const status = error.status || 500;
-            return response.status(status).json(errorHandler(status, error.message || 'Lỗi hệ thống khi cập nhật bản nháp'));
+            return response.status(status).json(errorHandler(status, (error && typeof error.status === 'number' ? error.message : 'Lỗi hệ thống khi cập nhật bản nháp')));
         }
     }
 
@@ -178,7 +178,7 @@ export class CourseController {
             return response.status(200).json(successHandler(200, 'Xuất bản khóa học thành công!', published));
         } catch (error: any) {
             const status = error.status || 500;
-            return response.status(status).json(errorHandler(status, error.message || 'Lỗi hệ thống khi xuất bản khóa học'));
+            return response.status(status).json(errorHandler(status, (error && typeof error.status === 'number' ? error.message : 'Lỗi hệ thống khi xuất bản khóa học')));
         }
     }
 
@@ -192,7 +192,7 @@ export class CourseController {
             return response.status(200).json(successHandler(200, 'Đã hủy xuất bản khóa học!', result));
         } catch (error: any) {
             const status = error.status || 500;
-            return response.status(status).json(errorHandler(status, error.message || 'Lỗi khi hủy xuất bản'));
+            return response.status(status).json(errorHandler(status, (error && typeof error.status === 'number' ? error.message : 'Lỗi khi hủy xuất bản')));
         }
     }
 
@@ -205,7 +205,7 @@ export class CourseController {
             return response.status(200).json(successHandler(200, 'Lấy danh sách khóa học của giảng viên thành công', courses));
         } catch (error: any) {
             const status = error.status || 500;
-            return response.status(status).json(errorHandler(status, error.message || 'Lỗi hệ thống khi lấy danh sách khóa học'));
+            return response.status(status).json(errorHandler(status, (error && typeof error.status === 'number' ? error.message : 'Lỗi hệ thống khi lấy danh sách khóa học')));
         }
     }
 }

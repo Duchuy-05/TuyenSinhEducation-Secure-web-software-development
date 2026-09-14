@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { CourseController } from '../controllers/CourseController';
 import { uploadCourseImage } from '../middlewares/upload.middleware';
 import { verifyToken, isAdmin } from '../middlewares/auth.middleware';
+import { handleUploadError } from '../middlewares/handleUploadError.middleware';
 
 const courseRouter: Router = Router();
 
@@ -29,7 +30,7 @@ courseRouter.patch('/courses/draft/:courseGroupId/unpublish', verifyToken, Cours
 courseRouter.get('/courses', CourseController.getAllCourses);
 courseRouter.get('/courses/pagination', CourseController.getAllCoursesPagination);
 courseRouter.get('/courses/:id', CourseController.getCourseById);
-courseRouter.post('/courses', verifyToken, isAdmin, uploadCourseImage.single('image'), CourseController.createCourse);
+courseRouter.post('/courses', verifyToken, isAdmin, uploadCourseImage.single('image'), handleUploadError, CourseController.createCourse);
 courseRouter.put('/courses/:id', verifyToken, isAdmin, uploadCourseImage.single('image'), CourseController.updateCourse);
 courseRouter.delete('/courses/:id', verifyToken, isAdmin, CourseController.deleteCourse);
 

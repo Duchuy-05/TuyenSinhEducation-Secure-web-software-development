@@ -16,7 +16,7 @@ export class CourseSyllabusController {
             return response.status(200).json(successHandler(200, 'Lấy danh sách chương trình khóa học thành công', syllabi));
         } catch (error: any) {
             const status = error.status || 500;
-            return response.status(status).json(errorHandler(status, error.message || 'Lỗi khi lấy danh sách chương trình khóa học'));
+            return response.status(status).json(errorHandler(status, (error && typeof error.status === 'number' ? error.message : 'Lỗi khi lấy danh sách chương trình khóa học')));
         }
     }
 
@@ -35,7 +35,7 @@ export class CourseSyllabusController {
             return response.status(200).json(successHandler(200, 'Lấy thông tin chương trình khóa học thành công', syllabus));
         } catch (error: any) {
             const status = error.status || 500;
-            return response.status(status).json(errorHandler(status, error.message || 'Lỗi khi lấy thông tin chương trình khóa học'));
+            return response.status(status).json(errorHandler(status, (error && typeof error.status === 'number' ? error.message : 'Lỗi khi lấy thông tin chương trình khóa học')));
         }
     }
 
@@ -52,7 +52,7 @@ export class CourseSyllabusController {
             return response.status(200).json(successHandler(200, 'Lấy danh sách chương trình theo khóa học thành công', syllabi));
         } catch (error: any) {
             const status = error.status || 500;
-            return response.status(status).json(errorHandler(status, error.message || 'Lỗi khi lấy danh sách chương trình theo khóa học'));
+            return response.status(status).json(errorHandler(status, (error && typeof error.status === 'number' ? error.message : 'Lỗi khi lấy danh sách chương trình theo khóa học')));
         }
     }
 
@@ -69,7 +69,7 @@ export class CourseSyllabusController {
             return response.status(201).json(successHandler(201, 'Tạo chương trình khóa học thành công', newSyllabus));
         } catch (error: any) {
             const status = error.status || 500;
-            return response.status(status).json(errorHandler(status, error.message || 'Lỗi khi tạo chương trình khóa học'));
+            return response.status(status).json(errorHandler(status, (error && typeof error.status === 'number' ? error.message : 'Lỗi khi tạo chương trình khóa học')));
         }
     }
 
@@ -86,7 +86,7 @@ export class CourseSyllabusController {
             return response.status(200).json(successHandler(200, 'Cập nhật chương trình khóa học thành công', updatedSyllabus));
         } catch (error: any) {
             const status = error.status || 500;
-            return response.status(status).json(errorHandler(status, error.message || 'Lỗi khi cập nhật chương trình khóa học'));
+            return response.status(status).json(errorHandler(status, (error && typeof error.status === 'number' ? error.message : 'Lỗi khi cập nhật chương trình khóa học')));
         }
     }
 
@@ -102,7 +102,7 @@ export class CourseSyllabusController {
             return response.status(200).json(successHandler(200, 'Xóa chương trình khóa học thành công'));
         } catch (error: any) {
             const status = error.status || 500;
-            return response.status(status).json(errorHandler(status, error.message || 'Lỗi khi xóa chương trình khóa học'));
+            return response.status(status).json(errorHandler(status, (error && typeof error.status === 'number' ? error.message : 'Lỗi khi xóa chương trình khóa học')));
         }
     }
 
@@ -125,7 +125,7 @@ export class CourseSyllabusController {
         } catch (error: any) {
             console.error(`Lỗi tại CourseSyllabusController.updateSyllabusBulk (courseId: ${rawCourseId}):`, error);
             const status = error.status || 500;
-            return response.status(status).json(errorHandler(status, error.message || 'Lỗi hệ thống khi cập nhật lộ trình'));
+            return response.status(status).json(errorHandler(status, (error && typeof error.status === 'number' ? error.message : 'Lỗi hệ thống khi cập nhật lộ trình')));
         }
     }
 
@@ -153,7 +153,7 @@ export class CourseSyllabusController {
         } catch (error: any) {
             console.error(`Lỗi tại CourseSyllabusController.createSyllabusBulk (courseId: ${rawCourseId}):`, error);
             const status = error.status || 500;
-            return response.status(status).json(errorHandler(status, error.message || 'Lỗi hệ thống khi tạo mới lộ trình'));
+            return response.status(status).json(errorHandler(status, (error && typeof error.status === 'number' ? error.message : 'Lỗi hệ thống khi tạo mới lộ trình')));
         }
     }
 }
