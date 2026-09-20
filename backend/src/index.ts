@@ -23,92 +23,108 @@ import { errorHandler } from './utils/responseHandler';
 validateRequiredEnv();
 
 const app = express();
+
+// 1. Giấu thông tin Express
+app.disable('x-powered-by');
+
 const port = process.env.PORT || 3000;
 const isProduction = process.env.NODE_ENV === 'production';
 
+// 2. Danh sách các Domain Frontend được phép gọi API (Sửa lỗi Cross-Domain Misconfiguration)
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  'https://tuyen-sinh-education-secure-web-sof.vercel.app',
+  'http://localhost:5173',
+  'http://localhost:3000'
+].filter(Boolean) as string[];
+
 app.use(cors({
-    origin: process.env.FRONTEND_URL, // dùng để chỉ định domain FE được phép gọi API BE
-    credentials: true // Bật tính năng cho phép trao đổi Cookie giữa FE và BE
+  origin: (origin, callback) => {
+    // Cho phép request không có origin (Server-to-Server, Postman, Mobile) hoặc thuộc Whitelist
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('CORS Policy Blocked: Access Denied'));
+    }
+  },
+  credentials: true, // Cho phép trao đổi Cookie giữa FE và BE
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
+
 app.use(cookieParser());
+
+// 3. Cấu hình Helmet tối ưu bảo mật cho REST API & Google OAuth
 app.use(helmet({
-    contentSecurityPolicy: {
-        directives: {
-            defaultSrc: ["'self'"],
-            // Chỉ cho phép script chạy từ chính domain của mình (chặn script chèn từ nguồn lạ)
-            scriptSrc: ["'self'"],
-            // Cho phép style nội tuyến (nhiều UI framework như Tailwind cần 'unsafe-inline' cho style)
-            styleSrc: ["'self'", "'unsafe-inline'"],
-            // Ảnh: cho phép từ chính domain, base64 (data:), và Cloudinary (nơi lưu ảnh thật)
-            imgSrc: ["'self'", "data:", "https://res.cloudinary.com"],
-            // Chặn nhúng iframe từ domain khác (chống Clickjacking) — kết hợp cùng X-Frame-Options mặc định của helmet
-            frameAncestors: ["'self'"],
-            // Chặn plugin object/embed lỗi thời (Flash, Java Applet...)
-            objectSrc: ["'none'"],
-            // API mà frontend được phép gọi (chính BE + domain FE)
-            connectSrc: ["'self'", process.env.FRONTEND_URL || ''].filter(Boolean),
-        },
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "https://accounts.google.com"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      imgSrc: ["'self'", "data:", "https://res.cloudinary.com", "https://*.googleusercontent.com"],
+      frameAncestors: ["'self'"],
+      frameSrc: ["'self'", "https://accounts.google.com"],
+      objectSrc: ["'none'"],
+      connectSrc: ["'self'", ...allowedOrigins, "https://accounts.google.com"],
     },
-    crossOriginResourcePolicy: { policy: 'cross-origin' }, // Cho phép ảnh Cloudinary hiển thị đúng khi FE ở domain khác
+  },
+  crossOriginResourcePolicy: { policy: 'cross-origin' }, // Cho phép ảnh Cloudinary/Google Avatar hiển thị trên FE
+  crossOriginOpenerPolicy: { policy: 'same-origin-allow-popups' } // Hỗ trợ Google Auth Popup
 }));
-app.use(morgan(isProduction ? 'combined' : 'dev')); // Ghi log request ra console, chế độ "combined" chi tiết hơn "dev" (chỉ dùng khi production)
-app.use(express.json())
-app.use(express.urlencoded({extended:true}))
-app.use(express.static('public'))
-app.set('view engine', 'ejs')
 
-app.use("/api/auth", authRouter)
-app.use("/api", classRouter)
-app.use("/api", scheduleRouter)
-app.use("/api", classEnrollmentRouter)
-app.use("/api", announcementRouter)
-app.use("/api", postRouter)
-app.use("/api", userRouter)
-app.use("/api", teacherRouter)
-app.use("/api", courseRouter)
-app.use("/api", syllabusRouter)
-app.use("/api", registrationRouter)
-app.use("/api", paymentRouter)
-app.use('/api', userRouter);
-app.use('/api', uploadRouter);
+app.use(morgan(isProduction ? 'combined' : 'dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'));
+app.set('view engine', 'ejs');
 
-// 1. Bắt các route không tồn tại (404) — tránh Express trả về trang lỗi mặc định lộ thông tin framework
+// Routes
+app.use("/api/auth", authRouter);
+app.use("/api", classRouter);
+app.use("/api", scheduleRouter);
+app.use("/api", classEnrollmentRouter);
+app.use("/api", announcementRouter);
+app.use("/api", postRouter);
+app.use("/api", userRouter);
+app.use("/api", teacherRouter);
+app.use("/api", courseRouter);
+app.use("/api", syllabusRouter);
+app.use("/api", registrationRouter);
+app.use("/api", paymentRouter);
+app.use('/api', uploadRouter); // Đã loại bỏ bớt 1 dòng trùng lặp userRouter
+
+// 404 Handler
 app.use((request: Request, response: Response) => {
-    return response.status(404).json(errorHandler(404, 'Không tìm thấy đường dẫn yêu cầu'));
+  return response.status(404).json(errorHandler(404, 'Không tìm thấy đường dẫn yêu cầu'));
 });
 
-// 2. Global Error Handler — bắt MỌI lỗi chưa được catch ở bất kỳ đâu trong app
-// Phải đặt SAU cùng, sau tất cả route, và có đủ 4 tham số (err, req, res, next) để Express nhận diện đây là error handler
+// Global Error Handler
 app.use((err: any, request: Request, response: Response, next: NextFunction) => {
-    // Luôn log đầy đủ chi tiết lỗi ở phía server để debug (không gửi ra client)
-    console.error('[Unhandled Error]', err);
+  console.error('[Unhandled Error]', err);
 
-    const status = typeof err?.status === 'number' ? err.status : 500;
+  const status = typeof err?.status === 'number' ? err.status : 500;
+  const isKnownAppError = typeof err?.status === 'number' && typeof err?.message === 'string';
+  const message = isKnownAppError ? err.message : 'Đã có lỗi xảy ra, vui lòng thử lại sau';
 
-    // Chỉ hiển thị message thật cho client nếu đây là lỗi được chủ động throw (có "status" rõ ràng)
-    // Lỗi hệ thống không lường trước (DB, TypeORM, network...) sẽ bị che message thật để tránh lộ thông tin nội bộ
-    const isKnownAppError = typeof err?.status === 'number' && typeof err?.message === 'string';
-    const message = isKnownAppError ? err.message : 'Đã có lỗi xảy ra, vui lòng thử lại sau';
-
-    return response.status(status).json(errorHandler(status, message));
+  return response.status(status).json(errorHandler(status, message));
 });
 
-// 3. Bắt lỗi ở tầng process — tránh server crash không dấu vết khi có lỗi async không lường trước
+// Process Handlers
 process.on('unhandledRejection', (reason) => {
-    console.error('[Unhandled Rejection]', reason);
+  console.error('[Unhandled Rejection]', reason);
 });
 process.on('uncaughtException', (err) => {
-    console.error('[Uncaught Exception]', err);
+  console.error('[Uncaught Exception]', err);
 });
 
-try {
-    AppDataSource.initialize().then(() => {
-        console.log("DataSource chay. !")
-    }).catch((err) => {
-        console.error(err)
-    })
-} catch (error) { console.error("err:", error) }
-
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-});
+// Start Database & Server
+AppDataSource.initialize()
+  .then(() => {
+    console.log("DataSource đã khởi tạo thành công!");
+    app.listen(port, () => {
+      console.log(`Server running on port ${port}`);
+    });
+  })
+  .catch((err) => {
+    console.error("Lỗi kết nối DataSource:", err);
+  });

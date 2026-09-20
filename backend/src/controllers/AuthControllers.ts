@@ -4,18 +4,18 @@ import { AuthService } from "../services/AuthService";
 const isProduction = process.env.NODE_ENV === "production";
 
 const crossSiteCookieOptions = {
-  secure: isProduction,
+  httpOnly: true,
+  secure: isProduction, // Bắt buộc true ở môi trường Production (HTTPS)
   sameSite: (isProduction ? "none" : "lax") as "none" | "lax",
+  path: "/", // 💡 THÊM PATH: Áp dụng Cookie cho toàn bộ Domain
 };
 
 const accessTokenCookieOptions = {
-  httpOnly: true,
   ...crossSiteCookieOptions,
   maxAge: 15 * 60 * 1000,
 };
 
 const refreshTokenCookieOptions = {
-  httpOnly: true,
   ...crossSiteCookieOptions,
   maxAge: 7 * 24 * 60 * 60 * 1000,
 };
@@ -28,18 +28,16 @@ export class AuthController {
   static async register(req: Request, res: Response) {
     try {
       const { name, email, password } = req.body;
-      
-      // Gọi service xử lý
       await AuthService.registerUser(name, email, password);
 
       return res.status(201).json({ message: "Đăng ký tài khoản thành công!" });
     } catch (error: any) {
-      // bắt lỗi từ Service: lỗi regex, lỗi email tồn tại, ....
       return res.status(400).json({ message: (error && typeof error.status === 'number' ? error.message : "Lỗi Server!") });
     }
   }
+
   // ==============================
-  // 2 API VERIFY OTP
+  // 2. API VERIFY OTP
   // ==============================
   static async verifyOtp(req: Request, res: Response) {
     try {
@@ -57,8 +55,6 @@ export class AuthController {
   static async login(req: Request, res: Response) {
     try {
       const { email, password } = req.body;
-
-      // Gọi service xử lý
       const { user, accessToken, refreshToken } = await AuthService.loginUser(email, password);
 
       res.cookie("access_token", accessToken, accessTokenCookieOptions);
@@ -90,15 +86,13 @@ export class AuthController {
         return res.status(401).json({ message: "Chưa xác thực. Vui lòng đăng nhập lại!" });
       }
 
-      // Gọi service xử lý
       const newAccessToken = await AuthService.verifyAndRefreshToken(refreshToken);
       res.cookie("access_token", newAccessToken, accessTokenCookieOptions);
 
       return res.status(200).json({ 
-          message: "Cấp lại Token thành công!"
+        message: "Cấp lại Token thành công!"
       });
     } catch (error: any) {
-      // khi Token sai hoặc hết hạn từ Service
       return res.status(403).json({ message: (error && typeof error.status === 'number' ? error.message : "Lỗi Server!") });
     }
   }
@@ -134,15 +128,13 @@ export class AuthController {
     }
   }
 
+  // ==============================
+  // 6. API LOGOUT
+  // ==============================
   static async logout(req: Request, res: Response) {
-    res.clearCookie("access_token", {
-      httpOnly: true,
-      ...crossSiteCookieOptions,
-    });
-    res.clearCookie("refreshToken", {
-      httpOnly: true,
-      ...crossSiteCookieOptions,
-    });
+    // 💡 SỬ DỤNG ĐÚNG OPTION KHI CLEAR COOKIE
+    res.clearCookie("access_token", crossSiteCookieOptions);
+    res.clearCookie("refreshToken", crossSiteCookieOptions);
 
     return res.status(200).json({ message: "Đăng xuất thành công!" });
   }
