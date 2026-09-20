@@ -35,7 +35,7 @@ app.use(helmet({
     contentSecurityPolicy: {
         directives: {
             defaultSrc: ["'self'"],
-            // Chỉ cho phép script chạy từ chính domain của mình (chặn script chèn từ nguồn lạ)
+            // Chỉ cho phép script chạy từ chính domain của mình (chặn script chèn từ nguồn lạ)b  OK
             scriptSrc: ["'self'"],
             // Cho phép style nội tuyến (nhiều UI framework như Tailwind cần 'unsafe-inline' cho style)
             styleSrc: ["'self'", "'unsafe-inline'"],
