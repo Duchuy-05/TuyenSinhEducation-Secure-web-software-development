@@ -57,3 +57,12 @@ Thumbs.db
 .agents
 docs
 
+# --- Rules from .dockerignore ---
+.git
+node_modules
+**/node_modules
+**/dist
+**/.env
+**/.env.*
+!.env.docker.example
+npm-debug.log
