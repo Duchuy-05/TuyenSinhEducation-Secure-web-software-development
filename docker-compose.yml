@@ -1,0 +1,66 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: tuyensinh-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-change_root_password}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-tuyensinh}
+      MYSQL_USER: ${MYSQL_USER:-tuyensinh_app}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-change_app_password}
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u root -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: tuyensinh-backend
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      FRONTEND_URL: http://localhost:5173
+      MYSQL_URL: mysql://${MYSQL_USER:-tuyensinh_app}:${MYSQL_PASSWORD:-change_app_password}@mysql:3306/${MYSQL_DATABASE:-tuyensinh}
+      ACCESS_TOKEN_SECRET: ${ACCESS_TOKEN_SECRET:-replace_with_long_random_access_secret}
+      REFRESH_TOKEN_SECRET: ${REFRESH_TOKEN_SECRET:-replace_with_long_random_refresh_secret}
+      PAYOS_CLIENT_ID: ${PAYOS_CLIENT_ID:-}
+      PAYOS_API_KEY: ${PAYOS_API_KEY:-}
+      PAYOS_CHECKSUM_KEY: ${PAYOS_CHECKSUM_KEY:-}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      CLOUDINARY_CLOUD_NAME: ${CLOUDINARY_CLOUD_NAME:-}
+      CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY:-}
+      CLOUDINARY_API_SECRET: ${CLOUDINARY_API_SECRET:-}
+      EMAIL_HOST: ${EMAIL_HOST:-}
+      EMAIL_PORT: ${EMAIL_PORT:-587}
+      EMAIL_USER: ${EMAIL_USER:-}
+      EMAIL_PASS: ${EMAIL_PASS:-}
+    ports:
+      - "3000:3000"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: tuyensinh-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+      # Vite dev server is exposed to the host; frontend API calls can use localhost:3000.
+      VITE_API_URL: http://localhost:3000
+    ports:
+      - "5173:5173"
+
+volumes:
+  mysql_data:
