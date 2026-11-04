@@ -16,12 +16,14 @@ const shouldShowImmediately = () => {
 
 const ScrollReveal = ({ children, className = '' }: ScrollRevealProps) => {
     const containerRef = useRef<HTMLDivElement>(null);
-    const [isVisible, setIsVisible] = useState(shouldShowImmediately);
+    const [isVisible, setIsVisible] = useState(true);
 
     useEffect(() => {
-        if (isVisible || !containerRef.current) {
+        if (shouldShowImmediately() || !containerRef.current) {
             return;
         }
+
+        setIsVisible(false);
 
         const observer = new IntersectionObserver(
             ([entry]) => {
@@ -41,7 +43,7 @@ const ScrollReveal = ({ children, className = '' }: ScrollRevealProps) => {
         observer.observe(containerRef.current);
 
         return () => observer.disconnect();
-    }, [isVisible]);
+    }, []);
 
     const classes = [
         'scroll-reveal',
