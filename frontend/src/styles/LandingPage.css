@@ -155,7 +155,7 @@ img { display: block; max-width: 100%; }
 .cta-banner .btn-group { display: flex; align-items: center; justify-content: center; gap: var(--space-4); }
 .cta-banner .button-primary { background: var(--color-dark); }
 .btn-outline { background: var(--color-paper); color: var(--color-accent-strong); }
-.cta-image { width: 72px; height: 72px; object-fit: contain; margin: -2.5rem var(--page-gutter) 0 auto; opacity: .8; animation: landing-part-reveal 700ms 240ms ease-out both; }
+.cta-image { width: min(240px, 60vw); height: 160px; object-fit: cover; margin: -1rem auto 0; opacity: .9; animation: landing-part-reveal 700ms 240ms ease-out both; }
 
 .footer { min-height: 70svh; padding-block: var(--space-7) var(--space-4); background: var(--color-dark); color: var(--color-paper); }
 .footer-grid { display: grid; grid-template-columns: 2fr repeat(3, 1fr); gap: var(--space-5); }

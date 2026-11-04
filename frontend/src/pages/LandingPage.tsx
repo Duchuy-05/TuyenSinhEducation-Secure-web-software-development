@@ -12,8 +12,8 @@ import Footer from '../components/Footer';
 import FloatingContact from '../components/FloatingContact';
 import ScrollReveal from '../components/ScrollReveal';
 import learningPathImage from '../assets/banner2.png';
-import faqImage from '../assets/hero.png';
-import ctaImage from '../assets/banner1.png';
+import faqImage from '../assets/classroom-webp.webp';
+import ctaImage from '../assets/hero.png';
 
 const LandingPage: React.FC = () => {
     return (
