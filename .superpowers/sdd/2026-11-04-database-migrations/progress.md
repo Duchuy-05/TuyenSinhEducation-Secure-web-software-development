@@ -7,6 +7,6 @@
 - Finding: Interfaces are well aligned with no conflicts.
 
 ## Tasks Progress
-- Task 1: in-progress
-- Task 2: pending
-- Task 3: pending
+- Task 1: complete (commit 906db0a)
+- Task 2: complete (commit 810c865)
+- Task 3: complete
