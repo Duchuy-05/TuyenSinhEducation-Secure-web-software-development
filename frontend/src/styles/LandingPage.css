@@ -63,6 +63,28 @@ ul {
     font-size: 1.1rem;
 }
 
+/* Reveal each landing-page section once it enters the viewport. */
+.scroll-reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition:
+        opacity 2s ease,
+        transform 2s ease;
+}
+
+.scroll-reveal--visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .scroll-reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}
+
 .btn {
     padding: 12px 24px;
     border-radius: var(--radius);

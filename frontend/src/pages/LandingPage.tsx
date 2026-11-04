@@ -12,17 +12,31 @@ import WhyChooseUs from '../components/WhyChooseUs';
 import CTA from '../components/CTA';
 import Footer from '../components/Footer';
 import FloatingContact from '../components/FloatingContact';
+import ScrollReveal from '../components/ScrollReveal';
+
 const LandingPage: React.FC = () => {
     return (
         <div className="landing-page-wrapper relative">
             <Navbar />
             <Hero />
-            <About />
-            <CourseAccordion />
-            <WhyChooseUs />
-            <Teachers />
-            <CTA />
-            <Footer />
+            <ScrollReveal>
+                <About />
+            </ScrollReveal>
+            <ScrollReveal>
+                <CourseAccordion />
+            </ScrollReveal>
+            <ScrollReveal>
+                <WhyChooseUs />
+            </ScrollReveal>
+            <ScrollReveal>
+                <Teachers />
+            </ScrollReveal>
+            <ScrollReveal>
+                <CTA />
+            </ScrollReveal>
+            <ScrollReveal>
+                <Footer />
+            </ScrollReveal>
             <FloatingContact />
         </div>
     );
