@@ -1,6 +1,6 @@
 {
  "url": "http://127.0.0.1:4173/",
- "at": "2026-11-04T13:45:11.122Z",
+ "at": "2026-11-04T13:59:19.395Z",
  "allow": [],
  "viewports": [
   {
@@ -12,8 +12,8 @@
     1,
     0.35,
     1,
-    0.94,
-    1
+    0.83,
+    0.89
    ],
    "motion": {
     "elements": 10,
@@ -29,9 +29,9 @@
      "h": 900
     },
     "page": {
-     "height": 3858,
-     "screens": 4.3,
-     "words": 236,
+     "height": 3743,
+     "screens": 4.2,
+     "words": 247,
      "img": 5,
      "video": 0,
      "canvas": 0,
@@ -41,12 +41,13 @@
      "overflowCulprits": [],
      "uiFragments": 0,
      "uiAbuse": false,
-     "realPictures": 3,
+     "realPictures": 4,
      "videoCount": 0,
      "uiPictures": 0,
      "pictureSamples": [
       "banner1-DmhvaF8o.png",
       "banner2-DTU5pY6V.png",
+      "classroom-webp-LlHBkkWw.webp",
       "hero-CLDdwZDr.png"
      ],
      "blendText": 0,
@@ -164,7 +165,7 @@
       "align": "center",
       "position": "center",
       "widthRatio": 0.52,
-      "top": 2786,
+      "top": 2559,
       "tag": "h2",
       "kind": "heading"
      }
@@ -219,8 +220,8 @@
      "microLabels": 0,
      "microLabelShare": 0,
      "microSamples": [],
-     "upperShare": 0,
-     "centerShare": 0.17,
+     "upperShare": 0.01,
+     "centerShare": 0.16,
      "smallText": 0
     },
     "eyebrows": [],
@@ -265,15 +266,15 @@
      "textColors": [
       {
        "color": "#17201f",
-       "share": 0.44
+       "share": 0.41
       },
       {
        "color": "#ffffff",
-       "share": 0.26
+       "share": 0.31
       },
       {
        "color": "#d8dddc",
-       "share": 0.17
+       "share": 0.16
       },
       {
        "color": "#711b17",
@@ -326,7 +327,7 @@
      "blurred": 0,
      "roundedBoxes": 0,
      "boxRadius": 0,
-     "squareMedia": 3,
+     "squareMedia": 4,
      "roundedMedia": 0,
      "mediaRadius": 0,
      "textShadow": 0,
@@ -352,7 +353,7 @@
      "w": 1440,
      "h": 900
     },
-    "pageH": 3858,
+    "pageH": 3743,
     "margins": {
      "left": 32,
      "right": 32
@@ -446,7 +447,7 @@
       "sel": "section#faq.foundation-section.foundation-section-dark",
       "tag": "section",
       "top": 1743,
-      "height": 877,
+      "height": 650,
       "words": 23,
       "media": 1,
       "middle": 206,
@@ -468,7 +469,7 @@
      {
       "sel": "div.scroll-reveal.scroll-reveal--visible",
       "tag": "div",
-      "top": 2620,
+      "top": 2393,
       "height": 576,
       "words": 31,
       "media": 0,
@@ -491,9 +492,9 @@
      {
       "sel": "footer.footer",
       "tag": "footer",
-      "top": 3228,
+      "top": 3113,
       "height": 630,
-      "words": 66,
+      "words": 78,
       "media": 0,
       "middle": 144,
       "heading": {
@@ -514,8 +515,8 @@
     ],
     "gaps": [
      {
-      "top": 2476,
-      "height": 304
+      "top": 2252,
+      "height": 300
      }
     ],
     "h1s": [
@@ -557,8 +558,8 @@
    "filled": [
     1,
     0.57,
-    1,
-    1
+    0.91,
+    0.91
    ],
    "motion": {
     "elements": 10,
@@ -574,9 +575,9 @@
      "h": 1024
     },
     "page": {
-     "height": 3589,
-     "screens": 3.5,
-     "words": 221,
+     "height": 3699,
+     "screens": 3.6,
+     "words": 232,
      "img": 5,
      "video": 0,
      "canvas": 0,
@@ -586,12 +587,13 @@
      "overflowCulprits": [],
      "uiFragments": 0,
      "uiAbuse": false,
-     "realPictures": 3,
+     "realPictures": 4,
      "videoCount": 0,
      "uiPictures": 0,
      "pictureSamples": [
       "banner1-DmhvaF8o.png",
       "banner2-DTU5pY6V.png",
+      "classroom-webp-LlHBkkWw.webp",
       "hero-CLDdwZDr.png"
      ],
      "blendText": 0,
@@ -709,7 +711,7 @@
       "align": "center",
       "position": "center",
       "widthRatio": 0.69,
-      "top": 2403,
+      "top": 2401,
       "tag": "h2",
       "kind": "heading"
      }
@@ -765,7 +767,7 @@
      "microLabelShare": 0,
      "microSamples": [],
      "upperShare": 0,
-     "centerShare": 0.18,
+     "centerShare": 0.17,
      "smallText": 0
     },
     "eyebrows": [],
@@ -801,19 +803,19 @@
      "textColors": [
       {
        "color": "#17201f",
-       "share": 0.42
+       "share": 0.39
       },
       {
        "color": "#ffffff",
-       "share": 0.26
+       "share": 0.31
       },
       {
        "color": "#d8dddc",
-       "share": 0.18
+       "share": 0.16
       },
       {
        "color": "#711b17",
-       "share": 0.08
+       "share": 0.07
       },
       {
        "color": "#bdc6c4",
@@ -860,7 +862,7 @@
      "blurred": 0,
      "roundedBoxes": 0,
      "boxRadius": 0,
-     "squareMedia": 3,
+     "squareMedia": 4,
      "roundedMedia": 0,
      "mediaRadius": 0,
      "textShadow": 0,
@@ -886,7 +888,7 @@
      "w": 768,
      "h": 1024
     },
-    "pageH": 3589,
+    "pageH": 3699,
     "margins": {
      "left": 23,
      "right": 23
@@ -980,7 +982,7 @@
       "sel": "section#faq.foundation-section.foundation-section-dark",
       "tag": "section",
       "top": 1729,
-      "height": 455,
+      "height": 454,
       "words": 23,
       "media": 1,
       "middle": 107,
@@ -1002,7 +1004,7 @@
      {
       "sel": "div.scroll-reveal.scroll-reveal--visible",
       "tag": "div",
-      "top": 2184,
+      "top": 2183,
       "height": 655,
       "words": 31,
       "media": 0,
@@ -1025,9 +1027,9 @@
      {
       "sel": "footer.footer",
       "tag": "footer",
-      "top": 2872,
+      "top": 2982,
       "height": 717,
-      "words": 66,
+      "words": 78,
       "media": 0,
       "middle": 43,
       "heading": {
@@ -1082,7 +1084,7 @@
     1,
     0.54,
     0.98,
-    1,
+    0.92,
     1
    ],
    "motion": {
@@ -1099,9 +1101,9 @@
      "h": 844
     },
     "page": {
-     "height": 4066,
+     "height": 4086,
      "screens": 4.8,
-     "words": 221,
+     "words": 232,
      "img": 5,
      "video": 0,
      "canvas": 0,
@@ -1111,12 +1113,13 @@
      "overflowCulprits": [],
      "uiFragments": 0,
      "uiAbuse": false,
-     "realPictures": 3,
+     "realPictures": 4,
      "videoCount": 0,
      "uiPictures": 0,
      "pictureSamples": [
       "banner1-DmhvaF8o.png",
       "banner2-DTU5pY6V.png",
+      "classroom-webp-LlHBkkWw.webp",
       "hero-CLDdwZDr.png"
      ],
      "blendText": 0,
@@ -1234,7 +1237,7 @@
       "align": "center",
       "position": "center",
       "widthRatio": 0.92,
-      "top": 2663,
+      "top": 2518,
       "tag": "h2",
       "kind": "heading"
      }
@@ -1290,7 +1293,7 @@
      "microLabelShare": 0,
      "microSamples": [],
      "upperShare": 0,
-     "centerShare": 0.18,
+     "centerShare": 0.17,
      "smallText": 0
     },
     "eyebrows": [],
@@ -1335,19 +1338,19 @@
      "textColors": [
       {
        "color": "#17201f",
-       "share": 0.42
+       "share": 0.39
       },
       {
        "color": "#ffffff",
-       "share": 0.26
+       "share": 0.31
       },
       {
        "color": "#d8dddc",
-       "share": 0.18
+       "share": 0.16
       },
       {
        "color": "#711b17",
-       "share": 0.08
+       "share": 0.07
       },
       {
        "color": "#bdc6c4",
@@ -1394,7 +1397,7 @@
      "blurred": 0,
      "roundedBoxes": 0,
      "boxRadius": 0,
-     "squareMedia": 3,
+     "squareMedia": 4,
      "roundedMedia": 0,
      "mediaRadius": 0,
      "textShadow": 0,
@@ -1420,7 +1423,7 @@
      "w": 390,
      "h": 844
     },
-    "pageH": 4066,
+    "pageH": 4086,
     "margins": {
      "left": 16,
      "right": 16
@@ -1514,7 +1517,7 @@
       "sel": "section#faq.foundation-section.foundation-section-dark",
       "tag": "section",
       "top": 1826,
-      "height": 725,
+      "height": 580,
       "words": 23,
       "media": 1,
       "middle": 0,
@@ -1536,7 +1539,7 @@
      {
       "sel": "div.scroll-reveal.scroll-reveal--visible",
       "tag": "div",
-      "top": 2551,
+      "top": 2405,
       "height": 540,
       "words": 31,
       "media": 0,
@@ -1557,11 +1560,30 @@
       "pinned": false
      },
      {
+      "sel": "img.cta-image",
+      "tag": "img",
+      "top": 2930,
+      "height": 160,
+      "words": 0,
+      "media": 1,
+      "middle": 0,
+      "heading": null,
+      "left": 78,
+      "right": 78,
+      "textLeft": null,
+      "textRight": null,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
       "sel": "footer.footer",
       "tag": "footer",
-      "top": 3123,
-      "height": 943,
-      "words": 66,
+      "top": 3090,
+      "height": 996,
+      "words": 78,
       "media": 0,
       "middle": 0,
       "heading": {
@@ -1609,13 +1631,6 @@
   }
  ],
  "findings": [
-  {
-   "level": "FAIL",
-   "id": "few-pictures",
-   "width": 1440,
-   "message": "Only 3 picture(s) on the page (3 photographs, footage or raster images, 0 interface fragments). Drawings in SVG do not count.",
-   "fix": "Find real pictures of the subject's world with scripts/assets.mjs (photographs, archival images, maps, engravings, footage), download them to assets/ and give them room: a hero picture, one per section that has a subject, a full-width band. At least four, usually six to twelve."
-  },
   {
    "level": "WARN",
    "id": "no-footage",
