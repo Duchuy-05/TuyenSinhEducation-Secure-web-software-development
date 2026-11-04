@@ -26,8 +26,14 @@ const app = express();
 const port = process.env.PORT || 3000;
 const isProduction = process.env.NODE_ENV === 'production';
 
+const allowedOrigins = [
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+    process.env.FRONTEND_URL,
+].filter((origin): origin is string => Boolean(origin));
+
 app.use(cors({
-    origin: process.env.FRONTEND_URL, // dùng để chỉ định domain FE được phép gọi API BE
+    origin: allowedOrigins, // dùng để chỉ định domain FE được phép gọi API BE
     credentials: true // Bật tính năng cho phép trao đổi Cookie giữa FE và BE
 }));
 app.use(cookieParser());
