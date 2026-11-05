@@ -45,6 +45,39 @@ test("DataSource imports successfully in child process with only MYSQL_URL", () 
   );
 });
 
+test("DataSource loads DB_TYPE from backend/.env before selecting the driver", () => {
+  const projectRoot = path.resolve(__dirname, "..");
+  const script = `
+    const fs = require('fs');
+    const path = require('path');
+    const dotenv = require('dotenv');
+    const originalExistsSync = fs.existsSync;
+    fs.existsSync = (file) =>
+      path.basename(file) === '.env' && path.basename(path.dirname(file)) === 'backend'
+        ? true
+        : originalExistsSync(file);
+    dotenv.config = () => {
+      process.env.DB_TYPE = 'mariadb';
+      return { parsed: { DB_TYPE: 'mariadb' } };
+    };
+    const { AppDataSource } = require('./src/models/DataSource');
+    if (AppDataSource.options.type !== 'mariadb') {
+      console.error('Expected mariadb driver, got', AppDataSource.options.type);
+      process.exit(1);
+    }
+  `;
+  const res = spawnSync("node", ["-r", "ts-node/register", "-e", script], {
+    cwd: projectRoot,
+    env: {
+      PATH: process.env.PATH,
+      SYSTEMROOT: process.env.SYSTEMROOT,
+      MYSQL_URL: "mysql://dummy:dummy@localhost:3306/dummy",
+    },
+    encoding: "utf-8",
+  });
+  assert.equal(res.status, 0, res.stderr || res.stdout);
+});
+
 test("loadDatabaseUrl fails clearly without leaking credentials when MYSQL_URL is missing", () => {
   const projectRoot = path.resolve(__dirname, "..");
   const secretCred = "super_secret_token_12345";

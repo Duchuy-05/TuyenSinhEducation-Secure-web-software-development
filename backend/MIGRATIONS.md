@@ -87,7 +87,8 @@ Khi chuyển từ `synchronize` sang migrations trên database đã có dữ li�
      npm run migration:check-baseline
      ```
    - Lệnh này sử dụng Schema Builder để so sánh cấu trúc hiện tại của DB với metadata entity của hệ thống.
-   - Nếu output báo **SUCCESS**, schema của database đang khớp 100% với phiên bản baseline.
+   - Chỉ dùng lệnh này khi `InitialSchema` là migration duy nhất được nạp; các phiên bản sau cần kiểm tra schema theo migration tương ứng.
+   - Nếu output báo **SUCCESS**, TypeORM không phát hiện câu lệnh DDL cần thiết so với metadata entity hiện tại. Vẫn cần kiểm tra migration đang chờ và dữ liệu trước khi đánh dấu baseline.
 4. **Đánh dấu migration baseline đã chạy mà không tạo lại bảng (`--fake`):**
    - **Lưu ý quan trọng:** Chỉ dùng cờ `--fake` khi `InitialSchema` là migration pending duy nhất và schema đã được `check-baseline` xác nhận khớp! Không chạy `--fake` nếu có nhiều migration pending khác.
    - Chạy lệnh:

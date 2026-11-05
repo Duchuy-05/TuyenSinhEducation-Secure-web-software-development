@@ -18,11 +18,12 @@ const isTs = __filename.endsWith(".ts");
 const migrationExtension = isTs ? "ts" : "js";
 const migrationsPattern = path.join(__dirname, "migrations", `*.${migrationExtension}`).replace(/\\/g, "/");
 
+const databaseUrl = loadDatabaseUrl();
 const dbType = (process.env.DB_TYPE as "mysql" | "mariadb") || "mysql";
 
 export const AppDataSource = new DataSource({
     type: dbType,
-    url: loadDatabaseUrl(),
+    url: databaseUrl,
     synchronize: false,
     migrationsRun: false,
     migrationsTableName: "migrations",

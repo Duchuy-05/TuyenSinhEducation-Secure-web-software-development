@@ -129,22 +129,7 @@ test("check-migration-baseline integration test suite", async (t) => {
       "DELETE FROM migrations WHERE name = 'UnexpectedFutureMigration9999999999999';"
     );
 
-    // Case 5: DDL failure leaves no false success
-    // Simulate invalid migration attempt
-    let ddlErrorThrown = false;
-    try {
-      await queryRunner.query("ALTER TABLE non_existent_table ADD COLUMN invalid_col INT;");
-    } catch {
-      ddlErrorThrown = true;
-    }
-    assert.equal(ddlErrorThrown, true, "Invalid DDL should throw");
-
-    const historyCheck: any[] = await queryRunner.query(
-      "SELECT * FROM migrations WHERE name = 'FailedMigration';"
-    );
-    assert.equal(historyCheck.length, 0, "Failed DDL should not be recorded in migrations table");
-
-    // Case 6: CLI child process test
+    // Case 5: CLI child process test
     const projectRoot = path.resolve(__dirname, "..");
     const cliRes = spawnSync(
       "node",

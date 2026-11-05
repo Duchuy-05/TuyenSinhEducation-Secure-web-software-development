@@ -13,6 +13,15 @@ export async function checkMigrationBaseline(dataSource: DataSource): Promise<Ch
   }
 
   try {
+    const baselineName = "InitialSchema1793750400000";
+    const loadedMigrationNames = dataSource.migrations.map((migration) => migration.name);
+    if (loadedMigrationNames.length !== 1 || loadedMigrationNames[0] !== baselineName) {
+      return {
+        ok: false,
+        reason: "Baseline check supports the initial migration only; review the loaded migration list.",
+      };
+    }
+
     const queryRunner = dataSource.createQueryRunner();
     try {
       // 1. Check if migrations table exists and inspect history
@@ -21,7 +30,6 @@ export async function checkMigrationBaseline(dataSource: DataSource): Promise<Ch
         const rows: any[] = await queryRunner.query(
           "SELECT name FROM `migrations` ORDER BY id ASC;"
         );
-        const baselineName = "InitialSchema1793750400000";
         for (const row of rows) {
           if (row.name !== baselineName) {
             return {
