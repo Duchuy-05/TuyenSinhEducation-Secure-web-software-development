@@ -13,6 +13,8 @@ const links = [
   { label: 'FAQ', href: '/#faq' },
 ];
 
+const SCROLL_SURFACE_THRESHOLD = 8;
+
 const readStoredUser = (): StoredUser | null => {
   const value = localStorage.getItem('user');
   if (!value) return null;
@@ -24,12 +26,19 @@ const Navbar = () => {
   const [user, setUser] = useState<StoredUser | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(() => window.scrollY > SCROLL_SURFACE_THRESHOLD);
   const navigate = useNavigate();
   const mobileTriggerRef = useRef<HTMLButtonElement>(null);
   const mobileLayerRef = useRef<HTMLDivElement>(null);
   const accountTriggerRef = useRef<HTMLButtonElement>(null);
   const accountLayerRef = useRef<HTMLDivElement>(null);
   useEffect(() => setUser(readStoredUser()), []);
+  useEffect(() => {
+    const updateScrollSurface = () => setIsScrolled(window.scrollY > SCROLL_SURFACE_THRESHOLD);
+    updateScrollSurface();
+    window.addEventListener('scroll', updateScrollSurface, { passive: true });
+    return () => window.removeEventListener('scroll', updateScrollSurface);
+  }, []);
   const closeMobile = useCallback(() => setMobileOpen(false), []);
   const closeAccount = useCallback(() => setAccountOpen(false), []);
   useDismissibleLayer({ open: mobileOpen, onClose: closeMobile, triggerRef: mobileTriggerRef, layerRef: mobileLayerRef, lockScroll: true, trapFocus: true });
@@ -47,7 +56,7 @@ const Navbar = () => {
   const initial = fullName.trim().split(/\s+/).at(-1)?.charAt(0).toUpperCase() || 'U';
 
   return (
-    <header className="site-header">
+    <header className={`site-header${isScrolled ? ' site-header--scrolled' : ''}`}>
       <nav className="page-frame navbar" aria-label="Điều hướng chính">
         <Link to="/" className="logo" aria-label="Đức Huy Education — Trang chủ"><span>Đức Huy</span> Education</Link>
         <ul className="nav-links" aria-label="Liên kết chính">

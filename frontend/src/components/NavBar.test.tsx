@@ -11,6 +11,13 @@ vi.mock('../services/api', () => ({
 const renderNav = () => render(<MemoryRouter><Navbar /></MemoryRouter>);
 
 describe('Navbar', () => {
+  it('adds the scrolled header class after the scroll threshold', () => {
+    Object.defineProperty(window, 'scrollY', { configurable: true, value: 9 });
+    const { container } = renderNav();
+    window.dispatchEvent(new Event('scroll'));
+    expect(container.querySelector('header')).toHaveClass('site-header--scrolled');
+  });
+
   it('opens and dismisses the mobile navigation with focus restoration', async () => {
     const user = userEvent.setup();
     renderNav();
