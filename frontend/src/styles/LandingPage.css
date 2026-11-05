@@ -38,7 +38,7 @@ body {
   margin: 0;
   background: var(--color-ground);
   color: var(--color-ink);
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: inherit;
   font-size: var(--step-body);
   line-height: 1.55;
 }
@@ -97,7 +97,7 @@ img { display: block; max-width: 100%; }
 .landing-hero { min-height: 100svh; padding-top: 76px; background: var(--color-accent); color: var(--color-dark); }
 .landing-hero-layout { min-height: calc(100svh - 76px); display: grid; grid-template-columns: repeat(12, 1fr); align-items: center; gap: var(--space-4); padding-block: clamp(4rem, 8vw, 7rem); }
 .landing-hero-copy { grid-column: 1 / span 6; position: relative; z-index: 2; }
-.landing-hero h1 { max-width: none; margin: 0; font-size: clamp(4rem, 5.8vw, 5.4rem); font-weight: 500; letter-spacing: -.045em; line-height: .88; }
+.landing-hero h1 { max-width: none; margin: 0; font-size: clamp(4.5rem, 7vw, 6.75rem); font-weight: 500; letter-spacing: -.045em; line-height: .88; }
 .landing-hero h1 span { display: block; white-space: nowrap; }
 .landing-hero-copy > p { max-width: 48ch; margin: var(--space-5) 0 0; font-size: var(--step-lead); }
 .landing-hero-actions { display: flex; align-items: center; gap: var(--space-4); margin-top: var(--space-5); }
