@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Minh họa khóa học công nghệ</title>
+  <desc id="desc">Màn hình học tập với các khối màu đại diện cho bài học và dự án.</desc>
+  <rect width="1200" height="675" fill="#dbe5df"/>
+  <rect x="96" y="92" width="1008" height="492" fill="#17201f"/>
+  <rect x="132" y="128" width="936" height="420" fill="#eef3f0"/>
+  <rect x="180" y="178" width="350" height="28" fill="#ff5a2a"/>
+  <rect x="180" y="236" width="620" height="18" fill="#59615f"/>
+  <rect x="180" y="276" width="500" height="18" fill="#59615f"/>
+  <rect x="180" y="360" width="240" height="112" fill="#ff5a2a"/>
+  <rect x="452" y="360" width="240" height="112" fill="#17201f"/>
+  <rect x="724" y="360" width="240" height="112" fill="#dbe5df"/>
+  <circle cx="600" cy="620" r="20" fill="#17201f"/>
+</svg>

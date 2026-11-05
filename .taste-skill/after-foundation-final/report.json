@@ -1,0 +1,1686 @@
+{
+ "url": "http://127.0.0.1:4173/",
+ "at": "2026-11-04T13:59:19.395Z",
+ "allow": [],
+ "viewports": [
+  {
+   "width": 1440,
+   "height": 900,
+   "load": "load",
+   "screens": 5,
+   "filled": [
+    1,
+    0.35,
+    1,
+    0.83,
+    0.89
+   ],
+   "motion": {
+    "elements": 10,
+    "css": 7,
+    "transitions": 3,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "page": {
+     "height": 3743,
+     "screens": 4.2,
+     "words": 247,
+     "img": 5,
+     "video": 0,
+     "canvas": 0,
+     "svg": 4,
+     "sections": 4,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 4,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [
+      "banner1-DmhvaF8o.png",
+      "banner2-DTU5pY6V.png",
+      "classroom-webp-LlHBkkWw.webp",
+      "hero-CLDdwZDr.png"
+     ],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Khóa học công nghệ thực hành",
+     "words": 6,
+     "chars": 28,
+     "lines": 2,
+     "size": 83.5,
+     "vw": 5.8,
+     "font": "Georgia",
+     "weight": 500,
+     "tracking": -0.045,
+     "leading": 0.88,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "left",
+     "position": "left",
+     "widthRatio": 0.47,
+     "top": 308,
+     "tag": "h1",
+     "kind": "heading"
+    },
+    "h1": {
+     "text": "Khóa học công nghệ thực hành",
+     "words": 6,
+     "lines": 2,
+     "size": 83.5,
+     "font": "Georgia"
+    },
+    "headings": [
+     {
+      "text": "Khóa học công nghệ thực hành",
+      "words": 6,
+      "chars": 28,
+      "lines": 2,
+      "size": 83.5,
+      "vw": 5.8,
+      "font": "Georgia",
+      "weight": 500,
+      "tracking": -0.045,
+      "leading": 0.88,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.47,
+      "top": 308,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "Chọn lộ trình theo mục tiêu",
+      "words": 6,
+      "chars": 27,
+      "lines": 2,
+      "size": 68,
+      "vw": 4.7,
+      "font": "Georgia",
+      "weight": 500,
+      "tracking": 0,
+      "leading": 0.98,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.47,
+      "top": 1169,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Trước khi chọn khóa học",
+      "words": 5,
+      "chars": 23,
+      "lines": 2,
+      "size": 68,
+      "vw": 4.7,
+      "font": "Georgia",
+      "weight": 500,
+      "tracking": 0,
+      "leading": 0.98,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.47,
+      "top": 1887,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Chọn khóa học phù hợp",
+      "words": 5,
+      "chars": 21,
+      "lines": 1,
+      "size": 68,
+      "vw": 4.7,
+      "font": "Georgia",
+      "weight": 500,
+      "tracking": 0,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "center",
+      "position": "center",
+      "widthRatio": 0.52,
+      "top": 2559,
+      "tag": "h2",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 4,
+     "maxLines": 2,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 1,
+     "medianWords": 5,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Georgia",
+       "share": 1,
+       "mono": false
+      }
+     ],
+     "familyCount": 1,
+     "sizes": [
+      15,
+      19,
+      22,
+      26,
+      68,
+      84
+     ],
+     "sizeCount": 6,
+     "notLoaded": [],
+     "body": {
+      "font": "Georgia",
+      "size": 19,
+      "leading": 1.55,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 14.8
+     },
+     "measureChars": 59,
+     "max": {
+      "size": 83.5,
+      "vw": 5.8,
+      "font": "Georgia",
+      "text": "Khóa học công nghệ"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0.01,
+     "centerShare": 0.16,
+     "smallText": 0
+    },
+    "eyebrows": [],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#eef3f0",
+     "bodyBgHsl": {
+      "h": 144,
+      "s": 0.17,
+      "l": 0.94
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#ff5a2a",
+       "top": 0,
+       "hsl": {
+        "h": 14,
+        "s": 1,
+        "l": 0.58
+       }
+      },
+      {
+       "color": "#ffffff",
+       "top": 188,
+       "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 1
+       }
+      },
+      {
+       "color": "#17201f",
+       "top": 1743,
+       "hsl": {
+        "h": 173,
+        "s": 0.16,
+        "l": 0.11
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#17201f",
+       "share": 0.41
+      },
+      {
+       "color": "#ffffff",
+       "share": 0.31
+      },
+      {
+       "color": "#d8dddc",
+       "share": 0.16
+      },
+      {
+       "color": "#711b17",
+       "share": 0.07
+      },
+      {
+       "color": "#bdc6c4",
+       "share": 0.04
+      }
+     ],
+     "button": {
+      "bg": "#17201f",
+      "hsl": {
+       "h": 173,
+       "s": 0.16,
+       "l": 0.11
+      },
+      "fg": "#ffffff"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 5,
+     "inHero": 4,
+     "radius": 0,
+     "height": 52,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Bỏ qua điều hướng",
+      "Khám phá khóa học",
+      "Đăng ký",
+      "Khám phá khóa học"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 0,
+     "hairlineSamples": [],
+     "outlinedBoxes": 0,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 0,
+     "boxRadius": 0,
+     "squareMedia": 4,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": []
+    },
+    "heroMedia": [
+     {
+      "type": "img",
+      "ratio": 0.28
+     }
+    ],
+    "nav": {
+     "links": 8,
+     "fixed": true,
+     "height": 76,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": []
+   },
+   "layout": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "pageH": 3743,
+    "margins": {
+     "left": 32,
+     "right": 32
+    },
+    "sections": [
+     {
+      "sel": "section.landing-hero",
+      "tag": "section",
+      "top": 0,
+      "height": 900,
+      "words": 43,
+      "media": 1,
+      "middle": 33,
+      "heading": {
+       "text": "Khóa học công nghệ",
+       "size": 84,
+       "tag": "h1"
+      },
+      "left": 32,
+      "right": 32,
+      "textLeft": 32,
+      "textRight": 396,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div#courses.landing-section-anchor",
+      "tag": "div",
+      "top": 900,
+      "height": 125,
+      "words": 9,
+      "media": 0,
+      "middle": 0,
+      "heading": null,
+      "left": 560,
+      "right": 560,
+      "textLeft": 560,
+      "textRight": 560,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#learning-paths.foundation-section",
+      "tag": "section",
+      "top": 1025,
+      "height": 588,
+      "words": 27,
+      "media": 1,
+      "middle": 273,
+      "heading": {
+       "text": "Chọn lộ trình theo mục tiêu",
+       "size": 68,
+       "tag": "h2"
+      },
+      "left": 32,
+      "right": 32,
+      "textLeft": 32,
+      "textRight": 864,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div#teachers.landing-section-anchor",
+      "tag": "div",
+      "top": 1613,
+      "height": 129,
+      "words": 9,
+      "media": 0,
+      "middle": 0,
+      "heading": null,
+      "left": 555,
+      "right": 555,
+      "textLeft": 555,
+      "textRight": 555,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#faq.foundation-section.foundation-section-dark",
+      "tag": "section",
+      "top": 1743,
+      "height": 650,
+      "words": 23,
+      "media": 1,
+      "middle": 206,
+      "heading": {
+       "text": "Trước khi chọn khóa học",
+       "size": 68,
+       "tag": "h2"
+      },
+      "left": 32,
+      "right": 32,
+      "textLeft": 32,
+      "textRight": 798,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div.scroll-reveal.scroll-reveal--visible",
+      "tag": "div",
+      "top": 2393,
+      "height": 576,
+      "words": 31,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Chọn khóa học phù hợp",
+       "size": 68,
+       "tag": "h2"
+      },
+      "left": 367,
+      "right": 367,
+      "textLeft": 367,
+      "textRight": 367,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "footer.footer",
+      "tag": "footer",
+      "top": 3113,
+      "height": 630,
+      "words": 78,
+      "media": 0,
+      "middle": 144,
+      "heading": {
+       "text": "Đức Huy",
+       "size": 26,
+       "tag": "a"
+      },
+      "left": 80,
+      "right": 80,
+      "textLeft": 80,
+      "textRight": 80,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [
+     {
+      "top": 2252,
+      "height": 300
+     }
+    ],
+    "h1s": [
+     {
+      "text": "Khóa học công nghệ thực hành",
+      "size": 84,
+      "top": 308,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 32,
+      "n": 7
+     }
+    ],
+    "leftBlocks": 7,
+    "bodySize": 19,
+    "stage": false,
+    "explains": true,
+    "slivers": [],
+    "voidShare": 0.13,
+    "voidBox": {
+     "x": 0,
+     "y": 660,
+     "w": 720,
+     "h": 240
+    }
+   },
+   "app": null,
+   "consoleErrors": []
+  },
+  {
+   "width": 768,
+   "height": 1024,
+   "load": "load",
+   "screens": 4,
+   "filled": [
+    1,
+    0.57,
+    0.91,
+    0.91
+   ],
+   "motion": {
+    "elements": 10,
+    "css": 7,
+    "transitions": 3,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "page": {
+     "height": 3699,
+     "screens": 3.6,
+     "words": 232,
+     "img": 5,
+     "video": 0,
+     "canvas": 0,
+     "svg": 4,
+     "sections": 4,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 4,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [
+      "banner1-DmhvaF8o.png",
+      "banner2-DTU5pY6V.png",
+      "classroom-webp-LlHBkkWw.webp",
+      "hero-CLDdwZDr.png"
+     ],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Khóa học công nghệ thực hành",
+     "words": 6,
+     "chars": 28,
+     "lines": 2,
+     "size": 64,
+     "vw": 8.3,
+     "font": "Georgia",
+     "weight": 500,
+     "tracking": -0.045,
+     "leading": 0.88,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "left",
+     "position": "left",
+     "widthRatio": 0.54,
+     "top": 375,
+     "tag": "h1",
+     "kind": "heading"
+    },
+    "h1": {
+     "text": "Khóa học công nghệ thực hành",
+     "words": 6,
+     "lines": 2,
+     "size": 64,
+     "font": "Georgia"
+    },
+    "headings": [
+     {
+      "text": "Khóa học công nghệ thực hành",
+      "words": 6,
+      "chars": 28,
+      "lines": 2,
+      "size": 64,
+      "vw": 8.3,
+      "font": "Georgia",
+      "weight": 500,
+      "tracking": -0.045,
+      "leading": 0.88,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.54,
+      "top": 375,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "Chọn lộ trình theo mục tiêu",
+      "words": 6,
+      "chars": 27,
+      "lines": 2,
+      "size": 47.8,
+      "vw": 6.2,
+      "font": "Georgia",
+      "weight": 500,
+      "tracking": 0,
+      "leading": 0.98,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.45,
+      "top": 1224,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Trước khi chọn khóa học",
+      "words": 5,
+      "chars": 23,
+      "lines": 2,
+      "size": 47.8,
+      "vw": 6.2,
+      "font": "Georgia",
+      "weight": 500,
+      "tracking": 0,
+      "leading": 0.98,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.45,
+      "top": 1806,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Chọn khóa học phù hợp",
+      "words": 5,
+      "chars": 21,
+      "lines": 1,
+      "size": 47.8,
+      "vw": 6.2,
+      "font": "Georgia",
+      "weight": 500,
+      "tracking": 0,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "center",
+      "position": "center",
+      "widthRatio": 0.69,
+      "top": 2401,
+      "tag": "h2",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 4,
+     "maxLines": 2,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 1,
+     "medianWords": 5,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Georgia",
+       "share": 1,
+       "mono": false
+      }
+     ],
+     "familyCount": 1,
+     "sizes": [
+      14,
+      18,
+      20,
+      23,
+      48,
+      64
+     ],
+     "sizeCount": 6,
+     "notLoaded": [],
+     "body": {
+      "font": "Georgia",
+      "size": 17.8,
+      "leading": 1.55,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 14.8
+     },
+     "measureChars": 39,
+     "max": {
+      "size": 64,
+      "vw": 8.3,
+      "font": "Georgia",
+      "text": "Khóa học công nghệ"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0,
+     "centerShare": 0.17,
+     "smallText": 0
+    },
+    "eyebrows": [],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#eef3f0",
+     "bodyBgHsl": {
+      "h": 144,
+      "s": 0.17,
+      "l": 0.94
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#ff5a2a",
+       "top": 0,
+       "hsl": {
+        "h": 14,
+        "s": 1,
+        "l": 0.58
+       }
+      },
+      {
+       "color": "#17201f",
+       "top": 1729,
+       "hsl": {
+        "h": 173,
+        "s": 0.16,
+        "l": 0.11
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#17201f",
+       "share": 0.39
+      },
+      {
+       "color": "#ffffff",
+       "share": 0.31
+      },
+      {
+       "color": "#d8dddc",
+       "share": 0.16
+      },
+      {
+       "color": "#711b17",
+       "share": 0.07
+      },
+      {
+       "color": "#bdc6c4",
+       "share": 0.04
+      }
+     ],
+     "button": {
+      "bg": "#17201f",
+      "hsl": {
+       "h": 173,
+       "s": 0.16,
+       "l": 0.11
+      },
+      "fg": "#ffffff"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 3,
+     "inHero": 2,
+     "radius": 0,
+     "height": 51,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Bỏ qua điều hướng",
+      "Khám phá khóa học"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 0,
+     "hairlineSamples": [],
+     "outlinedBoxes": 0,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 0,
+     "boxRadius": 0,
+     "squareMedia": 4,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": []
+    },
+    "heroMedia": [
+     {
+      "type": "img",
+      "ratio": 0.27
+     }
+    ],
+    "nav": {
+     "links": 1,
+     "fixed": true,
+     "height": 76,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": []
+   },
+   "layout": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "pageH": 3699,
+    "margins": {
+     "left": 23,
+     "right": 23
+    },
+    "sections": [
+     {
+      "sel": "section.landing-hero",
+      "tag": "section",
+      "top": 0,
+      "height": 1024,
+      "words": 43,
+      "media": 1,
+      "middle": 0,
+      "heading": {
+       "text": "Khóa học công nghệ",
+       "size": 64,
+       "tag": "h1"
+      },
+      "left": 23,
+      "right": 23,
+      "textLeft": 23,
+      "textRight": 53,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div#courses.landing-section-anchor",
+      "tag": "div",
+      "top": 1024,
+      "height": 124,
+      "words": 9,
+      "media": 0,
+      "middle": 0,
+      "heading": null,
+      "left": 233,
+      "right": 233,
+      "textLeft": 233,
+      "textRight": 233,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#learning-paths.foundation-section",
+      "tag": "section",
+      "top": 1148,
+      "height": 454,
+      "words": 27,
+      "media": 1,
+      "middle": 120,
+      "heading": {
+       "text": "Chọn lộ trình theo mục tiêu",
+       "size": 48,
+       "tag": "h2"
+      },
+      "left": 23,
+      "right": 23,
+      "textLeft": 23,
+      "textRight": 429,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div#teachers.landing-section-anchor",
+      "tag": "div",
+      "top": 1601,
+      "height": 128,
+      "words": 9,
+      "media": 0,
+      "middle": 0,
+      "heading": null,
+      "left": 229,
+      "right": 229,
+      "textLeft": 229,
+      "textRight": 229,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#faq.foundation-section.foundation-section-dark",
+      "tag": "section",
+      "top": 1729,
+      "height": 454,
+      "words": 23,
+      "media": 1,
+      "middle": 107,
+      "heading": {
+       "text": "Trước khi chọn khóa học",
+       "size": 48,
+       "tag": "h2"
+      },
+      "left": 23,
+      "right": 23,
+      "textLeft": 23,
+      "textRight": 417,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div.scroll-reveal.scroll-reveal--visible",
+      "tag": "div",
+      "top": 2183,
+      "height": 655,
+      "words": 31,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Chọn khóa học phù hợp",
+       "size": 48,
+       "tag": "h2"
+      },
+      "left": 113,
+      "right": 113,
+      "textLeft": 113,
+      "textRight": 113,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "footer.footer",
+      "tag": "footer",
+      "top": 2982,
+      "height": 717,
+      "words": 78,
+      "media": 0,
+      "middle": 43,
+      "heading": {
+       "text": "Khóa học",
+       "size": 18,
+       "tag": "h4"
+      },
+      "left": 23,
+      "right": 54,
+      "textLeft": 23,
+      "textRight": 54,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Khóa học công nghệ thực hành",
+      "size": 64,
+      "top": 375,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 23,
+      "n": 7
+     }
+    ],
+    "leftBlocks": 7,
+    "bodySize": 18,
+    "stage": false,
+    "explains": true,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": null,
+   "consoleErrors": []
+  },
+  {
+   "width": 390,
+   "height": 844,
+   "load": "load",
+   "screens": 5,
+   "filled": [
+    1,
+    0.54,
+    0.98,
+    0.92,
+    1
+   ],
+   "motion": {
+    "elements": 10,
+    "css": 7,
+    "transitions": 3,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "page": {
+     "height": 4086,
+     "screens": 4.8,
+     "words": 232,
+     "img": 5,
+     "video": 0,
+     "canvas": 0,
+     "svg": 4,
+     "sections": 4,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 4,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [
+      "banner1-DmhvaF8o.png",
+      "banner2-DTU5pY6V.png",
+      "classroom-webp-LlHBkkWw.webp",
+      "hero-CLDdwZDr.png"
+     ],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Khóa học công nghệ thực hành",
+     "words": 6,
+     "chars": 28,
+     "lines": 2,
+     "size": 36.3,
+     "vw": 9.3,
+     "font": "Georgia",
+     "weight": 500,
+     "tracking": -0.045,
+     "leading": 0.94,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "left",
+     "position": "center",
+     "widthRatio": 0.92,
+     "top": 132,
+     "tag": "h1",
+     "kind": "heading"
+    },
+    "h1": {
+     "text": "Khóa học công nghệ thực hành",
+     "words": 6,
+     "lines": 2,
+     "size": 36.3,
+     "font": "Georgia"
+    },
+    "headings": [
+     {
+      "text": "Khóa học công nghệ thực hành",
+      "words": 6,
+      "chars": 28,
+      "lines": 2,
+      "size": 36.3,
+      "vw": 9.3,
+      "font": "Georgia",
+      "weight": 500,
+      "tracking": -0.045,
+      "leading": 0.94,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.92,
+      "top": 132,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "Chọn lộ trình theo mục tiêu",
+      "words": 6,
+      "chars": 27,
+      "lines": 2,
+      "size": 36.5,
+      "vw": 9.4,
+      "font": "Georgia",
+      "weight": 500,
+      "tracking": 0,
+      "leading": 0.98,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.92,
+      "top": 1185,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Trước khi chọn khóa học",
+      "words": 5,
+      "chars": 23,
+      "lines": 2,
+      "size": 36.5,
+      "vw": 9.4,
+      "font": "Georgia",
+      "weight": 500,
+      "tracking": 0,
+      "leading": 0.98,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.92,
+      "top": 1906,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Chọn khóa học phù hợp",
+      "words": 5,
+      "chars": 21,
+      "lines": 2,
+      "size": 36.5,
+      "vw": 9.4,
+      "font": "Georgia",
+      "weight": 500,
+      "tracking": 0,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "center",
+      "position": "center",
+      "widthRatio": 0.92,
+      "top": 2518,
+      "tag": "h2",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 4,
+     "maxLines": 2,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 1,
+     "medianWords": 5,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Georgia",
+       "share": 1,
+       "mono": false
+      }
+     ],
+     "familyCount": 1,
+     "sizes": [
+      14,
+      17,
+      18,
+      20,
+      36,
+      37
+     ],
+     "sizeCount": 6,
+     "notLoaded": [],
+     "body": {
+      "font": "Georgia",
+      "size": 17,
+      "leading": 1.55,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 14.8
+     },
+     "measureChars": 42,
+     "max": {
+      "size": 36.5,
+      "vw": 9.4,
+      "font": "Georgia",
+      "text": "Chọn lộ trình theo mục tiêu"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0,
+     "centerShare": 0.17,
+     "smallText": 0
+    },
+    "eyebrows": [],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#eef3f0",
+     "bodyBgHsl": {
+      "h": 144,
+      "s": 0.17,
+      "l": 0.94
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#ff5a2a",
+       "top": 0,
+       "hsl": {
+        "h": 14,
+        "s": 1,
+        "l": 0.58
+       }
+      },
+      {
+       "color": "#ffffff",
+       "top": 513,
+       "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 1
+       }
+      },
+      {
+       "color": "#17201f",
+       "top": 1826,
+       "hsl": {
+        "h": 173,
+        "s": 0.16,
+        "l": 0.11
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#17201f",
+       "share": 0.39
+      },
+      {
+       "color": "#ffffff",
+       "share": 0.31
+      },
+      {
+       "color": "#d8dddc",
+       "share": 0.16
+      },
+      {
+       "color": "#711b17",
+       "share": 0.07
+      },
+      {
+       "color": "#bdc6c4",
+       "share": 0.04
+      }
+     ],
+     "button": {
+      "bg": "#17201f",
+      "hsl": {
+       "h": 173,
+       "s": 0.16,
+       "l": 0.11
+      },
+      "fg": "#ffffff"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 3,
+     "inHero": 2,
+     "radius": 0,
+     "height": 49,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Bỏ qua điều hướng",
+      "Khám phá khóa học"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 0,
+     "hairlineSamples": [],
+     "outlinedBoxes": 0,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 0,
+     "boxRadius": 0,
+     "squareMedia": 4,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": []
+    },
+    "heroMedia": [
+     {
+      "type": "img",
+      "ratio": 0.36
+     }
+    ],
+    "nav": {
+     "links": 1,
+     "fixed": true,
+     "height": 68,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": []
+   },
+   "layout": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "pageH": 4086,
+    "margins": {
+     "left": 16,
+     "right": 16
+    },
+    "sections": [
+     {
+      "sel": "section.landing-hero",
+      "tag": "section",
+      "top": 0,
+      "height": 982,
+      "words": 43,
+      "media": 1,
+      "middle": 0,
+      "heading": {
+       "text": "Khóa học công nghệ",
+       "size": 36,
+       "tag": "h1"
+      },
+      "left": 16,
+      "right": 16,
+      "textLeft": 16,
+      "textRight": 21,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div#courses.landing-section-anchor",
+      "tag": "div",
+      "top": 982,
+      "height": 122,
+      "words": 9,
+      "media": 0,
+      "middle": 0,
+      "heading": null,
+      "left": 52,
+      "right": 52,
+      "textLeft": 52,
+      "textRight": 52,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#learning-paths.foundation-section",
+      "tag": "section",
+      "top": 1105,
+      "height": 595,
+      "words": 27,
+      "media": 1,
+      "middle": 0,
+      "heading": {
+       "text": "Chọn lộ trình theo mục tiêu",
+       "size": 37,
+       "tag": "h2"
+      },
+      "left": 16,
+      "right": 16,
+      "textLeft": 16,
+      "textRight": 38,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div#teachers.landing-section-anchor",
+      "tag": "div",
+      "top": 1699,
+      "height": 126,
+      "words": 9,
+      "media": 0,
+      "middle": 0,
+      "heading": null,
+      "left": 47,
+      "right": 47,
+      "textLeft": 47,
+      "textRight": 47,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#faq.foundation-section.foundation-section-dark",
+      "tag": "section",
+      "top": 1826,
+      "height": 580,
+      "words": 23,
+      "media": 1,
+      "middle": 0,
+      "heading": {
+       "text": "Trước khi chọn khóa học",
+       "size": 37,
+       "tag": "h2"
+      },
+      "left": 16,
+      "right": 16,
+      "textLeft": 16,
+      "textRight": 26,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div.scroll-reveal.scroll-reveal--visible",
+      "tag": "div",
+      "top": 2405,
+      "height": 540,
+      "words": 31,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Chọn khóa học phù hợp",
+       "size": 37,
+       "tag": "h2"
+      },
+      "left": 16,
+      "right": 19,
+      "textLeft": 16,
+      "textRight": 19,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "img.cta-image",
+      "tag": "img",
+      "top": 2930,
+      "height": 160,
+      "words": 0,
+      "media": 1,
+      "middle": 0,
+      "heading": null,
+      "left": 78,
+      "right": 78,
+      "textLeft": null,
+      "textRight": null,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "footer.footer",
+      "tag": "footer",
+      "top": 3090,
+      "height": 996,
+      "words": 78,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Khóa học",
+       "size": 17,
+       "tag": "h4"
+      },
+      "left": 16,
+      "right": 17,
+      "textLeft": 16,
+      "textRight": 17,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Khóa học công nghệ thực hành",
+      "size": 36,
+      "top": 132,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 16,
+      "n": 7
+     }
+    ],
+    "leftBlocks": 7,
+    "bodySize": 17,
+    "stage": false,
+    "explains": true,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": null,
+   "consoleErrors": []
+  }
+ ],
+ "findings": [
+  {
+   "level": "WARN",
+   "id": "no-footage",
+   "width": 1440,
+   "message": "No video anywhere on the page.",
+   "fix": "Look for one honest clip with scripts/assets.mjs --video (the place, the material, the process) and use it as a muted loop with a poster frame. Defend its absence only if no clip fits the subject."
+  },
+  {
+   "level": "WARN",
+   "id": "font-not-dealt",
+   "width": 1440,
+   "message": "The sheet dealt Boska and Boska, but the page renders Georgia.",
+   "fix": "Load the dealt face (the link on the sheet) and put it first in font-family. A build that falls back to a default face lands on the default look."
+  },
+  {
+   "level": "WARN",
+   "id": "still-page",
+   "width": 1440,
+   "message": "Little motion: 10 element(s) moved while the page loaded and scrolled.",
+   "fix": "Give every section an entrance for its parts (not one fade of the whole block) and add one moving picture: a looping clip or a slow move on a photograph."
+  }
+ ],
+ "images": [
+  {
+   "viewport": "desktop",
+   "width": 1440,
+   "fold": "C:\\.Study at School\\.Web Application Safety\\TrangTuyenSinhEdu\\.taste-skill\\after-foundation-final\\desktop-fold.jpg",
+   "pages": [
+    "C:\\.Study at School\\.Web Application Safety\\TrangTuyenSinhEdu\\.taste-skill\\after-foundation-final\\desktop-page-01.jpg",
+    "C:\\.Study at School\\.Web Application Safety\\TrangTuyenSinhEdu\\.taste-skill\\after-foundation-final\\desktop-page-02.jpg"
+   ],
+   "film": []
+  },
+  {
+   "viewport": "tablet",
+   "width": 768,
+   "fold": "C:\\.Study at School\\.Web Application Safety\\TrangTuyenSinhEdu\\.taste-skill\\after-foundation-final\\tablet-fold.jpg",
+   "pages": [
+    "C:\\.Study at School\\.Web Application Safety\\TrangTuyenSinhEdu\\.taste-skill\\after-foundation-final\\tablet-page-01.jpg"
+   ],
+   "film": []
+  },
+  {
+   "viewport": "mobile",
+   "width": 390,
+   "fold": "C:\\.Study at School\\.Web Application Safety\\TrangTuyenSinhEdu\\.taste-skill\\after-foundation-final\\mobile-fold.jpg",
+   "pages": [
+    "C:\\.Study at School\\.Web Application Safety\\TrangTuyenSinhEdu\\.taste-skill\\after-foundation-final\\mobile-page-01.jpg"
+   ],
+   "film": []
+  }
+ ]
+}

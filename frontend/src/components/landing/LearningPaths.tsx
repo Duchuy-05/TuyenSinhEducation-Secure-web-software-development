@@ -1,0 +1,2 @@
+import { landingContent } from '../../content/landingContent';
+export default function LearningPaths() { return <section id="learning-paths" className="learning-paths landing-section-anchor" aria-labelledby="learning-paths-title"><div className="page-frame"><h2 id="learning-paths-title">Chọn lộ trình theo mục tiêu</h2><ol>{landingContent.learningPaths.map((path) => <li key={path.id}><h3>{path.title}</h3><p>{path.entry}</p><p><strong>Học phần:</strong> {path.courses.join(' · ')}</p><p>{path.outcome}</p></li>)}</ol></div></section>; }

@@ -1,45 +1,29 @@
-// src/pages/LandingPage.tsx
-
-import React from 'react';
-import '../styles/LandingPage.css'; // Import file CSS đã thiết kế
+import '../styles/LandingPage.css';
 import '../index.css';
 import Navbar from '../components/NavBar';
 import Hero from '../components/Hero';
-import About from '../components/About';
-import CourseAccordion from '../components/CourseAccordion';
-import Teachers from '../components/Teachers';
-import WhyChooseUs from '../components/WhyChooseUs';
 import CTA from '../components/CTA';
 import Footer from '../components/Footer';
 import FloatingContact from '../components/FloatingContact';
 import ScrollReveal from '../components/ScrollReveal';
+import CourseFinder from '../components/landing/CourseFinder';
+import FeaturedCourses from '../components/landing/FeaturedCourses';
+import LearningPaths from '../components/landing/LearningPaths';
+import TeacherShowcase from '../components/landing/TeacherShowcase';
 
-const LandingPage: React.FC = () => {
-    return (
-        <div className="landing-page-wrapper relative">
-            <Navbar />
-            <Hero />
-            <ScrollReveal>
-                <About />
-            </ScrollReveal>
-            <ScrollReveal>
-                <CourseAccordion />
-            </ScrollReveal>
-            <ScrollReveal>
-                <WhyChooseUs />
-            </ScrollReveal>
-            <ScrollReveal>
-                <Teachers />
-            </ScrollReveal>
-            <ScrollReveal>
-                <CTA />
-            </ScrollReveal>
-            <ScrollReveal>
-                <Footer />
-            </ScrollReveal>
-            <FloatingContact />
-        </div>
-    );
-};
-
-export default LandingPage;
+export default function LandingPage() {
+  return <div className="landing-page-wrapper">
+    <a className="skip-link" href="#main-content">Bỏ qua điều hướng</a>
+    <Navbar />
+    <main id="main-content">
+      <Hero />
+      <CourseFinder />
+      <ScrollReveal><FeaturedCourses /></ScrollReveal>
+      <ScrollReveal><LearningPaths /></ScrollReveal>
+      <ScrollReveal><TeacherShowcase /></ScrollReveal>
+      <ScrollReveal><CTA /></ScrollReveal>
+    </main>
+    <Footer />
+    <FloatingContact />
+  </div>;
+}
