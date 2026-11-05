@@ -29,7 +29,7 @@ export const useDismissibleLayer = ({ open, onClose, triggerRef, layerRef, lockS
       const items = focusable();
       if (!items.length) return;
       const [first] = items;
-      const last = items.at(-1)!;
+      const last = items[items.length - 1];
       if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
       else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
     };

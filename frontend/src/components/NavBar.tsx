@@ -10,7 +10,7 @@ const links = [
   { label: 'Khóa học', href: '/danh-muc-khoa-hoc' },
   { label: 'Lộ trình', href: '/#learning-paths' },
   { label: 'Giảng viên', href: '/#teachers' },
-  { label: 'FAQ', href: '/#faq' },
+  { label: 'Liên hệ', href: '/lien-he' },
 ];
 
 const SCROLL_SURFACE_THRESHOLD = 8;
@@ -53,7 +53,8 @@ const Navbar = () => {
   };
 
   const fullName = user?.name || user?.fullName || 'Người dùng';
-  const initial = fullName.trim().split(/\s+/).at(-1)?.charAt(0).toUpperCase() || 'U';
+  const nameParts = fullName.trim().split(/\s+/);
+  const initial = nameParts[nameParts.length - 1]?.charAt(0).toUpperCase() || 'U';
 
   return (
     <header className={`site-header${isScrolled ? ' site-header--scrolled' : ''}`}>
