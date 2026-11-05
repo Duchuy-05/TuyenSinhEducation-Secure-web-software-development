@@ -17,4 +17,9 @@ describe('CourseProductCard', () => {
     render(<MemoryRouter><CourseProductCard course={{ ...baseCourse, category: null }} /></MemoryRouter>);
     expect(screen.queryByText('Lập trình Frontend')).not.toBeInTheDocument();
   });
+
+  it('keeps the course-detail action available as a dedicated card CTA', () => {
+    render(<MemoryRouter><CourseProductCard course={baseCourse} /></MemoryRouter>);
+    expect(screen.getByRole('link', { name: 'Xem khóa học' })).toHaveClass('course-card-cta');
+  });
 });

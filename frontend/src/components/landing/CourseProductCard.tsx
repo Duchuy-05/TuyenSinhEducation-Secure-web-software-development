@@ -6,8 +6,8 @@ import type { CourseCardViewModel } from './courseViewModel';
 export default function CourseProductCard({ course }: { course: CourseCardViewModel }) {
   return (
     <article className="course-product-card">
-      <img src={course.imageUrl || fallbackImage} alt={`Khóa học ${course.title}`} onError={(event) => { event.currentTarget.src = fallbackImage; }} />
-      <div>
+      <img className="course-card-image" src={course.imageUrl || fallbackImage} alt={`Khóa học ${course.title}`} onError={(event) => { event.currentTarget.src = fallbackImage; }} />
+      <div className="course-card-content">
         {course.category && <p className="course-category">{course.category}</p>}
         <h3><Link to={`/khoa-hoc/${course.id}`}>{course.title}</Link></h3>
         {(course.outcome || course.description) && <p>{course.outcome || course.description}</p>}
@@ -17,7 +17,7 @@ export default function CourseProductCard({ course }: { course: CourseCardViewMo
           {course.teacherName && <Fragment><dt>Giảng viên</dt><dd>{course.teacherName}</dd></Fragment>}
         </dl>
         {course.priceLabel && <p className="course-price">{course.priceLabel} {course.originalPriceLabel && <del>{course.originalPriceLabel}</del>}</p>}
-        <Link className="text-link" to={`/khoa-hoc/${course.id}`}>Xem khóa học</Link>
+        <Link className="text-link course-card-cta" to={`/khoa-hoc/${course.id}`}>Xem khóa học <span aria-hidden="true">→</span></Link>
       </div>
     </article>
   );
