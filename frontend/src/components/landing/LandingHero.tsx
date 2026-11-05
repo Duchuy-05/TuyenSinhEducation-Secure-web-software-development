@@ -21,7 +21,6 @@ export default function LandingHero() {
       </div>
       <figure className="landing-hero-media" data-reveal-part>
         <img src={heroMedia} alt={hero.mediaAlt} />
-        <figcaption>Học theo lộ trình, thực hành qua từng dự án.</figcaption>
       </figure>
     </div>
   </section>;

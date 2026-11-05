@@ -59,7 +59,7 @@ const Navbar = () => {
   return (
     <header className={`site-header${isScrolled ? ' site-header--scrolled' : ''}`}>
       <nav className="page-frame navbar" aria-label="Điều hướng chính">
-        <Link to="/" className="logo" aria-label="Đức Huy Education — Trang chủ"><span>Đức Huy</span> Education</Link>
+        <Link to="/" className="logo" aria-label="Đức Huy Education — Trang chủ" onClick={() => window.scrollTo(0, 0)}><span>Đức Huy</span> Education</Link>
         <ul className="nav-links" aria-label="Liên kết chính">
           {links.map((item) => <li key={item.href}><a href={item.href}>{item.label}</a></li>)}
         </ul>
