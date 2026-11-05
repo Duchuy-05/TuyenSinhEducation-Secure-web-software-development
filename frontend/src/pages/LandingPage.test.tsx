@@ -38,6 +38,6 @@ describe('LandingPage shell', () => {
     expect(document.querySelector('#courses')).toBeInTheDocument();
     expect(document.querySelector('#learning-paths')).toBeInTheDocument();
     expect(document.querySelector('#teachers')).toBeInTheDocument();
-    expect(document.querySelector('#faq')).toBeInTheDocument();
+    expect(document.querySelector('#faq')).not.toBeInTheDocument();
   });
 });

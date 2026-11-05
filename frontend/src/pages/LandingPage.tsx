@@ -9,9 +9,7 @@ import ScrollReveal from '../components/ScrollReveal';
 import CourseFinder from '../components/landing/CourseFinder';
 import FeaturedCourses from '../components/landing/FeaturedCourses';
 import LearningPaths from '../components/landing/LearningPaths';
-import LearningExperience from '../components/landing/LearningExperience';
 import TeacherShowcase from '../components/landing/TeacherShowcase';
-import PurchaseFaq from '../components/landing/PurchaseFaq';
 
 export default function LandingPage() {
   return <div className="landing-page-wrapper">
@@ -22,9 +20,7 @@ export default function LandingPage() {
       <CourseFinder />
       <ScrollReveal><FeaturedCourses /></ScrollReveal>
       <ScrollReveal><LearningPaths /></ScrollReveal>
-      <ScrollReveal><LearningExperience /></ScrollReveal>
       <ScrollReveal><TeacherShowcase /></ScrollReveal>
-      <PurchaseFaq />
       <ScrollReveal><CTA /></ScrollReveal>
     </main>
     <Footer />
