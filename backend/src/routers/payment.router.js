@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const PaymentController_1 = require("../controllers/PaymentController");
+const auth_middleware_1 = require("../middlewares/auth.middleware");
+const checkOrigin_middleware_1 = require("../middlewares/checkOrigin.middleware");
+const paymentRouter = (0, express_1.Router)();
+paymentRouter.post('/payments/payos-webhook', PaymentController_1.PaymentController.handlePayOSWebhook);
+paymentRouter.post('/payments/courses/:courseId/create-link', auth_middleware_1.verifyToken, checkOrigin_middleware_1.checkOrigin, PaymentController_1.PaymentController.createCoursePaymentLink);
+paymentRouter.get('/payments/orders/:orderCode', auth_middleware_1.verifyToken, PaymentController_1.PaymentController.getOrderByCode);
+exports.default = paymentRouter;

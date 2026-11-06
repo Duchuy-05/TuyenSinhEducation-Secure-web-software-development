@@ -1,0 +1,15 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const ScheduleController_1 = require("../controllers/ScheduleController");
+const auth_middleware_1 = require("../middlewares/auth.middleware");
+const User_1 = require("../models/entities/User");
+const scheduleRouter = (0, express_1.Router)();
+scheduleRouter.get('/schedules/my-upcoming', auth_middleware_1.verifyToken, ScheduleController_1.ScheduleController.getMyUpcoming);
+scheduleRouter.get('/schedules', auth_middleware_1.verifyToken, ScheduleController_1.ScheduleController.getByClassId);
+scheduleRouter.get('/schedules/:id', auth_middleware_1.verifyToken, ScheduleController_1.ScheduleController.getById);
+scheduleRouter.post('/schedules', auth_middleware_1.verifyToken, (0, auth_middleware_1.requireRoles)(User_1.UserRole.ADMIN, User_1.UserRole.TEACHER), ScheduleController_1.ScheduleController.create);
+scheduleRouter.post('/schedules/bulk', auth_middleware_1.verifyToken, (0, auth_middleware_1.requireRoles)(User_1.UserRole.ADMIN, User_1.UserRole.TEACHER), ScheduleController_1.ScheduleController.bulkCreate);
+scheduleRouter.put('/schedules/:id', auth_middleware_1.verifyToken, (0, auth_middleware_1.requireRoles)(User_1.UserRole.ADMIN, User_1.UserRole.TEACHER), ScheduleController_1.ScheduleController.update);
+scheduleRouter.delete('/schedules/:id', auth_middleware_1.verifyToken, (0, auth_middleware_1.requireRoles)(User_1.UserRole.ADMIN, User_1.UserRole.TEACHER), ScheduleController_1.ScheduleController.remove);
+exports.default = scheduleRouter;

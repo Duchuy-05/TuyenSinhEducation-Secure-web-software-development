@@ -24,7 +24,7 @@
 ### Backend
 | Thành phần | Công nghệ |
 |---|---|
-| Ngôn ngữ | TypeScript (Node.js) |
+| Ngôn ngữ | JavaScript (Node.js) |
 | Framework | Express 5 |
 | ORM / Database | TypeORM + MySQL |
 | Xác thực | JWT (jsonwebtoken), Google Auth Library, bcrypt |
@@ -159,14 +159,14 @@ Dự án có thể chạy theo **2 cách**: cài đặt trực tiếp trên máy
 ### 5.1. Cách 1 — Cài đặt trực tiếp trên máy
 
 #### Yêu cầu
-- Node.js >= 18
+- Node.js >= 22
 - MySQL Server
 
 #### Backend
 ```bash
 cd backend
 npm install
-# Tạo file .env với các biến: DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, JWT_SECRET, CLOUDINARY_*, EMAIL_*
+# Tạo backend/.env với MYSQL_URL, ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET và các biến dịch vụ cần thiết
 npm start
 ```
 
@@ -210,11 +210,11 @@ Mặc định frontend chạy tại `http://localhost:5173`, backend kết nối
 
 #### Lưu ý khi sử dụng Docker
 
-- Đây là cấu hình dành cho môi trường phát triển, sử dụng Vite và ts-node; chưa phải cấu hình triển khai production.
-- Backend kết nối database qua `MYSQL_URL`, tương ứng với `backend/src/models/DataSource.ts`.
+- Đây là cấu hình dành cho môi trường phát triển, sử dụng Vite và Node.js; chưa phải cấu hình triển khai production.
+- Backend kết nối database qua `MYSQL_URL`, tương ứng với `backend/src/models/DataSource.js`.
 - Container frontend nhận biến `VITE_API_URL`, nhưng Vite chỉ sử dụng biến này nếu mã nguồn frontend đọc `import.meta.env.VITE_API_URL`. Nếu địa chỉ API đang được ghi cố định trong mã nguồn, hãy cập nhật base URL API của frontend thành `http://localhost:3000`.
 - Nếu ứng dụng sử dụng thêm biến môi trường khác, hãy bổ sung chúng vào `docker-compose.yml` khi cần. Không commit thông tin xác thực thật lên Git.
-- Backend hiện bật `synchronize: true` trong TypeORM; hãy cẩn thận khi sử dụng với dữ liệu quan trọng hoặc môi trường production.
+- Backend dùng migration thay cho tự động đồng bộ schema; xem [hướng dẫn migration](docs/MIGRATIONS.md).
 
 ---
 
