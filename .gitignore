@@ -12,6 +12,7 @@ jspm_packages/
 
 # Optional npm cache directory
 .npm
+.npm-cache/
 
 # Optional eslint cache
 .eslintcache
@@ -66,3 +67,5 @@ node_modules
 **/.env.*
 !.env.docker.example
 npm-debug.log
+
+.taste-skill

@@ -1,0 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const ClassEnrollmentController_1 = require("../controllers/ClassEnrollmentController");
+const auth_middleware_1 = require("../middlewares/auth.middleware");
+const User_1 = require("../models/entities/User");
+const classEnrollmentRouter = (0, express_1.Router)();
+classEnrollmentRouter.get('/class-enrollments/myclasses', auth_middleware_1.verifyToken, ClassEnrollmentController_1.ClassEnrollmentController.getMyClasses);
+classEnrollmentRouter.get('/class-enrollments', auth_middleware_1.verifyToken, (0, auth_middleware_1.requireRoles)(User_1.UserRole.ADMIN, User_1.UserRole.TEACHER), ClassEnrollmentController_1.ClassEnrollmentController.getByClassId);
+classEnrollmentRouter.post('/class-enrollments', auth_middleware_1.verifyToken, (0, auth_middleware_1.requireRoles)(User_1.UserRole.ADMIN, User_1.UserRole.TEACHER), ClassEnrollmentController_1.ClassEnrollmentController.create);
+classEnrollmentRouter.post('/class-enrollments/bulk', auth_middleware_1.verifyToken, (0, auth_middleware_1.requireRoles)(User_1.UserRole.ADMIN, User_1.UserRole.TEACHER), ClassEnrollmentController_1.ClassEnrollmentController.bulkCreate);
+classEnrollmentRouter.put('/class-enrollments/:id', auth_middleware_1.verifyToken, (0, auth_middleware_1.requireRoles)(User_1.UserRole.ADMIN, User_1.UserRole.TEACHER), ClassEnrollmentController_1.ClassEnrollmentController.updateStatus);
+classEnrollmentRouter.delete('/class-enrollments/:id', auth_middleware_1.verifyToken, (0, auth_middleware_1.requireRoles)(User_1.UserRole.ADMIN, User_1.UserRole.TEACHER), ClassEnrollmentController_1.ClassEnrollmentController.remove);
+exports.default = classEnrollmentRouter;

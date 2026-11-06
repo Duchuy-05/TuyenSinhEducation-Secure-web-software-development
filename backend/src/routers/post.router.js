@@ -1,0 +1,15 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const PostController_1 = require("../controllers/PostController");
+const upload_middleware_1 = require("../middlewares/upload.middleware");
+const auth_middleware_1 = require("../middlewares/auth.middleware");
+const handleUploadError_middleware_1 = require("../middlewares/handleUploadError.middleware");
+const postRouter = (0, express_1.Router)();
+postRouter.get('/posts', auth_middleware_1.verifyToken, auth_middleware_1.isAdmin, PostController_1.PostController.getAllPostPagination);
+postRouter.get('/posts/published', PostController_1.PostController.getAllPublishedPost);
+postRouter.get('/posts/:slugOrId', PostController_1.PostController.getPost);
+postRouter.post('/posts', auth_middleware_1.verifyToken, auth_middleware_1.isAdmin, upload_middleware_1.uploadCourseImage.single('thumbnail'), handleUploadError_middleware_1.handleUploadError, PostController_1.PostController.createPost);
+postRouter.put('/posts/:id', auth_middleware_1.verifyToken, auth_middleware_1.isAdmin, upload_middleware_1.uploadCourseImage.single('thumbnail'), PostController_1.PostController.updatePost);
+postRouter.delete('/posts/:id', auth_middleware_1.verifyToken, auth_middleware_1.isAdmin, PostController_1.PostController.deletePost);
+exports.default = postRouter;

@@ -1,0 +1,16 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const TeacherController_1 = require("../controllers/TeacherController");
+const upload_middleware_1 = require("../middlewares/upload.middleware");
+const auth_middleware_1 = require("../middlewares/auth.middleware");
+const handleUploadError_middleware_1 = require("../middlewares/handleUploadError.middleware");
+const teacherRouter = (0, express_1.Router)();
+teacherRouter.get('/teachers', TeacherController_1.TeacherController.getAllTeachers);
+teacherRouter.get('/teachers/pagination', TeacherController_1.TeacherController.getAllTeachersPagination);
+teacherRouter.get('/teachers/:id', TeacherController_1.TeacherController.getTeacherById);
+teacherRouter.post('/teachers', auth_middleware_1.verifyToken, auth_middleware_1.isAdmin, TeacherController_1.TeacherController.createTeacher);
+teacherRouter.delete('/teachers/:id', auth_middleware_1.verifyToken, auth_middleware_1.isAdmin, TeacherController_1.TeacherController.deleteTeacher);
+teacherRouter.put('/teachers/:id', auth_middleware_1.verifyToken, auth_middleware_1.isAdmin, TeacherController_1.TeacherController.updateTeacher);
+teacherRouter.post('/upload', auth_middleware_1.verifyToken, auth_middleware_1.isAdmin, upload_middleware_1.uploadAvatar.single('image'), handleUploadError_middleware_1.handleUploadError, TeacherController_1.TeacherController.uploadAvatar);
+exports.default = teacherRouter;

@@ -4,10 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc",
-    "start": "node -r dotenv/config dist/index.js",
-    "dev": "ts-node src/index.ts"
+    "test": "node --test --test-concurrency=1 \"tests/**/*.test.js\" \"src/**/*.test.js\"",
+    "typeorm": "node ./node_modules/typeorm/cli.js",
+    "migration:generate": "node ./node_modules/typeorm/cli.js migration:generate -d src/models/DataSource.js -o",
+    "migration:show": "node ./node_modules/typeorm/cli.js migration:show -d src/models/DataSource.js",
+    "migration:run": "node ./node_modules/typeorm/cli.js migration:run -d src/models/DataSource.js",
+    "migration:revert": "node ./node_modules/typeorm/cli.js migration:revert -d src/models/DataSource.js",
+    "migration:check-baseline": "node scripts/check-migration-baseline.js",
+    "start": "node -r dotenv/config src/index.js",
+    "dev": "node -r dotenv/config src/index.js"
   },
   "keywords": [],
   "author": "",
@@ -35,19 +40,7 @@
     "uuid": "^14.0.1"
   },
   "devDependencies": {
-    "@types/bcrypt": "^6.0.0",
-    "@types/cookie-parser": "^1.4.10",
-    "@types/cors": "^2.8.19",
-    "@types/express": "^5.0.6",
-    "@types/jsonwebtoken": "^9.0.10",
-    "@types/morgan": "^1.9.10",
-    "@types/multer": "^2.1.0",
-    "@types/node": "^25.9.1",
-    "@types/nodemailer": "^8.0.0",
-    "@types/sanitize-html": "^2.16.1",
-    "@types/uuid": "^10.0.0",
-    "nodemon": "^3.1.14",
-    "ts-node": "^10.9.2",
-    "typescript": "^6.0.3"
-  }
+    "nodemon": "^3.1.14"
+  },
+  "type": "commonjs"
 }

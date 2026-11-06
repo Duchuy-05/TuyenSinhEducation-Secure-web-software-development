@@ -11,6 +11,16 @@ vi.mock('../services/api', () => ({
 const renderNav = () => render(<MemoryRouter><Navbar /></MemoryRouter>);
 
 describe('Navbar', () => {
+  it('scrolls to the top when the home logo is clicked', async () => {
+    const scrollTo = vi.spyOn(window, 'scrollTo').mockImplementation(() => {});
+    const user = userEvent.setup();
+    renderNav();
+
+    await user.click(screen.getByRole('link', { name: /đức huy education — trang chủ/i }));
+
+    expect(scrollTo).toHaveBeenCalledWith(0, 0);
+  });
+
   it('adds the scrolled header class after the scroll threshold', () => {
     Object.defineProperty(window, 'scrollY', { configurable: true, value: 9 });
     const { container } = renderNav();

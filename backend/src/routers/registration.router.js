@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const RegistrationController_1 = require("../controllers/RegistrationController");
+const auth_middleware_1 = require("../middlewares/auth.middleware");
+const registrationRouter = (0, express_1.Router)();
+registrationRouter.get('/registrations', auth_middleware_1.verifyToken, auth_middleware_1.isAdmin, RegistrationController_1.RegistrationController.getAllRegistrations);
+registrationRouter.get('/registrations/:id', auth_middleware_1.verifyToken, auth_middleware_1.isAdmin, RegistrationController_1.RegistrationController.getRegistrationById);
+registrationRouter.patch('/registrations/:id/status', auth_middleware_1.verifyToken, auth_middleware_1.isAdmin, RegistrationController_1.RegistrationController.updateRegistrationStatus);
+registrationRouter.post('/registrations', RegistrationController_1.RegistrationController.createRegistration);
+registrationRouter.put('/registrations/:id', auth_middleware_1.verifyToken, auth_middleware_1.isAdmin, RegistrationController_1.RegistrationController.updateRegistration);
+registrationRouter.delete('/registrations/:id', auth_middleware_1.verifyToken, auth_middleware_1.isAdmin, RegistrationController_1.RegistrationController.deleteRegistration);
+exports.default = registrationRouter;

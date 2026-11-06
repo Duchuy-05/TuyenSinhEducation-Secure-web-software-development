@@ -10,7 +10,6 @@ const Footer: React.FC = () => {
                     <div>
                         <a href="/" className="footer-logo">Đức Huy<span> Education</span></a>
                         <p>Hệ thống giáo dục trực tuyến chất lượng cao, mang kiến thức thực chiến đến mọi người.</p>
-                        <p className="footer-credit">Ảnh lớp học: <a href="https://commons.wikimedia.org/w/index.php?curid=146876242" target="_blank" rel="noopener noreferrer">“Digital carrel classroom”</a> của Wikideas1, <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.en/" target="_blank" rel="noopener noreferrer">CC0</a>, Wikimedia Commons.</p>
                     </div>
                     <div>
                         <h4>Khóa học</h4>
