@@ -66,6 +66,13 @@ test('mounted routers preserve endpoints and authentication boundaries', async (
     assert.ok(allowed.headers.get('content-security-policy').includes("default-src 'self'"));
     const disallowed = await fetch(base + '/api/no-such-route', { headers: { origin: 'https://untrusted.example' } });
     assert.equal(disallowed.headers.get('access-control-allow-origin'), null);
+    assert.equal((await fetch(base + '/api/classes/1%20OR%201=1')).status, 400);
+    assert.equal((await fetch(base + '/api/teachers/pagination?page=1%20OR%201=1&limit=10')).status, 400);
+    assert.equal((await fetch(base + '/api/classes', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ courseId: '1; DROP TABLE courses' }),
+    })).status, 400);
   } finally {
     if (previousSecret === undefined) delete process.env.ACCESS_TOKEN_SECRET; else process.env.ACCESS_TOKEN_SECRET = previousSecret;
     await new Promise(resolve => server.close(resolve));

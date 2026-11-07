@@ -6,6 +6,8 @@ const Schedule_1 = require("../models/entities/Schedule");
 const Class_1 = require("../models/entities/Class");
 const ClassEnrollment_1 = require("../models/entities/ClassEnrollment");
 const typeorm_1 = require("typeorm");
+const inputValidation_1 = require("../security/inputValidation");
+const SCHEDULE_WRITE_FIELDS = ['sessionTitle', 'startTime', 'endTime', 'location'];
 class ScheduleService {
     static async getByClassId(classId) {
         return this.scheduleRepository.find({
@@ -60,8 +62,14 @@ class ScheduleService {
     }
     // Tạo nhiều buổi học cùng lúc cho 1 lớp (instructor tạo lịch hàng loạt)
     static async bulkCreate(classId, sessions, requestingTeacherId, isAdmin) {
+        if (!Array.isArray(sessions) || sessions.length === 0 || sessions.length > 100) {
+            throw { status: 400, message: 'Danh sách buổi học phải có từ 1 đến 100 phần tử' };
+        }
         await this.assertClassOwnership(classId, requestingTeacherId, isAdmin);
-        const schedules = sessions.map((session, index) => this.scheduleRepository.create(Object.assign(Object.assign({}, session), { classId, sessionNumber: index + 1, status: 'upcoming' })));
+        const schedules = sessions.map((session, index) => {
+            const safeSession = (0, inputValidation_1.pickAllowedFields)(session, SCHEDULE_WRITE_FIELDS);
+            return this.scheduleRepository.create(Object.assign(Object.assign({}, safeSession), { classId, sessionNumber: index + 1, status: 'upcoming' }));
+        });
         return this.scheduleRepository.save(schedules);
     }
     static async update(id, data, requestingTeacherId, isAdmin) {

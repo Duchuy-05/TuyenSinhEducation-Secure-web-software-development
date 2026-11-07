@@ -3,6 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RegistrationController = void 0;
 const RegistrationService_1 = require("../services/RegistrationService");
 const responseHandler_1 = require("../utils/responseHandler");
+const inputValidation_1 = require("../security/inputValidation");
+const REGISTRATION_WRITE_FIELDS = ['courseId', 'contactName', 'contactEmail', 'contactPhone', 'note'];
 class RegistrationController {
     static async getAllRegistrations(request, response) {
         const page = Number(request.query.page) || 1;
@@ -31,7 +33,8 @@ class RegistrationController {
     }
     static async createRegistration(request, response) {
         try {
-            const newRegistration = await RegistrationService_1.RegistrationService.createRegistration(request.body);
+            const registrationData = (0, inputValidation_1.pickAllowedFields)(request.body, REGISTRATION_WRITE_FIELDS);
+            const newRegistration = await RegistrationService_1.RegistrationService.createRegistration(registrationData);
             return response.json((0, responseHandler_1.successHandler)(201, 'Tạo đăng ký thành công', newRegistration));
         }
         catch (error) {
@@ -41,7 +44,8 @@ class RegistrationController {
     static async updateRegistration(request, response) {
         const registrationId = Number(request.params.id);
         try {
-            const updatedRegistration = await RegistrationService_1.RegistrationService.updateRegistration(registrationId, request.body);
+            const registrationData = (0, inputValidation_1.pickAllowedFields)(request.body, REGISTRATION_WRITE_FIELDS);
+            const updatedRegistration = await RegistrationService_1.RegistrationService.updateRegistration(registrationId, registrationData);
             return response.json((0, responseHandler_1.successHandler)(200, 'Cập nhật đăng ký thành công', updatedRegistration));
         }
         catch (error) {
