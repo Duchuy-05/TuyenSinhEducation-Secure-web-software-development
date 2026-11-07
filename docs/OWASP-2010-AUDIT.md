@@ -1,14 +1,14 @@
 # Rà soát OWASP Top 10:2010 — Duc Huy Education
 
-Ngày: 2026-11-05. Baseline: `2291c02`, checkout chính. Báo cáo kiểm tra tĩnh frontend/backend, router → controller → service, xác thực, dữ liệu trả về, render HTML, client API và cấu hình. Chưa chạy pentest, kiểm thử khai thác, kiểm tra TLS production hoặc audit dependency. Không coi kết quả tìm kiếm không có bằng chứng là chứng minh không có lỗ hổng.
+Ngày cập nhật: 2026-11-07. Baseline rà soát ban đầu: `2291c02`; phần Injection được cập nhật trên checkout chính. Báo cáo kiểm tra tĩnh frontend/backend, router → controller → service, xác thực, dữ liệu trả về, render HTML, client API và cấu hình. Chưa chạy pentest, kiểm tra TLS production hoặc audit dependency. Không coi kết quả tìm kiếm không có bằng chứng là chứng minh không có lỗ hổng.
 
-## Tiến độ hiện tại: 40% theo checklist triển khai
+## Tiến độ hiện tại: 45% theo checklist triển khai
 
-Mỗi nhóm có 4 tiêu chí đồng trọng số: `[x]` có bằng chứng code, `[ ]` thiếu/chưa đầy đủ/chưa xác minh. Tổng 16/40 = 40%. Tiêu chí đã tích vẫn cần regression test; không có nhóm nào được chứng nhận hoàn tất. Khi có bằng chứng mới cần cập nhật checklist và tính lại số điểm, không ước lượng tùy ý.
+Mỗi nhóm có 4 tiêu chí đồng trọng số: `[x]` có bằng chứng code, `[ ]` thiếu/chưa đầy đủ/chưa xác minh. Tổng 18/40 = 45%. Tiêu chí đã tích vẫn cần regression test; không có nhóm nào được chứng nhận hoàn tất. Khi có bằng chứng mới cần cập nhật checklist và tính lại số điểm, không ước lượng tùy ý.
 
 | Nhóm 2010 | Tiêu chí có bằng chứng | Tiến độ |
 |---|---:|---:|
-| Injection | 1/4 | 25% |
+| Injection | 3/4 | 75% |
 | Cross-Site Scripting | 3/4 | 75% |
 | Broken Authentication and Session Management | 2/4 | 50% |
 | Insecure Direct Object References | 2/4 | 50% |
@@ -19,12 +19,12 @@ Mỗi nhóm có 4 tiêu chí đồng trọng số: `[x]` có bằng chứng code
 | Insufficient Transport Layer Protection | 1/4 | 25% |
 | Unvalidated Redirects and Forwards | 2/4 | 50% |
 
-## Injection ()
+## Injection
 
-- [x] Các truy vấn khóa học kiểm tra dùng tham số TypeORM (`backend/src/services/CourseService.ts`, `CourseServiceGV.ts`).
-- [ ] Validation kiểu dữ liệu, ID nguyên dương, enum, độ dài, pagination nhất quán tại mọi API.
-- [ ] Allowlist dữ liệu ghi, kể cả bulk: `ScheduleService.bulkCreate` còn spread từng `session` do client cung cấp; cần chặn ID/quan hệ không được phép.
-- [ ] Test đầu vào SQL injection, object thay scalar, null/undefined, pagination quá lớn. ORM không thay thế validation.
+- [x] Các truy vấn khóa học kiểm tra dùng tham số TypeORM (`backend/src/services/CourseService.js`, `CourseServiceGV.js`).
+- [ ] Đã kiểm tra ID số nguyên dương, pagination tối đa 100, payload object và giới hạn body 100 KB. Vẫn cần chuẩn hóa enum, độ dài chuỗi và schema nghiệp vụ cho toàn bộ API.
+- [x] Bulk schedule dùng allowlist `sessionTitle`, `startTime`, `endTime`, `location`; client không thể chèn `id`, `classId`, `teacherId` hoặc `status`. Danh sách bulk giới hạn 1–100 phần tử.
+- [x] Có regression test cho SQL-like ID, object thay scalar, prototype pollution, `$where`, pagination quá lớn và field mass-assignment (`backend/src/security/inputValidation.test.js`).
 
 ## XSS
 

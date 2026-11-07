@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const inputValidation_1 = require("./inputValidation");
 const inputGuard_middleware_1 = require("../middlewares/inputGuard.middleware");
+const validateParam_middleware_1 = require("../middlewares/validateParam.middleware");
 const { getOtpEmailTemplate } = require('../utils/emailTemplates');
 
 const assert = {
@@ -85,4 +86,54 @@ run('inputGuard rejects dangerous request keys before route handlers execute', (
     assert.equal(nextCalled, false);
     assert.equal(responseBody.status, 400);
     assert.equal(responseBody.message.includes('__proto__'), true);
+});
+run('inputGuard rejects non-canonical pagination before route handlers execute', () => {
+    let nextCalled = false;
+    let statusCode = 0;
+    const request = { body: {}, query: { page: '1 OR 1=1', limit: '10' }, params: {} };
+    const response = {
+        status(code) {
+            statusCode = code;
+            return this;
+        },
+        json() {
+            return this;
+        },
+    };
+    (0, inputGuard_middleware_1.inputGuard)(request, response, () => { nextCalled = true; });
+    assert.equal(statusCode, 400);
+    assert.equal(nextCalled, false);
+});
+run('inputGuard rejects SQL-like numeric relation identifiers', () => {
+    let nextCalled = false;
+    let statusCode = 0;
+    const request = { body: { classId: '1; DROP TABLE classes' }, query: {}, params: {} };
+    const response = {
+        status(code) {
+            statusCode = code;
+            return this;
+        },
+        json() {
+            return this;
+        },
+    };
+    (0, inputGuard_middleware_1.inputGuard)(request, response, () => { nextCalled = true; });
+    assert.equal(statusCode, 400);
+    assert.equal(nextCalled, false);
+});
+run('validatePositiveIntegerParam rejects SQL-like route identifiers', () => {
+    let nextCalled = false;
+    let statusCode = 0;
+    const response = {
+        status(code) {
+            statusCode = code;
+            return this;
+        },
+        json() {
+            return this;
+        },
+    };
+    (0, validateParam_middleware_1.validatePositiveIntegerParam)({}, response, () => { nextCalled = true; }, '1 OR 1=1', 'id');
+    assert.equal(statusCode, 400);
+    assert.equal(nextCalled, false);
 });

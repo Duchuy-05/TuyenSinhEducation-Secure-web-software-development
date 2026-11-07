@@ -4,6 +4,8 @@ exports.CourseController = void 0;
 const CourseService_1 = require("../services/CourseService");
 const CourseServiceGV_1 = require("../services/CourseServiceGV");
 const responseHandler_1 = require("../utils/responseHandler");
+const inputValidation_1 = require("../security/inputValidation");
+const COURSE_WRITE_FIELDS = ['teacherId', 'category', 'title', 'shortDesc', 'target', 'imageUrl', 'duration', 'sessionCount', 'frequency', 'lessonDuration', 'classSize', 'format', 'price', 'discountPrice', 'status', 'courseData', 'blocks'];
 class CourseController {
     // Helper dùng chung: Chuyển đổi userId từ Token sang teacherId chuẩn & kiểm tra quyền Giảng viên
     static async getTeacherProfile(request) {
@@ -58,7 +60,7 @@ class CourseController {
     }
     static async createCourse(request, response) {
         var _a;
-        const courseData = Object.assign(Object.assign({}, request.body), { image: (_a = request.file) === null || _a === void 0 ? void 0 : _a.path });
+        const courseData = Object.assign(Object.assign({}, (0, inputValidation_1.pickAllowedFields)(request.body, COURSE_WRITE_FIELDS)), { image: (_a = request.file) === null || _a === void 0 ? void 0 : _a.path });
         try {
             const newCourse = await CourseService_1.CourseService.createCourse(courseData);
             return response.status(201).json((0, responseHandler_1.successHandler)(201, 'Tạo khóa học thành công', newCourse));
@@ -73,7 +75,7 @@ class CourseController {
         if (isNaN(courseId)) {
             return response.status(400).json((0, responseHandler_1.errorHandler)(400, 'ID khóa học không hợp lệ'));
         }
-        const courseData = Object.assign(Object.assign({}, request.body), { image: (_a = request.file) === null || _a === void 0 ? void 0 : _a.path });
+        const courseData = Object.assign(Object.assign({}, (0, inputValidation_1.pickAllowedFields)(request.body, COURSE_WRITE_FIELDS)), { image: (_a = request.file) === null || _a === void 0 ? void 0 : _a.path });
         try {
             const updatedCourse = await CourseService_1.CourseService.updateCourse(courseId, courseData);
             return response.status(200).json((0, responseHandler_1.successHandler)(200, 'Cập nhật khóa học thành công', updatedCourse));

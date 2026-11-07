@@ -45,7 +45,11 @@ class RegistrationService {
         if (!registration) {
             throw new Error('Registration not found');
         }
-        Object.assign(registration, registrationData);
+        registration.courseId = registrationData.courseId ?? registration.courseId;
+        registration.contactName = registrationData.contactName ?? registration.contactName;
+        registration.contactEmail = registrationData.contactEmail ?? registration.contactEmail;
+        registration.contactPhone = registrationData.contactPhone ?? registration.contactPhone;
+        registration.note = registrationData.note ?? registration.note;
         return this.registrationRepository.save(registration);
     }
     static async updateRegistrationStatus(id, status) {

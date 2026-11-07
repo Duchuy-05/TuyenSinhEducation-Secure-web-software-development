@@ -5,7 +5,9 @@ const CourseController_1 = require("../controllers/CourseController");
 const upload_middleware_1 = require("../middlewares/upload.middleware");
 const auth_middleware_1 = require("../middlewares/auth.middleware");
 const handleUploadError_middleware_1 = require("../middlewares/handleUploadError.middleware");
+const validateParam_middleware_1 = require("../middlewares/validateParam.middleware");
 const courseRouter = (0, express_1.Router)();
+courseRouter.param('id', validateParam_middleware_1.validatePositiveIntegerParam);
 // =======================================================================
 // NHÓM 1: CÁC API ĐẶC THÙ ĐẶT LÊN TRÊN
 // =======================================================================

@@ -25,6 +25,7 @@ const upload_router_1 = __importDefault(require("./routers/upload.router"));
 const payment_router_1 = __importDefault(require("./routers/payment.router"));
 const helmet_1 = __importDefault(require("helmet"));
 const responseHandler_1 = require("./utils/responseHandler");
+const inputGuard_middleware_1 = require("./middlewares/inputGuard.middleware");
 (0, env_1.validateRequiredEnv)();
 const app = (0, express_1.default)();
 exports.app = app;
@@ -61,8 +62,9 @@ app.use((0, helmet_1.default)({
     crossOriginResourcePolicy: { policy: 'cross-origin' }, // Cho phép ảnh Cloudinary hiển thị đúng khi FE ở domain khác
 }));
 app.use((0, morgan_1.default)(isProduction ? 'combined' : 'dev')); // Ghi log request ra console, chế độ "combined" chi tiết hơn "dev" (chỉ dùng khi production)
-app.use(express_1.default.json());
-app.use(express_1.default.urlencoded({ extended: true }));
+app.use(express_1.default.json({ limit: '100kb', strict: true }));
+app.use(express_1.default.urlencoded({ extended: false, limit: '100kb', parameterLimit: 100 }));
+app.use(inputGuard_middleware_1.inputGuard);
 app.use(express_1.default.static('public'));
 app.set('view engine', 'ejs');
 app.use("/api/auth", auth_router_1.default);
