@@ -3,6 +3,7 @@ import { useEffect, useRef, useState, type ReactNode } from 'react';
 interface ScrollRevealProps {
     children: ReactNode;
     className?: string;
+    forceVisible?: boolean;
 }
 
 const shouldShowImmediately = () => {
@@ -14,11 +15,16 @@ const shouldShowImmediately = () => {
         || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 };
 
-const ScrollReveal = ({ children, className = '' }: ScrollRevealProps) => {
+const ScrollReveal = ({ children, className = '', forceVisible = false }: ScrollRevealProps) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const [isVisible, setIsVisible] = useState(true);
 
     useEffect(() => {
+        if (forceVisible) {
+            setIsVisible(true);
+            return;
+        }
+
         if (shouldShowImmediately() || !containerRef.current) {
             return;
         }
@@ -43,7 +49,7 @@ const ScrollReveal = ({ children, className = '' }: ScrollRevealProps) => {
         observer.observe(containerRef.current);
 
         return () => observer.disconnect();
-    }, []);
+    }, [forceVisible]);
 
     const classes = [
         'scroll-reveal',

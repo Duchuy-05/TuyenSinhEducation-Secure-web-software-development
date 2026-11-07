@@ -8,9 +8,9 @@ export default function LandingHero() {
   return <section className="landing-hero" aria-labelledby="landing-title">
     <div className="page-frame landing-hero-layout">
       <div className="landing-hero-copy" data-reveal-part>
-        <h1 id="landing-title">
-          <span data-testid="landing-title-line-1">Khóa học về</span>
-          {' '}
+        <h1 id="landing-title" aria-label="Khóa học về công nghệ">
+          <span data-testid="landing-title-line-1">Khóa học về{' '}</span>
+          <br className="landing-title-break" />
           <span data-testid="landing-title-line-2">công nghệ</span>
         </h1>
         <p>{hero.description}</p>
