@@ -14,11 +14,11 @@ export function getFeaturedCoursePage<T>(items: T[], requestedPage: number, page
   return { page, totalPages, items: items.slice(start, start + pageSize) };
 }
 
-export default function FeaturedCourses({ loadCourses = courseApi.getAllCourses }: { loadCourses?: () => Promise<Course[]> }) {
+export default function FeaturedCourses({ loadCourses = courseApi.getAllCourses, onSettled }: { loadCourses?: () => Promise<Course[]>; onSettled?: () => void }) {
   const [status, setStatus] = useState<AsyncStatus>('loading');
   const [courses, setCourses] = useState<Course[]>([]);
   const [page, setPage] = useState(1);
-  const load = useCallback(async () => { setStatus('loading'); try { const result = await loadCourses(); const safe = Array.isArray(result) ? result.filter(isPublishedCourse) : []; setCourses(safe); setPage(1); setStatus(safe.length ? 'success' : 'empty'); } catch { setStatus('error'); } }, [loadCourses]);
+  const load = useCallback(async () => { setStatus('loading'); try { const result = await loadCourses(); const safe = Array.isArray(result) ? result.filter(isPublishedCourse) : []; setCourses(safe); setPage(1); setStatus(safe.length ? 'success' : 'empty'); } catch { setStatus('error'); } finally { onSettled?.(); } }, [loadCourses, onSettled]);
   useEffect(() => { void load(); }, [load]);
   const coursePage = getFeaturedCoursePage(courses, page);
   const hasMultiplePages = status === 'success' && coursePage.totalPages > 1;

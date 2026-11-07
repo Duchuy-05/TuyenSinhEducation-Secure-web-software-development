@@ -1,6 +1,6 @@
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { describe, expect, it, vi } from 'vitest';
 import Navbar from './NavBar';
 
@@ -59,5 +59,21 @@ describe('Navbar', () => {
     await user.click(account);
     expect(account).toHaveAttribute('aria-expanded', 'true');
     expect(screen.getByRole('menu')).toBeInTheDocument();
+  });
+
+  it('navigates from another route to a landing-page section in one click', async () => {
+    const user = userEvent.setup();
+    render(
+      <MemoryRouter initialEntries={['/other']}>
+        <Routes>
+          <Route path="/other" element={<Navbar />} />
+          <Route path="/" element={<div>Landing route</div>} />
+        </Routes>
+      </MemoryRouter>,
+    );
+
+    await user.click(screen.getByRole('link', { name: 'Lộ trình' }));
+
+    expect(screen.getByText('Landing route')).toBeInTheDocument();
   });
 });

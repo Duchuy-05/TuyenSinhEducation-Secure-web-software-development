@@ -1,6 +1,7 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import { describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { courseApi } from '../services/course.api';
 import LandingPage from './LandingPage';
 
 vi.mock('../services/course.api', () => ({
@@ -11,13 +12,24 @@ vi.mock('../services/teacher.api', () => ({
   teacherApi: { getAllTeachers: vi.fn().mockResolvedValue([]) },
 }));
 
-const renderPage = () => render(
-  <MemoryRouter>
+const scrollIntoView = vi.fn();
+
+Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', {
+  configurable: true,
+  value: scrollIntoView,
+});
+
+const renderPage = (initialEntry = '/') => render(
+  <MemoryRouter initialEntries={[initialEntry]}>
     <LandingPage />
   </MemoryRouter>,
 );
 
 describe('LandingPage shell', () => {
+  beforeEach(() => {
+    scrollIntoView.mockClear();
+  });
+
   it('provides one main landmark and one visible level-one heading', () => {
     renderPage();
 
@@ -39,5 +51,37 @@ describe('LandingPage shell', () => {
     expect(document.querySelector('#learning-paths')).toBeInTheDocument();
     expect(document.querySelector('#teachers')).toBeInTheDocument();
     expect(document.querySelector('#faq')).not.toBeInTheDocument();
+  });
+
+  it.each([
+    ['/#learning-paths', 'learning-paths-title'],
+    ['/#teachers', 'teachers-title'],
+  ])('smoothly scrolls the labelled heading requested by %s below the navbar', async (initialEntry, headingId) => {
+    renderPage(initialEntry);
+
+    await waitFor(() => expect(scrollIntoView).toHaveBeenCalledOnce());
+    expect(scrollIntoView.mock.instances[0]).toBe(document.getElementById(headingId));
+    expect(scrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth', block: 'start' });
+  });
+
+  it('ignores a URL hash that does not match a landing-page section', () => {
+    expect(() => renderPage('/#unknown')).not.toThrow();
+    expect(scrollIntoView).not.toHaveBeenCalled();
+  });
+
+  it('waits for content above the requested heading to settle before scrolling', async () => {
+    let resolveCourses!: (courses: []) => void;
+    const pendingCourses = new Promise<[]>((resolve) => {
+      resolveCourses = resolve;
+    });
+    vi.mocked(courseApi.getAllCourses).mockReturnValueOnce(pendingCourses);
+
+    renderPage('/#learning-paths');
+    expect(scrollIntoView).not.toHaveBeenCalled();
+
+    resolveCourses([]);
+
+    await waitFor(() => expect(scrollIntoView).toHaveBeenCalledOnce());
+    expect(scrollIntoView.mock.instances[0]).toBe(document.getElementById('learning-paths-title'));
   });
 });
