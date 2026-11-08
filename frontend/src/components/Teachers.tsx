@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react'; // Import icon nút bấm
 import { teacherApi } from '../services/teacher.api';
 import type { Teacher } from '../services/teacher.api';
+import fallbackImage from '../assets/course-fallback.svg';
 
 const Teachers: React.FC = () => {
     const [teachers, setTeachers] = useState<Teacher[]>([]);
@@ -43,20 +44,21 @@ const Teachers: React.FC = () => {
     };
 
     if (isLoading) return <div className="container" style={{ textAlign: 'center', padding: '50px 0' }}>Đang tải danh sách giảng viên...</div>;
-    if (error) return <div className="container" style={{ textAlign: 'center', padding: '50px 0', color: 'red' }}>{error}</div>;
+    if (error) return <div className="container landing-data-error" style={{ textAlign: 'center', padding: '50px 0' }}>{error}</div>;
 
     return (
-        <section className="teachers">
+        <section className="teachers" aria-labelledby="teachers-title">
             <div className="container">
-                <h2 className="section-title">Đội Ngũ Giảng Viên</h2>
-                <p className="section-subtitle">Học hỏi từ những chuyên gia hàng đầu trong ngành</p>
+                <h2 id="teachers-title" className="section-title" data-reveal-part>Đội ngũ giảng viên</h2>
+                <p className="section-subtitle" data-reveal-part>Học hỏi từ những chuyên gia hàng đầu trong ngành</p>
 
-                <div className="slider-wrapper">
+                <div className="slider-wrapper" data-reveal-part>
                     {/* Nút lùi (Ẩn nếu đang ở người đầu tiên) */}
                     <button
                         className="slider-btn prev-btn"
                         onClick={handlePrev}
                         disabled={currentIndex === 0}
+                        aria-label="Xem giảng viên trước"
                     >
                         <ChevronLeft size={24} />
                     </button>
@@ -73,7 +75,7 @@ const Teachers: React.FC = () => {
                                 <div className="slider-slide" key={teacher.id}>
                                     <div className="card">
                                         <img
-                                            src={teacher.avatarUrl || "https://via.placeholder.com/150"}
+                                            src={teacher.avatarUrl || fallbackImage}
                                             alt={teacher.fullName}
                                             className="card-avatar"
                                         />
@@ -92,6 +94,7 @@ const Teachers: React.FC = () => {
                         className="slider-btn next-btn"
                         onClick={handleNext}
                         disabled={teachers.length <= 3 || currentIndex >= teachers.length - 3}
+                        aria-label="Xem giảng viên tiếp theo"
                     >
                         <ChevronRight size={24} />
                     </button>

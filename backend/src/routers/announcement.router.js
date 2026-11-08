@@ -1,0 +1,16 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const AnnouncementController_1 = require("../controllers/AnnouncementController");
+const auth_middleware_1 = require("../middlewares/auth.middleware");
+const User_1 = require("../models/entities/User");
+const validateParam_middleware_1 = require("../middlewares/validateParam.middleware");
+const announcementRouter = (0, express_1.Router)();
+announcementRouter.param('id', validateParam_middleware_1.validatePositiveIntegerParam);
+announcementRouter.get('/announcements/my', auth_middleware_1.verifyToken, AnnouncementController_1.AnnouncementController.getMyAnnouncements);
+announcementRouter.get('/announcements', AnnouncementController_1.AnnouncementController.getByClassId);
+announcementRouter.get('/announcements/:id', AnnouncementController_1.AnnouncementController.getById);
+announcementRouter.post('/announcements', auth_middleware_1.verifyToken, (0, auth_middleware_1.requireRoles)(User_1.UserRole.ADMIN, User_1.UserRole.TEACHER), AnnouncementController_1.AnnouncementController.create);
+announcementRouter.put('/announcements/:id', auth_middleware_1.verifyToken, (0, auth_middleware_1.requireRoles)(User_1.UserRole.ADMIN, User_1.UserRole.TEACHER), AnnouncementController_1.AnnouncementController.update);
+announcementRouter.delete('/announcements/:id', auth_middleware_1.verifyToken, (0, auth_middleware_1.requireRoles)(User_1.UserRole.ADMIN, User_1.UserRole.TEACHER), AnnouncementController_1.AnnouncementController.remove);
+exports.default = announcementRouter;

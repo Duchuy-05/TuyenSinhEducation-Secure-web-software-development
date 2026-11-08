@@ -1,0 +1,2 @@
+export type VerifiedProof = { verified: true; label: string; value: string; sourceNote: string };
+export default function ProofSection({ proof }: { proof?: VerifiedProof }) { if (!proof?.verified) return null; return <section className="proof-section" aria-label="Thông tin đã xác minh"><div className="page-frame"><p><strong>{proof.value}</strong> {proof.label}</p><small>{proof.sourceNote}</small></div></section>; }

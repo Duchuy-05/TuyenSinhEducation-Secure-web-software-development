@@ -56,7 +56,7 @@ const ContactPage: React.FC = () => {
             <Navbar />
 
             {/* Banner Liên hệ */}
-            <section className="course-banner" style={{ background: 'var(--primary-color)', color: 'white', paddingTop: '150px', paddingBottom: '60px' }}>
+            <section className="course-banner" style={{ background: 'var(--primary-color)', color: 'black', paddingTop: '150px', paddingBottom: '60px' }}>
                 <div className="container" style={{ textAlign: 'center' }}>
                     <h1 style={{ fontSize: '3rem', margin: '20px 0' }}>Liên hệ với EduPro</h1>
                     <p style={{ fontSize: '1.2rem', maxWidth: '800px', margin: '0 auto', opacity: 0.9 }}>

@@ -24,7 +24,7 @@
 ### Backend
 | Thành phần | Công nghệ |
 |---|---|
-| Ngôn ngữ | TypeScript (Node.js) |
+| Ngôn ngữ | JavaScript (Node.js) |
 | Framework | Express 5 |
 | ORM / Database | TypeORM + MySQL |
 | Xác thực | JWT (jsonwebtoken), Google Auth Library, bcrypt |
@@ -154,19 +154,23 @@ Toàn bộ các khu vực trên đều được bảo vệ bởi **ProtectedRout
 
 ## 5. Cài đặt & chạy dự án
 
-### Yêu cầu
-- Node.js >= 18
+Dự án có thể chạy theo **2 cách**: cài đặt trực tiếp trên máy hoặc sử dụng Docker.
+
+### 5.1. Cách 1 — Cài đặt trực tiếp trên máy
+
+#### Yêu cầu
+- Node.js >= 22
 - MySQL Server
 
-### Backend
+#### Backend
 ```bash
 cd backend
 npm install
-# Tạo file .env với các biến: DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, JWT_SECRET, CLOUDINARY_*, EMAIL_*
+# Tạo backend/.env với MYSQL_URL, ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET và các biến dịch vụ cần thiết
 npm start
 ```
 
-### Frontend
+#### Frontend
 ```bash
 cd frontend
 npm install
@@ -174,6 +178,43 @@ npm run dev
 ```
 
 Mặc định frontend chạy tại `http://localhost:5173`, backend kết nối CORS cho phép origin này.
+
+### 5.2. Cách 2 — Chạy bằng Docker
+
+#### Yêu cầu
+- Đã cài đặt và khởi động Docker Desktop (Windows/macOS) hoặc Docker Engine + Docker Compose (Linux).
+- Đã tải mã nguồn repository về máy.
+
+#### Các bước thực hiện
+
+1. Sao chép file `.env.docker.example` thành `.env` tại thư mục gốc của repository.
+2. Điền các giá trị `ACCESS_TOKEN_SECRET`, `REFRESH_TOKEN_SECRET` và ba biến `PAYOS` trong file `.env`. Backend hiện kiểm tra đủ cả 5 biến này khi khởi động.
+3. Sao chép `backend/Dockerfile` và `frontend/Dockerfile` vào các thư mục `backend/` và `frontend/` tương ứng. Đặt `docker-compose.yml` và `.dockerignore` tại thư mục gốc repository.
+4. Mở terminal tại thư mục gốc repository và chạy:
+   ```bash
+   docker compose up --build
+   ```
+5. Mở các địa chỉ:
+   - Frontend: `http://localhost:5173`
+   - Backend: `http://localhost:3000`
+   - MySQL từ máy host: `localhost:3307` (trong mạng Docker, backend kết nối tới `mysql:3306`).
+
+#### Dừng ứng dụng và dữ liệu database
+
+- Nhấn `Ctrl+C` để dừng tiến trình đang chạy, sau đó chạy:
+  ```bash
+  docker compose down
+  ```
+- Chạy `docker compose down` sẽ giữ lại dữ liệu database.
+- **Cảnh báo:** Chạy `docker compose down -v` sẽ xóa volume và **xóa dữ liệu database**.
+
+#### Lưu ý khi sử dụng Docker
+
+- Đây là cấu hình dành cho môi trường phát triển, sử dụng Vite và Node.js; chưa phải cấu hình triển khai production.
+- Backend kết nối database qua `MYSQL_URL`, tương ứng với `backend/src/models/DataSource.js`.
+- Container frontend nhận biến `VITE_API_URL`, nhưng Vite chỉ sử dụng biến này nếu mã nguồn frontend đọc `import.meta.env.VITE_API_URL`. Nếu địa chỉ API đang được ghi cố định trong mã nguồn, hãy cập nhật base URL API của frontend thành `http://localhost:3000`.
+- Nếu ứng dụng sử dụng thêm biến môi trường khác, hãy bổ sung chúng vào `docker-compose.yml` khi cần. Không commit thông tin xác thực thật lên Git.
+- Backend dùng migration thay cho tự động đồng bộ schema; xem [hướng dẫn migration](docs/MIGRATIONS.md).
 
 ---
 
