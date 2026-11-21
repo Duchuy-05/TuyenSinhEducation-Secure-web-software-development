@@ -15,4 +15,4 @@ authRouter.post("/verify-otp", AuthControllers_1.AuthController.verifyOtp);
 authRouter.post("/google", AuthControllers_1.AuthController.googleLogin);
 // Đăng xuất
 authRouter.post("/logout", AuthControllers_1.AuthController.logout);
-exports.default = authRouter;
+module.exports = authRouter;
